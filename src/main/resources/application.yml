@@ -1,0 +1,34 @@
+server:
+  port: 10000
+
+spring:
+  application:
+    name: meet-service
+  datasource:
+    data: classpath:data-h2.sql # server 기동시 자동으로 실행될 sql 구문
+  h2:
+    console: # h2-console 사용 처
+      enabled: true
+      path: /h2-console
+  jpa: # jpa sql 로깅
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  jackson:
+    serialization:
+      fail-on-empty-beans: false # lazy loading으로 인해 json serialize 오류 방지
+      
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/ # eureka server 주소
+
+security:
+  oauth2:
+    client:
+      id: auth_id
+      client-secret: auth_secret
+    resource:
+      jwt:
+        key-value: jwt_secret_key # authorization server와 동일하게 셋팅해야 함
