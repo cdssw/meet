@@ -13,6 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +34,7 @@ import com.moim.meet.service.mypage.MyPageDto;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 public class MeetIntegrationTest {
 
 	@Autowired
@@ -43,7 +45,7 @@ public class MeetIntegrationTest {
 	
 	@Test
 	public void testNotFoundException() throws Exception {
-		String result = testRestTemplate.getForObject("5", String.class);
+		String result = testRestTemplate.getForObject("/5", String.class);
 		ExceptRes res = objectMapper.readValue(result, ExceptRes.class);
 		
 		assertEquals(res.getCode(), "E_00001");

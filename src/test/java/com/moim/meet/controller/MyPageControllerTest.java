@@ -89,7 +89,7 @@ private MockMvc mvc;
 		given(myPageService.opened(any(), any())).willReturn(pageList);
 		
 		// when
-		final MvcResult result = mvc.perform(post("/api/meet/mypage/opened")
+		final MvcResult result = mvc.perform(post("/mypage/opened")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(openDto)))
 				.andExpect(status().isOk())
@@ -108,7 +108,7 @@ private MockMvc mvc;
 		given(myPageService.application(any(), any())).willReturn(pageList);
 		
 		// when
-		final MvcResult result = mvc.perform(post("/api/meet/mypage/application")
+		final MvcResult result = mvc.perform(post("/mypage/application")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(appDto)))
 				.andExpect(status().isOk())

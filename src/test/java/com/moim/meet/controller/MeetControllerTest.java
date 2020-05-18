@@ -86,7 +86,7 @@ public class MeetControllerTest extends ControllerTest {
 		given(meetService.createMeet(any(MeetDto.MeetReq.class))).willReturn(1L);
 		
 		// when
-		final MvcResult result = mvc.perform(post("/api/meet")
+		final MvcResult result = mvc.perform(post("/")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(dto)))
 				.andExpect(status().isCreated()) // 201 확인
@@ -106,7 +106,7 @@ public class MeetControllerTest extends ControllerTest {
 		given(meetService.createMeet(any(MeetDto.MeetReq.class))).willReturn(1L);
 		
 		// when
-		final MvcResult result = mvc.perform(post("/api/meet")
+		final MvcResult result = mvc.perform(post("/")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(dto)))
 				.andExpect(status().isBadRequest()) // bad-request(400) 확인
@@ -123,7 +123,7 @@ public class MeetControllerTest extends ControllerTest {
 		given(meetService.getMeetList()).willReturn(Arrays.asList(res1, res2));
 		
 		// when
-		final MvcResult result = mvc.perform(get("/api/meet")
+		final MvcResult result = mvc.perform(get("/")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andReturn();
@@ -138,7 +138,7 @@ public class MeetControllerTest extends ControllerTest {
 		given(meetService.editMeet(1, dto)).willReturn(res1);
 		
 		// when
-		final MvcResult result = mvc.perform(put("/api/meet/1")
+		final MvcResult result = mvc.perform(put("/1")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(dto)))
 				.andExpect(status().isOk())
@@ -154,7 +154,7 @@ public class MeetControllerTest extends ControllerTest {
 		given(meetService.getMeet(anyLong())).willReturn(res1);
 		
 		// when
-		final MvcResult result = mvc.perform(get("/api/meet/1")
+		final MvcResult result = mvc.perform(get("/1")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andReturn();
@@ -166,7 +166,7 @@ public class MeetControllerTest extends ControllerTest {
 	@Test
 	public void testDeleteMeet() throws Exception {
 		// when
-		final MvcResult result = mvc.perform(delete("/api/meet/1")
+		final MvcResult result = mvc.perform(delete("/1")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andReturn();
@@ -184,7 +184,7 @@ public class MeetControllerTest extends ControllerTest {
 		given(meetService.getMeetListByPage(pageable)).willReturn(pageList);
 		
 		// when
-		final MvcResult result = mvc.perform(get("/api/meet")
+		final MvcResult result = mvc.perform(get("/")
 				.contentType(MediaType.APPLICATION_JSON)
 				.param("page", "0")
 				.param("size", "10"))
@@ -205,7 +205,7 @@ public class MeetControllerTest extends ControllerTest {
 		MeetDto.SearchReq dto = MeetDto.SearchReq.builder().meetDesc("name").leaderId(1L).build();
 		
 		// when
-		final MvcResult result = mvc.perform(post("/api/meet/search")
+		final MvcResult result = mvc.perform(post("/search")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(dto)))
 				.andExpect(status().isOk())

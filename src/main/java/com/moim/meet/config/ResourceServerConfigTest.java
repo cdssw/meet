@@ -7,28 +7,25 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
 /**
- * ResourceServerConfig.java
+ * ResourceServerConfigTest.java
  * 
  * @author cdssw
- * @since 2020. 5. 15.
+ * @since 2020. 5. 18.
  * @description  
  * 
  * <pre>
  * since          author           description
  * ===========    =============    ===========================
- * 2020. 5. 15.   cdssw            최초 생성
+ * 2020. 5. 18.    cdssw            최초 생성
  * </pre>
  */
 @EnableResourceServer
 @Configuration
-@Profile({"dev", "prod"})
-public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+@Profile("test")
+public class ResourceServerConfigTest extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.headers().frameOptions().disable();
-		http.authorizeRequests()
-			.antMatchers("/").access("#oauth2.hasScope('read')") // read scope만 허용
-			.anyRequest().authenticated(); // 모든 요청 호출시 인증되어야 함
+		http.authorizeRequests().anyRequest().permitAll();
 	}
 }
