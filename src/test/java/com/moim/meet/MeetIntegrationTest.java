@@ -45,7 +45,7 @@ public class MeetIntegrationTest {
 	
 	@Test
 	public void testNotFoundException() throws Exception {
-		String result = testRestTemplate.getForObject("/5", String.class);
+		String result = testRestTemplate.getForObject("/meet/5", String.class);
 		ExceptRes res = objectMapper.readValue(result, ExceptRes.class);
 		
 		assertEquals(res.getCode(), "E_00001");

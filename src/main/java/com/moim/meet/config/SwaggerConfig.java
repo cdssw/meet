@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;
 
 import com.fasterxml.classmate.TypeResolver;
+import com.google.common.collect.Lists;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,7 +19,11 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -52,12 +57,32 @@ public class SwaggerConfig {
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.moim.meet.controller"))
 				.paths(PathSelectors.any()).build()
+				.securityContexts(Lists.newArrayList(securityContext()))
+				.securitySchemes(Lists.newArrayList(apiKey())) // authorization header 추가
 				.useDefaultResponseMessages(false);
 	}
 	
 	private ApiInfo swaggerInfo() {
 		return new ApiInfoBuilder().title("Moim API Documentation").description("Meet Service Document")
 				.license("Andrew").licenseUrl("cdssw.duckdns.org").version("1").build();
+	}
+	
+	private ApiKey apiKey() {
+		return new ApiKey("JWT", "Authorization", "header");
+	}
+	
+	private SecurityContext securityContext() {
+		return SecurityContext.builder()
+				.securityReferences(defaultAuth())
+				.forPaths(PathSelectors.any())
+				.build();
+	}
+	
+	private List<SecurityReference> defaultAuth() {
+		AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+		authorizationScopes[0] = authorizationScope;
+		return Lists.newArrayList(new SecurityReference("JWT", authorizationScopes));
 	}
 	
 	// pageable custom 처리

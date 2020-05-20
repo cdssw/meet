@@ -24,10 +24,21 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @Profile({"dev", "prod"})
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
+	private static final String[] WHITE_LIST = {
+			"/v2/api-docs",
+			"/swagger-resources",
+			"/swagger-resources/**",
+			"/swagger-ui.html",
+			"/webjars/**",
+			"/h2-console/**",
+			"/api/*/v2/api-docs"			
+	};
+	
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.headers().frameOptions().disable();
+		http.headers().frameOptions().disable(); // X-Frame-Options 차단 해제
 		http.authorizeRequests()
+			.antMatchers(WHITE_LIST).permitAll()
 			.antMatchers("/").access("#oauth2.hasScope('read')") // read scope만 허용
 			.anyRequest().authenticated(); // 모든 요청 호출시 인증되어야 함
 	}
