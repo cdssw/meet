@@ -51,12 +51,14 @@ public class MeetDto {
 		@Valid
 		private Place place;
 		
-		
 		@NotNull
 		private Long userId;
 		
+		@NotBlank
+		private String userNm;
+		
 		@Builder
-		public MeetReq(String meetNm, String meetDesc, int recruitment, int application, int cost, Place place, Long userId) {
+		public MeetReq(String meetNm, String meetDesc, int recruitment, int application, int cost, Place place, Long userId, String userNm) {
 			this.meetNm = meetNm;
 			this.meetDesc = meetDesc;
 			this.recruitment = recruitment;
@@ -64,6 +66,7 @@ public class MeetDto {
 			this.cost = cost;
 			this.place = place;
 			this.userId = userId;
+			this.userNm = userNm;
 		}
 		
 		public Meet toEntity() {

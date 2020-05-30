@@ -24,7 +24,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.moim.meet.component.CommonComponent;
-import com.moim.meet.entity.Email;
 import com.moim.meet.entity.Meet;
 import com.moim.meet.entity.Place;
 import com.moim.meet.entity.User;
@@ -66,7 +65,7 @@ public class MeetServiceImplTest {
 		CommonComponent commonComponent = new CommonComponent();
 		meetServiceImpl = new MeetServiceImpl(modelMapper, commonComponent, meetRepository, userRepository);
 		
-		user = User.builder().email(Email.builder().address("cdssw@naver.com").build()).userNm("Andrew").build();
+		user = User.builder().id(1L).userNm("Andrew").build();
 		dto1 = MeetDto.MeetReq.builder().meetNm("First Meet").meetDesc("First save meet").cost(100)
 				.place(Place.builder().address("address").addressDetail("detail").build()).recruitment(3).application(1).userId(1L).build();
 		dto2 = MeetDto.MeetReq.builder().meetNm("Second Meet").meetDesc("Second save meet").cost(200)

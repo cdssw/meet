@@ -1,8 +1,8 @@
 -- user
-insert into user(email, user_nm, input_dt, modify_dt) values
-('cdssw@naver.com', 'Andrew', now(), now())
-, ('loh002@naver.com', 'Monica', now(), now())
-, ('michael@naver.com', 'Michael', now(), now());
+insert into user(id, user_nm, input_dt, modify_dt) values
+(1, 'Andrew', now(), now())
+, (2, 'Monica', now(), now())
+, (3, 'Michael', now(), now());
 
 -- meet
 insert into meet(meet_nm, meet_desc, recruitment, application, cost, address, address_detail, user_id, input_dt, modify_dt) values

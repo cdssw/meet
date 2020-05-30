@@ -14,11 +14,13 @@ import com.moim.meet.component.CommonComponent;
 import com.moim.meet.entity.Meet;
 import com.moim.meet.entity.User;
 import com.moim.meet.except.ErrorCode;
+import com.moim.meet.except.NotFoundException;
 import com.moim.meet.repository.MeetRepository;
 import com.moim.meet.repository.UserRepository;
 import com.moim.meet.service.meet.MeetDto.Res;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * MeetSerivceImpl.java
@@ -35,6 +37,7 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor // private 변수에 autowired 추가 안해도 됨
 @Service
+@Slf4j
 public class MeetServiceImpl implements MeetService {
 
 	private ModelMapper modelMapper;
@@ -46,7 +49,15 @@ public class MeetServiceImpl implements MeetService {
 	@Transactional
 	@Override
 	public Long createMeet(MeetDto.MeetReq dto) {
-		final User user = commonComponent.findById(userRepository, dto.getUserId(), User.class, ErrorCode.USER_NOT_FOUND);
+		User user = null;
+		try {
+			user = commonComponent.findById(userRepository, dto.getUserId(), User.class, ErrorCode.USER_NOT_FOUND);
+		} catch(NotFoundException e) {
+			log.info("User not found, add user");
+			user = User.builder().id(dto.getUserId()).userNm(dto.getUserNm()).build();
+			userRepository.save(user);
+		}
+		
 		Meet meet = dto.toEntity();
 		meet.editUser(user);
 		return meetRepository.save(meet).getId();

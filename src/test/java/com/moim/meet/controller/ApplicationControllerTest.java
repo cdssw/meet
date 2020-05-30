@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @RunWith(SpringRunner.class)
 @WebMvcTest // controller 관련 bean만 로딩
 @Slf4j
-public class ApplicationControllerTest extends ControllerTest {
+public class ApplicationControllerTest extends BaseControllerTest {
 	
 	private MockMvc mvc;
 	

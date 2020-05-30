@@ -52,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 @RunWith(SpringRunner.class)
 @WebMvcTest // controller 관련 bean만 로딩
 @Slf4j
-public class MeetControllerTest extends ControllerTest {
+public class MeetControllerTest extends BaseControllerTest {
 
 	private MockMvc mvc;
 	
@@ -73,7 +73,7 @@ public class MeetControllerTest extends ControllerTest {
 				.alwaysDo(print()) // 항상 결과 print
 				.build();
 		
-		dto = MeetDto.MeetReq.builder().meetNm("meet1").meetDesc("meet1 desc").recruitment(10).application(1).cost(10000).userId(1L).build();
+		dto = MeetDto.MeetReq.builder().meetNm("meet1").meetDesc("meet1 desc").recruitment(10).application(1).cost(10000).userId(1L).userNm("Andrew").build();
 		res1 = MeetDto.Res.builder().meetNm("meet1").meetDesc("meet1 desc").recruitment(10).application(1).cost(10000).build();
 		res2 = MeetDto.Res.builder().meetNm("meet2").meetDesc("meet2 desc").recruitment(20).application(1).cost(20000).build();
 	}

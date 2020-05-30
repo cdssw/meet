@@ -1,9 +1,6 @@
 package com.moim.meet.entity;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.AccessLevel;
@@ -30,17 +27,13 @@ import lombok.NoArgsConstructor;
 public class User extends BaseTimeEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Embedded
-	private Email email;
-	
 	private String userNm;
 	
 	@Builder
-	public User(Email email, String userNm) {
-		this.email = email;
+	public User(Long id, String userNm) {
+		this.id = id;
 		this.userNm = userNm;
 	}
 }

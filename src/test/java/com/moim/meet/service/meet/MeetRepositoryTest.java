@@ -16,6 +16,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.moim.meet.config.JpaAuditingConfig;
@@ -40,6 +41,7 @@ import com.moim.meet.service.mypage.MyPageDto;
 @DataJpaTest(includeFilters = @Filter(
 		type = FilterType.ASSIGNABLE_TYPE,
 		classes = {JpaAuditingConfig.class}))
+@ActiveProfiles("test")
 public class MeetRepositoryTest {
 
 	@Autowired

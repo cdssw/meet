@@ -17,7 +17,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import com.moim.meet.component.CommonComponent;
 import com.moim.meet.entity.ApplicationMeet;
 import com.moim.meet.entity.Approval;
-import com.moim.meet.entity.Email;
 import com.moim.meet.entity.Meet;
 import com.moim.meet.entity.Place;
 import com.moim.meet.entity.User;
@@ -62,7 +61,7 @@ public class ApplicationServiceImplTest {
 		CommonComponent commonComponent = new CommonComponent();
 		applicationServiceImpl = new ApplicationServiceImpl(commonComponent, meetRepository, userRepository, applicationMeetRepository);
 		
-		user = User.builder().email(Email.builder().address("cdssw@naver.com").build()).userNm("Andrew").build();
+		user = User.builder().id(1L).userNm("Andrew").build();
 		meet1 = Meet.builder().meetNm("First meet").meetDesc("First save meet").cost(10)
 				.place(Place.builder().address("address").addressDetail("detail").build()).recruitment(3).application(1)
 				.user(user)
