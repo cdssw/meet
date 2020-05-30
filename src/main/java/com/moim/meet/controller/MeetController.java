@@ -35,7 +35,7 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 @RestController
-@RequestMapping("/meet")
+@RequestMapping
 public class MeetController {
 
 	private MeetService meetService;
