@@ -14,6 +14,7 @@ import com.moim.meet.component.CommonComponent;
 import com.moim.meet.entity.Meet;
 import com.moim.meet.entity.User;
 import com.moim.meet.except.ErrorCode;
+import com.moim.meet.except.MeetBusinessException;
 import com.moim.meet.except.NotFoundException;
 import com.moim.meet.repository.MeetRepository;
 import com.moim.meet.repository.UserRepository;
@@ -73,6 +74,9 @@ public class MeetServiceImpl implements MeetService {
 	public Res editMeet(long id, MeetDto.MeetReq dto) {
 		final User user = commonComponent.findById(userRepository, dto.getUserId(), User.class, ErrorCode.USER_NOT_FOUND);
 		final Meet meet = commonComponent.findById(meetRepository, id, Meet.class);
+		if(user.getId() != dto.getUserId()) {
+			throw new MeetBusinessException(ErrorCode.INVALID_LEADER_MEET);
+		}
 		meet.editMeet(dto); // meet 내용 수정
 		meet.editUser(user); // 수정자 update
 		return modelMapper.map(meet, MeetDto.Res.class);

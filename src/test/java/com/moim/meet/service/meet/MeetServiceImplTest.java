@@ -66,14 +66,40 @@ public class MeetServiceImplTest {
 		meetServiceImpl = new MeetServiceImpl(modelMapper, commonComponent, meetRepository, userRepository);
 		
 		user = User.builder().id(1L).userNm("Andrew").build();
-		dto1 = MeetDto.MeetReq.builder().meetNm("First Meet").meetDesc("First save meet").cost(100)
-				.place(Place.builder().address("address").addressDetail("detail").build()).recruitment(3).application(1).userId(1L).build();
-		dto2 = MeetDto.MeetReq.builder().meetNm("Second Meet").meetDesc("Second save meet").cost(200)
-				.place(Place.builder().address("address2").addressDetail("detail2").build()).recruitment(10).application(3).userId(1L).build();
-		meet1 = Meet.builder().meetNm("First meet").meetDesc("First save meet").cost(10)
-				.place(Place.builder().address("address").addressDetail("detail").build()).recruitment(3).application(1).build();
-		meet2 = Meet.builder().meetNm("Meet name 2").meetDesc("Second save meet").cost(10)
-				.place(Place.builder().address("address").addressDetail("detail").build()).recruitment(3).application(1).build();
+		dto1 = MeetDto.MeetReq.builder()
+				.meetNm("First Meet")
+				.meetDesc("First save meet")
+				.cost(100)
+				.place(Place.builder().address("address").addressDetail("detail").build())
+				.recruitment(3)
+				.application(1)
+				.userId(1L)
+				.build();
+		dto2 = MeetDto.MeetReq.builder()
+				.meetNm("Second Meet")
+				.meetDesc("Second save meet")
+				.cost(200)
+				.place(Place.builder().address("address2").addressDetail("detail2").build())
+				.recruitment(10)
+				.application(3)
+				.userId(1L)
+				.build();
+		meet1 = Meet.builder()
+				.meetNm("First meet")
+				.meetDesc("First save meet")
+				.cost(10)
+				.place(Place.builder().address("address").addressDetail("detail").build())
+				.recruitment(3)
+				.application(1)
+				.build();
+		meet2 = Meet.builder()
+				.meetNm("Meet name 2")
+				.meetDesc("Second save meet")
+				.cost(10)
+				.place(Place.builder().address("address").addressDetail("detail").build())
+				.recruitment(3)
+				.application(1)
+				.build();
 	}
 	
 	// 테스트 하는것은 dto를 가지고 service 함수가 문제 없이 동작하는지 확인

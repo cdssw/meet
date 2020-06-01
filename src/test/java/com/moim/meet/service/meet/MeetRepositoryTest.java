@@ -73,7 +73,10 @@ public class MeetRepositoryTest {
 	public void tesetFindSearch() {
 		// given
 		Pageable pageable = PageRequest.of(0, 10);
-		MeetDto.SearchReq dto = MeetDto.SearchReq.builder().meetNm("신문").leaderId(1L).build();
+		MeetDto.SearchReq dto = MeetDto.SearchReq.builder()
+				.meetNm("신문")
+				.leaderId(1L)
+				.build();
 
 		// when
 		Page<Meet> res = meetRepository.findSearch(dto, pageable);
@@ -86,7 +89,11 @@ public class MeetRepositoryTest {
 	public void tesetFindMyPageOpened() {
 		// given
 		Pageable pageable = PageRequest.of(0, 10);
-		MyPageDto.OpenedReq dto = MyPageDto.OpenedReq.builder().meetNm("신문").leaderId(1L).toAppBoolean(false).build();
+		MyPageDto.OpenedReq dto = MyPageDto.OpenedReq.builder()
+				.meetNm("신문")
+				.leaderId(1L)
+				.toAppBoolean(false)
+				.build();
 
 		// when
 		Page<MyPageDto.OpenedRes> res = meetRepository.findMyPageOpened(dto, pageable);

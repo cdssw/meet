@@ -63,15 +63,21 @@ public class ApplicationServiceImplTest {
 		
 		user = User.builder().id(1L).userNm("Andrew").build();
 		meet1 = Meet.builder().meetNm("First meet").meetDesc("First save meet").cost(10)
-				.place(Place.builder().address("address").addressDetail("detail").build()).recruitment(3).application(1)
+				.place(Place.builder().address("address").addressDetail("detail").build())
+				.recruitment(3)
+				.application(1)
 				.user(user)
 				.build();
 		
 		applicationReq = ApplicationReq.builder()
-				.meetId(1L).userId(1L).build();
+				.meetId(1L)
+				.userId(1L)
+				.build();
 		
 		approvalReq = ApprovalReq.builder()
-				.meetId(1L).userId(1L).leaderId(1L)
+				.meetId(1L)
+				.userId(1L)
+				.leaderId(1L)
 				.build();
 
 	}
@@ -92,8 +98,14 @@ public class ApplicationServiceImplTest {
 	@Test(expected = MeetBusinessException.class)
 	public void testApplicationFullRecruitmentException() {
 		// given
-		Meet meet = Meet.builder().meetNm("First meet").meetDesc("First save meet").cost(10)
-				.place(Place.builder().address("address").addressDetail("detail").build()).recruitment(3).application(3).build();
+		Meet meet = Meet.builder()
+				.meetNm("First meet")
+				.meetDesc("First save meet")
+				.cost(10)
+				.place(Place.builder().address("address").addressDetail("detail").build())
+				.recruitment(3)
+				.application(3)
+				.build();
 		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet));
 		given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
 		given(applicationMeetRepository.countByMeetAndUserGroupByMeet(anyLong(), anyLong())).willReturn(0L);
