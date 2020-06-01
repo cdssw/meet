@@ -13,7 +13,9 @@ import com.moim.meet.repository.custom.MeetCustomRepository;
  * 
  * @author cdssw
  * @since Apr 6, 2020
- * @description Meet Table CRUD, 추가적인 데이터 접근이 필요하면 여기에 추가, 다른 서비스에서도 사용하기에 pkg 분리
+ * @description Meet Table CRUD
+ * 추가적인 데이터 접근이 필요하면 여기에 추가
+ * 다른 서비스에서도 사용하기에 service pkg에서 분리
  * 
  * <pre>
  * since          author           description
