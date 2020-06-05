@@ -1,5 +1,6 @@
 package com.moim.meet.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -40,12 +41,6 @@ public class MeetController {
 
 	private MeetService meetService;
 	
-	@PostMapping
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public long createMeet(@RequestBody @Valid MeetDto.MeetReq dto) {
-		return meetService.createMeet(dto);
-	}
-	
 //	@GetMapping
 //	@ResponseStatus(value = HttpStatus.OK)
 //	public List<MeetDto.Res> getMeetList() {
@@ -64,21 +59,30 @@ public class MeetController {
 		return meetService.search(dto, pageable);
 	}
 	
-	@PutMapping("/{id}")
-	@ResponseStatus(value = HttpStatus.OK)
-	public MeetDto.Res editMeet(@PathVariable final long id, @RequestBody @Valid final MeetDto.MeetReq dto) {
-		return meetService.editMeet(id, dto);
-	}
-	
 	@GetMapping("/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public MeetDto.Res getMeet(@PathVariable final long id) {
 		return meetService.getMeet(id);
 	}
 	
+	@PostMapping
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public long createMeet(@RequestBody @Valid MeetDto.MeetReq dto, HttpServletRequest req) {
+		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
+		return meetService.createMeet(dto, username);
+	}
+	
+	@PutMapping("/{id}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public MeetDto.Res editMeet(@PathVariable final long id, @RequestBody @Valid final MeetDto.MeetReq dto, HttpServletRequest req) {
+		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
+		return meetService.editMeet(id, username, dto);
+	}
+	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
-	public void deleteMeet(@PathVariable final long id) {
-		meetService.deleteMeet(id);
+	public void deleteMeet(@PathVariable final long id, HttpServletRequest req) {
+		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
+		meetService.deleteMeet(id, username);
 	}
 }

@@ -16,7 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.moim.meet.entity.Place;
+import com.moim.meet.entity.Address;
 import com.moim.meet.repository.ApplicationMeetRepository;
 import com.moim.meet.repository.MeetRepository;
 
@@ -56,7 +56,7 @@ public class MyPageServiceImplTest {
 				.meetNm("Meet name 2")
 				.meetDesc("Second save meet")
 				.cost(10)
-				.place(Place.builder().address("address").addressDetail("detail").build())
+				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)
 				.application(1)
 				.build();
@@ -64,7 +64,7 @@ public class MyPageServiceImplTest {
 				.meetNm("Meet name 2")
 				.meetDesc("Second save meet")
 				.cost(10)
-				.place(Place.builder().address("address").addressDetail("detail").build())
+				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)
 				.application(1)
 				.build();
@@ -73,7 +73,7 @@ public class MyPageServiceImplTest {
 				.meetNm("Meet name 2")
 				.meetDesc("Second save meet")
 				.cost(10)
-				.place(Place.builder().address("address").addressDetail("detail").build())
+				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)
 				.application(1)
 				.build();
@@ -81,7 +81,7 @@ public class MyPageServiceImplTest {
 				.meetNm("Meet name 2")
 				.meetDesc("Second save meet")
 				.cost(10)
-				.place(Place.builder().address("address").addressDetail("detail").build())
+				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)
 				.application(1)
 				.build();

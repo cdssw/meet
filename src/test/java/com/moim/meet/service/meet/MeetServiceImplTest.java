@@ -25,8 +25,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.moim.meet.component.CommonComponent;
 import com.moim.meet.entity.Meet;
-import com.moim.meet.entity.Place;
+import com.moim.meet.entity.Address;
 import com.moim.meet.entity.User;
+import com.moim.meet.repository.ApplicationMeetRepository;
 import com.moim.meet.repository.MeetRepository;
 import com.moim.meet.repository.UserRepository;
 
@@ -52,6 +53,7 @@ public class MeetServiceImplTest {
 	// repository를 테스트 하지 않음
 	@Mock private MeetRepository meetRepository;
 	@Mock private UserRepository userRepository;
+	@Mock private ApplicationMeetRepository applicationMeetRepository;
 	
 	private User user;
 	private Meet meet1;
@@ -63,42 +65,42 @@ public class MeetServiceImplTest {
 	public void setUp() {
 		ModelMapper modelMapper = new ModelMapper();
 		CommonComponent commonComponent = new CommonComponent();
-		meetServiceImpl = new MeetServiceImpl(modelMapper, commonComponent, meetRepository, userRepository);
+		meetServiceImpl = new MeetServiceImpl(modelMapper, commonComponent, meetRepository, userRepository, applicationMeetRepository);
 		
 		user = User.builder().id(1L).userNm("Andrew").build();
 		dto1 = MeetDto.MeetReq.builder()
 				.meetNm("First Meet")
 				.meetDesc("First save meet")
 				.cost(100)
-				.place(Place.builder().address("address").addressDetail("detail").build())
+				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)
 				.application(1)
-				.userId(1L)
 				.build();
 		dto2 = MeetDto.MeetReq.builder()
 				.meetNm("Second Meet")
 				.meetDesc("Second save meet")
 				.cost(200)
-				.place(Place.builder().address("address2").addressDetail("detail2").build())
+				.address(Address.builder().address1("address2").address2("detail2").build())
 				.recruitment(10)
 				.application(3)
-				.userId(1L)
 				.build();
 		meet1 = Meet.builder()
 				.meetNm("First meet")
 				.meetDesc("First save meet")
 				.cost(10)
-				.place(Place.builder().address("address").addressDetail("detail").build())
+				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)
 				.application(1)
+				.user(user)
 				.build();
 		meet2 = Meet.builder()
 				.meetNm("Meet name 2")
 				.meetDesc("Second save meet")
 				.cost(10)
-				.place(Place.builder().address("address").addressDetail("detail").build())
+				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)
 				.application(1)
+				.user(user)
 				.build();
 	}
 	
@@ -107,12 +109,12 @@ public class MeetServiceImplTest {
 	public void testCreateMeet() {
 		// given
 		Meet meet = mock(Meet.class);
-		given(userRepository.findById(1L)).willReturn(Optional.of(user));		
+		given(userRepository.findByUsername(any())).willReturn(user);		
 		given(meetRepository.save(any(Meet.class))).willReturn(meet);
 		given(meet.getId()).willReturn(1L);
 		
 		// when
-		Long id = meetServiceImpl.createMeet(dto1);
+		Long id = meetServiceImpl.createMeet(dto1, user.getUsername());
 		
 		// then
 		assertEquals(id, 1L);	
@@ -147,26 +149,27 @@ public class MeetServiceImplTest {
 	@Test
 	public void testEditMeet() {
 		// given
-		given(meetRepository.findById(anyLong())).willReturn(Optional.of(dto1.toEntity()));
-		given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
+		given(userRepository.findByUsername(any())).willReturn(user);
+		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet1));
 		
 		// when
-		MeetDto.Res res = meetServiceImpl.editMeet(1, dto1);
+		MeetDto.Res res = meetServiceImpl.editMeet(1, user.getUsername(), dto1);
 		
 		// then
-		assertEquals(res.getPlace().getAddress(), dto1.getPlace().getAddress());
+		assertEquals(res.getMeetDesc(), dto1.getMeetDesc());
 	}
 	
 	@Test
 	public void testDeleteMeet() {
 		// given
+		given(userRepository.findByUsername(any())).willReturn(user);
 		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet1));
 		
 		// when
-		meetServiceImpl.deleteMeet(1);
+		meetServiceImpl.deleteMeet(1, user.getUsername());
 		
 		// then
-		verify(meetRepository).deleteById(anyLong());
+		verify(meetRepository).deleteById(any());
 	}
 	
 	@Test

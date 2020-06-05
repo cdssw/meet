@@ -18,7 +18,7 @@ import com.moim.meet.component.CommonComponent;
 import com.moim.meet.entity.ApplicationMeet;
 import com.moim.meet.entity.Approval;
 import com.moim.meet.entity.Meet;
-import com.moim.meet.entity.Place;
+import com.moim.meet.entity.Address;
 import com.moim.meet.entity.User;
 import com.moim.meet.except.MeetBusinessException;
 import com.moim.meet.repository.ApplicationMeetRepository;
@@ -63,7 +63,7 @@ public class ApplicationServiceImplTest {
 		
 		user = User.builder().id(1L).userNm("Andrew").build();
 		meet1 = Meet.builder().meetNm("First meet").meetDesc("First save meet").cost(10)
-				.place(Place.builder().address("address").addressDetail("detail").build())
+				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)
 				.application(1)
 				.user(user)
@@ -102,7 +102,7 @@ public class ApplicationServiceImplTest {
 				.meetNm("First meet")
 				.meetDesc("First save meet")
 				.cost(10)
-				.place(Place.builder().address("address").addressDetail("detail").build())
+				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)
 				.application(3)
 				.build();

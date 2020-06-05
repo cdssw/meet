@@ -1,5 +1,6 @@
 package com.moim.meet.service.meet;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,17 +12,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.moim.meet.component.CommonComponent;
+import com.moim.meet.entity.ApplicationMeet;
+import com.moim.meet.entity.Approval;
 import com.moim.meet.entity.Meet;
 import com.moim.meet.entity.User;
 import com.moim.meet.except.ErrorCode;
 import com.moim.meet.except.MeetBusinessException;
-import com.moim.meet.except.NotFoundException;
+import com.moim.meet.repository.ApplicationMeetRepository;
 import com.moim.meet.repository.MeetRepository;
 import com.moim.meet.repository.UserRepository;
 import com.moim.meet.service.meet.MeetDto.Res;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * MeetSerivceImpl.java
@@ -38,7 +40,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @AllArgsConstructor // private 변수에 autowired 추가 안해도 됨
 @Service
-@Slf4j
 public class MeetServiceImpl implements MeetService {
 
 	private ModelMapper modelMapper;
@@ -46,22 +47,28 @@ public class MeetServiceImpl implements MeetService {
 	
 	private MeetRepository meetRepository;
 	private UserRepository userRepository;
+	private ApplicationMeetRepository applicationMeetRepository;
 	
 	@Transactional
 	@Override
-	public Long createMeet(MeetDto.MeetReq dto) {
-		User user = null;
-		try {
-			user = commonComponent.findById(userRepository, dto.getUserId(), User.class, ErrorCode.USER_NOT_FOUND);
-		} catch(NotFoundException e) {
-			log.info("User not found, add user");
-			user = User.builder().id(dto.getUserId()).userNm(dto.getUserNm()).build();
-			userRepository.save(user);
-		}
-		
+	public Long createMeet(MeetDto.MeetReq dto, final String username) {
+		User user = userRepository.findByUsername(username);
 		Meet meet = dto.toEntity();
-		meet.editUser(user);
-		return meetRepository.save(meet).getId();
+		meet.setLeader(user);
+		
+		// meet 생성
+		Long id = meetRepository.save(meet).getId();
+		
+		// 리더 application, approval 처리
+		ApplicationMeet applicationMeet = ApplicationMeet.builder()
+				.meet(meet)
+				.user(user)
+				.approval(Approval.builder().approvalYn(true).approvalDt(LocalDateTime.now()).build())
+				.build();
+		applicationMeetRepository.save(applicationMeet);
+		meet.applicationMeet(); // 지원자 카운트 증가
+		
+		return id;
 	}
 
 	@Override
@@ -71,28 +78,35 @@ public class MeetServiceImpl implements MeetService {
 
 	@Transactional
 	@Override
-	public Res editMeet(long id, MeetDto.MeetReq dto) {
-		final User user = commonComponent.findById(userRepository, dto.getUserId(), User.class, ErrorCode.USER_NOT_FOUND);
+	public Res editMeet(final long id, final String username, MeetDto.MeetReq dto) {
+		final User user = userRepository.findByUsername(username);
 		final Meet meet = commonComponent.findById(meetRepository, id, Meet.class);
-		if(user.getId() != dto.getUserId()) {
+		if(user.getId() != meet.getUser().getId()) {
 			throw new MeetBusinessException(ErrorCode.INVALID_LEADER_MEET);
 		}
 		meet.editMeet(dto); // meet 내용 수정
-		meet.editUser(user); // 수정자 update
 		return modelMapper.map(meet, MeetDto.Res.class);
 	}
 
 	@Override
-	public Res getMeet(long id) {
+	public Res getMeet(final long id) {
 		final Meet meet = commonComponent.findById(meetRepository, id, Meet.class);
 		return modelMapper.map(meet, MeetDto.Res.class);
 	}
 
 	@Transactional
 	@Override
-	public void deleteMeet(long id) {
-		commonComponent.findById(meetRepository, id, Meet.class); // exist check
-		meetRepository.deleteById(id);
+	public void deleteMeet(final long id, final String username) {
+		final User user = userRepository.findByUsername(username);
+		final Meet meet = commonComponent.findById(meetRepository, id, Meet.class);
+		if(meet == null) {
+			throw new MeetBusinessException(ErrorCode.ELEMENT_NOT_FOUND);
+		}
+		if(user.getId() != meet.getUser().getId()) {
+			throw new MeetBusinessException(ErrorCode.INVALID_LEADER_MEET);
+		}
+		applicationMeetRepository.deleteByMeet(meet); // 지원테이블에서 해당 meet 삭제
+		meetRepository.deleteById(id); // meet 삭제
 	}
 
 	@Transactional(readOnly = true) // 성능향상을 위해

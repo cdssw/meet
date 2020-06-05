@@ -30,6 +30,7 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 @Service
+@Transactional
 public class ApplicationServiceImpl implements ApplicationService {
 
 	private CommonComponent commonComponent;
@@ -40,7 +41,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	
 	// Meet 참석 지원
-	@Transactional
 	@Override
 	public void applicationMeet(ApplicationDto.ApplicationReq dto) {
 		final Meet meet = commonComponent.findById(meetRepository, dto.getMeetId(), Meet.class);
@@ -63,7 +63,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	// 승인처리
-	@Transactional
 	@Override
 	public void approval(ApplicationDto.ApprovalReq dto) {
 		final Meet meet = commonComponent.findById(meetRepository, dto.getMeetId(), Meet.class);
@@ -76,7 +75,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	// 승인취소처리
-	@Transactional
 	@Override
 	public void cancel(ApplicationDto.ApprovalReq dto) {
 		final Meet meet = commonComponent.findById(meetRepository, dto.getMeetId(), Meet.class);

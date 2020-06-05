@@ -22,4 +22,5 @@ import com.moim.meet.repository.custom.ApplicationMeetCustomRepository;
 public interface ApplicationMeetRepository extends JpaRepository<ApplicationMeet, Long>, ApplicationMeetCustomRepository {
 
 	ApplicationMeet findByMeetAndUser(Meet meet, User user);
+	void deleteByMeet(Meet meet); // meet에 연관된 applicationMeet 제거
 }

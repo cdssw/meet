@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Place.java
+ * Address.java
  * 
  * @author cdssw
  * @since Apr 29, 2020
@@ -23,17 +23,17 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Place {
+public class Address {
 
 	@NotBlank
-	private String address;
+	private String address1;
 	
 	@NotBlank
-	private String addressDetail;
+	private String address2;
 	
 	@Builder
-	public Place(String address, String addressDetail) {
-		this.address = address;
-		this.addressDetail = addressDetail;
+	public Address(String address1, String address2) {
+		this.address1 = address1;
+		this.address2 = address2;
 	}
 }

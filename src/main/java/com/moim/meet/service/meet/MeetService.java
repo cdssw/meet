@@ -20,11 +20,12 @@ import org.springframework.data.domain.Pageable;
 
 public interface MeetService {
 
-	Long createMeet(MeetDto.MeetReq dto);
+	Long createMeet(MeetDto.MeetReq dto, final String username);
+	MeetDto.Res editMeet(final long id, final String username, MeetDto.MeetReq dto);
+	void deleteMeet(final long id, final String username);
+	
 	List<MeetDto.Res> getMeetList();
-	MeetDto.Res editMeet(long id, MeetDto.MeetReq dto);
-	MeetDto.Res getMeet(long id);
-	void deleteMeet(long id);
+	MeetDto.Res getMeet(final long id);
 	Page<MeetDto.Res> getMeetListByPage(Pageable pageable);
 	Page<MeetDto.Res> search(MeetDto.SearchReq dto, Pageable pageable);
 }

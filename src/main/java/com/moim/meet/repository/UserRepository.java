@@ -19,4 +19,5 @@ import com.moim.meet.entity.User;
  */
 public interface UserRepository extends JpaRepository<User, Long> {
 
+	User findByUsername(String username);
 }

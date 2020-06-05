@@ -18,10 +18,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moim.meet.except.RestExceptionHandler.ExceptRes;
+import com.moim.meet.service.meet.MeetDto;
 import com.moim.meet.service.mypage.MyPageDto;
 
 /**
- * MeetIntegrationTest.java
+ * MeetIntegrationRestTest.java
  * 
  * @author cdssw
  * @since May 7, 2020
@@ -35,7 +36,7 @@ import com.moim.meet.service.mypage.MyPageDto;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class MeetIntegrationTest {
+public class MeetIntegrationRestTest {
 
 	@Autowired
 	private TestRestTemplate testRestTemplate;
@@ -49,6 +50,16 @@ public class MeetIntegrationTest {
 		ExceptRes res = objectMapper.readValue(result, ExceptRes.class);
 		
 		assertEquals(res.getCode(), "E_00001");
+	}
+	
+	@Test
+	public void testGetMeet() throws Exception {
+		// when
+		String result = testRestTemplate.getForObject("/1", String.class);
+		MeetDto.Res res = objectMapper.readValue(result, MeetDto.Res.class);
+		
+		// then
+		assertEquals(res.getId(), 1);
 	}
 	
 	@Test
@@ -79,8 +90,8 @@ public class MeetIntegrationTest {
 	public void testMyPageApplication() {
 		// given
 		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder()
-				.userId(1L).
-				toAppBoolean(false)
+				.userId(1L)
+				.toAppBoolean(false)
 				.build();
 		HttpEntity<MyPageDto.ApplicationReq> entity = new HttpEntity<MyPageDto.ApplicationReq>(dto);
 		

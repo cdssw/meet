@@ -71,13 +71,45 @@ private MockMvc mvc;
 				.alwaysDo(print()) // 항상 결과 print
 				.build();
 		
-		openDto = MyPageDto.OpenedReq.builder().meetNm("meet1").leaderId(1L).toAppBoolean(false).build();
-		open1 = MyPageDto.OpenedRes.builder().meetNm("meet1").meetDesc("meet1 desc").recruitment(10).application(1).cost(10000).build();
-		open2 = MyPageDto.OpenedRes.builder().meetNm("meet2").meetDesc("meet2 desc").recruitment(20).application(1).cost(20000).build();
+		openDto = MyPageDto.OpenedReq.builder()
+				.meetNm("meet1")
+				.leaderId(1L)
+				.toAppBoolean(false)
+				.build();
+		open1 = MyPageDto.OpenedRes.builder()
+				.meetNm("meet1")
+				.meetDesc("meet1 desc")
+				.recruitment(10)
+				.application(1)
+				.cost(10000)
+				.build();
+		open2 = MyPageDto.OpenedRes.builder()
+				.meetNm("meet2")
+				.meetDesc("meet2 desc")
+				.recruitment(20)
+				.application(1)
+				.cost(20000)
+				.build();
 		
-		appDto = MyPageDto.ApplicationReq.builder().meetNm("meet1").userId(1L).toAppBoolean(false).build();
-		app1 = MyPageDto.ApplicationRes.builder().meetNm("meet1").meetDesc("meet1 desc").recruitment(10).application(1).cost(10000).build();
-		app2 = MyPageDto.ApplicationRes.builder().meetNm("meet2").meetDesc("meet2 desc").recruitment(20).application(1).cost(20000).build();
+		appDto = MyPageDto.ApplicationReq.builder()
+				.meetNm("meet1")
+				.userId(1L)
+				.toAppBoolean(false)
+				.build();
+		app1 = MyPageDto.ApplicationRes.builder()
+				.meetNm("meet1")
+				.meetDesc("meet1 desc")
+				.recruitment(10)
+				.application(1)
+				.cost(10000)
+				.build();
+		app2 = MyPageDto.ApplicationRes.builder()
+				.meetNm("meet2")
+				.meetDesc("meet2 desc")
+				.recruitment(20)
+				.application(1)
+				.cost(20000)
+				.build();
 	}
 
 	@Test

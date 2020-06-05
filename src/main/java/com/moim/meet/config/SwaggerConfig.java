@@ -63,8 +63,13 @@ public class SwaggerConfig {
 	}
 	
 	private ApiInfo swaggerInfo() {
-		return new ApiInfoBuilder().title("Moim API Documentation").description("Meet Service Document")
-				.license("Andrew").licenseUrl("cdssw.duckdns.org").version("1").build();
+		return new ApiInfoBuilder()
+				.title("Moim API Documentation")
+				.description("Meet Service Document")
+				.license("Andrew")
+				.licenseUrl("cdssw.duckdns.org")
+				.version("1")
+				.build();
 	}
 	
 	private ApiKey apiKey() {

@@ -32,6 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.moim.meet.entity.Address;
 import com.moim.meet.service.meet.MeetDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -73,9 +74,30 @@ public class MeetControllerTest extends BaseControllerTest {
 				.alwaysDo(print()) // 항상 결과 print
 				.build();
 		
-		dto = MeetDto.MeetReq.builder().meetNm("meet1").meetDesc("meet1 desc").recruitment(10).application(1).cost(10000).userId(1L).userNm("Andrew").build();
-		res1 = MeetDto.Res.builder().meetNm("meet1").meetDesc("meet1 desc").recruitment(10).application(1).cost(10000).build();
-		res2 = MeetDto.Res.builder().meetNm("meet2").meetDesc("meet2 desc").recruitment(20).application(1).cost(20000).build();
+		dto = MeetDto.MeetReq.builder()
+				.meetNm("meet1")
+				.meetDesc("meet1 desc")
+				.recruitment(10)
+				.application(1)
+				.cost(10000)
+				.build();
+		
+		res1 = MeetDto.Res.builder()
+				.meetNm("meet1")
+				.meetDesc("meet1 desc")
+				.recruitment(10)
+				.application(1)
+				.cost(10000)
+				.address(Address.builder().address1("address1").address2("address2").build())
+				.build();
+		res2 = MeetDto.Res.builder()
+				.meetNm("meet2")
+				.meetDesc("meet2 desc")
+				.recruitment(20)
+				.application(1)
+				.cost(20000)
+				.address(Address.builder().address1("address1").address2("address2").build())
+				.build();
 	}
 	
 	// 테스트 하는것은 dto를 가지고 controller 호출이 잘 되는지 확인
@@ -83,7 +105,7 @@ public class MeetControllerTest extends BaseControllerTest {
 	public void testCreateMeet() throws Exception {
 		// given
 		// 서비스 호출시 무조건 1L 리턴
-		given(meetService.createMeet(any(MeetDto.MeetReq.class))).willReturn(1L);
+		given(meetService.createMeet(any(MeetDto.MeetReq.class), any())).willReturn(1L);
 		
 		// when
 		final MvcResult result = mvc.perform(post("/")
@@ -102,8 +124,14 @@ public class MeetControllerTest extends BaseControllerTest {
 	@Test
 	public void testCreateMeetValidExcept() throws Exception {
 		// given
-		MeetDto.MeetReq dto = MeetDto.MeetReq.builder().meetNm("meet1").meetDesc("meet1 desc").recruitment(10).application(1).cost(10000).build();
-		given(meetService.createMeet(any(MeetDto.MeetReq.class))).willReturn(1L);
+		MeetDto.MeetReq dto = MeetDto.MeetReq.builder()
+				.meetNm("meet1")
+				.meetDesc("meet1 desc")
+				.recruitment(0)
+				.application(0)
+				.cost(10000)
+				.build();
+		given(meetService.createMeet(any(MeetDto.MeetReq.class), any())).willReturn(1L);
 		
 		// when
 		final MvcResult result = mvc.perform(post("/")
@@ -119,7 +147,6 @@ public class MeetControllerTest extends BaseControllerTest {
 	@Test
 	public void testGetMeetList() throws Exception {
 		// given
-		
 		given(meetService.getMeetList()).willReturn(Arrays.asList(res1, res2));
 		
 		// when
@@ -135,7 +162,7 @@ public class MeetControllerTest extends BaseControllerTest {
 	@Test
 	public void testEditMeet() throws Exception {
 		// given
-		given(meetService.editMeet(1, dto)).willReturn(res1);
+		given(meetService.editMeet(anyLong(), any(), any(MeetDto.MeetReq.class))).willReturn(res1);
 		
 		// when
 		final MvcResult result = mvc.perform(put("/1")
@@ -144,8 +171,11 @@ public class MeetControllerTest extends BaseControllerTest {
 				.andExpect(status().isOk())
 				.andReturn();
 		
+		String content = result.getResponse().getContentAsString();
+		MeetDto.Res rst = objectMapper.readValue(content, MeetDto.Res.class);
+		
 		// then
-		log.info(result.getRequest().getContentAsString());
+		assertEquals(rst.getMeetDesc(), dto.getMeetDesc());
 	}
 	
 	@Test

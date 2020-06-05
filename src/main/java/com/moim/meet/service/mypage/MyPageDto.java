@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.moim.meet.entity.Approval;
-import com.moim.meet.entity.Place;
+import com.moim.meet.entity.Address;
 import com.moim.meet.entity.User;
 
 import lombok.AccessLevel;
@@ -86,7 +86,7 @@ public class MyPageDto {
 		private int recruitment;
 		private int application;
 		private int cost;
-		private Place place;
+		private Address address;
 		
 		// Time format 처리
 		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

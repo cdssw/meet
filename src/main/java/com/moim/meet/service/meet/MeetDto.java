@@ -5,11 +5,10 @@ import java.time.LocalDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.moim.meet.entity.Address;
 import com.moim.meet.entity.Meet;
-import com.moim.meet.entity.Place;
 import com.moim.meet.entity.User;
 
 import lombok.AccessLevel;
@@ -49,24 +48,16 @@ public class MeetDto {
 		private int cost;
 
 		@Valid
-		private Place place;
-		
-		@NotNull
-		private Long userId;
-		
-		@NotBlank
-		private String userNm;
+		private Address address;
 		
 		@Builder
-		public MeetReq(String meetNm, String meetDesc, int recruitment, int application, int cost, Place place, Long userId, String userNm) {
+		public MeetReq(String meetNm, String meetDesc, int recruitment, int application, int cost, Address address) {
 			this.meetNm = meetNm;
 			this.meetDesc = meetDesc;
 			this.recruitment = recruitment;
 			this.application = application;
 			this.cost = cost;
-			this.place = place;
-			this.userId = userId;
-			this.userNm = userNm;
+			this.address = address;
 		}
 		
 		public Meet toEntity() {
@@ -76,7 +67,7 @@ public class MeetDto {
 					.recruitment(recruitment)
 					.application(application)
 					.cost(cost)
-					.place(place)
+					.address(address)
 					.build();
 		}
 	}
@@ -108,7 +99,7 @@ public class MeetDto {
 		private int recruitment;
 		private int application;
 		private int cost;
-		private Place place;
+		private Address address;
 		
 		// Time format 처리
 		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

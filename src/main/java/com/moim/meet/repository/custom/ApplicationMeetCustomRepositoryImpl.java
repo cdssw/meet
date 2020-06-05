@@ -69,7 +69,7 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 						, meet.recruitment
 						, meet.application
 						, meet.cost
-						, meet.place
+						, meet.address
 						, meet.inputDt
 						, meet.modifyDt
 						, meet.user
