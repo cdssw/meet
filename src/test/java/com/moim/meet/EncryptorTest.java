@@ -25,7 +25,7 @@ public class EncryptorTest {
 	public void encryptor() {
 		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 		encryptor.setAlgorithm("PBEWithMD5AndDES");
-		encryptor.setPassword("SecretKeySalt");
+		encryptor.setPassword("{SecretKey}");
 		
 		String url = "jdbc:mariadb://{url}/{db}";
 		String username = "{id}";

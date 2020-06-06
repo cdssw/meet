@@ -5,9 +5,9 @@ spring:
   application:
     name: meet-service
   datasource:
-    url: ENC(Zk/GGmF2j0oG3jTunywrjglh9tN75b5tedxeA2gLiGEobiMCFtkCxfhIhQ+FxVi0Tb6ZcllhD4s=)
-    username: ENC(TbYlb1vTNspS6TDRk4k6/g==)
-    password: ENC(Y4yeVOdyIyLI5A6be6IZCiXD1cY9QJ+i)
+    url: ENC(wJ3QYYBygzuBtda/peF/jz5ZBnxs0a1kBPjohvomOq7DQfJqqvqaVO2YTtp86zLbFusRfLLrZNE=)
+    username: ENC(yykXibnn5pDeoL+bA2rJyQ==)
+    password: ENC(HPWIFnyQzM88kMM8G17DbjY2wskiOq2E)
     driver-class-name: org.mariadb.jdbc.Driver
     data: classpath:data-h2.sql # server 기동시 자동으로 실행될 sql 구문
     initialization-mode: always    
