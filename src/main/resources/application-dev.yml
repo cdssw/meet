@@ -5,9 +5,9 @@ spring:
   application:
     name: meet-service
   datasource:
-    url: 
-    username: 
-    password:  
+    url: ENC(Zk/GGmF2j0oG3jTunywrjglh9tN75b5tedxeA2gLiGEobiMCFtkCxfhIhQ+FxVi0Tb6ZcllhD4s=)
+    username: ENC(TbYlb1vTNspS6TDRk4k6/g==)
+    password: ENC(Y4yeVOdyIyLI5A6be6IZCiXD1cY9QJ+i)
     driver-class-name: org.mariadb.jdbc.Driver
     data: classpath:data-h2.sql # server 기동시 자동으로 실행될 sql 구문
     initialization-mode: always    
@@ -44,3 +44,14 @@ security:
     resource:
       jwt:
         key-value: jwt_secret_key # authorization server와 동일하게 셋팅해야 함
+
+# 아래 설정을 하지 않으면 spring.datasource.password 오류가 발생
+# Open Config Arguments (VM arguments)에 -Djasypt.encryptor.password=비밀키를 입력한다.
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+    algorithm: PBEWithMD5AndDES
+    property:
+      prefix: ENC(
+      suffix: )
+    pool-size: 1
