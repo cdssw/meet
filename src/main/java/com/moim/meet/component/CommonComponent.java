@@ -28,7 +28,7 @@ public class CommonComponent {
 	// JpaRepository findById 처리를 위한 공통 Method
 	@Transactional(readOnly = true) // 성능향상을 위해
 	public <T, ID, C> C findById(T t, ID id, Class<C> type) {
-		final Optional<C> m = ((JpaRepository)t).findById((long)id);
+		final Optional<C> m = ((JpaRepository)t).findById((Long)id);
 		m.orElseThrow(() -> new NotFoundException(ErrorCode.ELEMENT_NOT_FOUND));
 		return type.cast(m.get());
 	}
@@ -36,7 +36,7 @@ public class CommonComponent {
 	// JpaRepository findById 처리를 위한 공통 Method with ErrorCode
 	@Transactional(readOnly = true) // 성능향상을 위해
 	public <T, ID, C> C findById(T t, ID id, Class<C> type, ErrorCode errorCode) {
-		final Optional<C> m = ((JpaRepository)t).findById((long)id);
+		final Optional<C> m = ((JpaRepository)t).findById((Long)id);
 		m.orElseThrow(() -> new NotFoundException(errorCode));
 		return type.cast(m.get());
 	}

@@ -68,7 +68,7 @@ public class MeetRepositoryTest {
 		assertTrue(meet.getModifyDt().isBefore(now));
 	}
 	
-	// 2개만 조회되는지 확인
+	// 1개만 조회되는지 확인
 	@Test
 	public void tesetFindSearch() {
 		// given
