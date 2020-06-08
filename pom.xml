@@ -156,6 +156,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<!-- 테스트 코드 한글깨짐 처리 -->
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -163,6 +164,7 @@
                 	<argLine>-Dfile.encoding=UTF-8</argLine>
                 </configuration>
             </plugin>
+			<!-- QueryDsl Qfile생성 처리 -->
 			<plugin>
 			    <groupId>com.mysema.maven</groupId>
 			    <artifactId>apt-maven-plugin</artifactId>
