@@ -2,4 +2,4 @@
 MSA Meet Service
 
 ## 실행 방법
-* Run Configurations에서 Profile에 dev를 설정한다
+java -jar -Djasypt.encryptor.password={password} -Dfile.encoding=UTF-8 meet-{version}-SNAPSHOT.jar
