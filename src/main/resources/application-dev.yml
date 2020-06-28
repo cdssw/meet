@@ -41,3 +41,6 @@ jasypt:
       prefix: ENC(
       suffix: )
     pool-size: 1
+
+swagger:
+  host: cdssw.duckdns.org:9000

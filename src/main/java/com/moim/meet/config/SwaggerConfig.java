@@ -2,6 +2,8 @@ package com.moim.meet.config;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +13,6 @@ import com.google.common.collect.Lists;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -42,11 +43,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-@AllArgsConstructor
 public class SwaggerConfig {
 
-	// 생성자로 인한 자동 Autowired
-	private final TypeResolver typeResolver;
+	@Autowired
+	private final TypeResolver typeResolver = null;
+	
+	@Value("${swagger.host}")
+	private final String host = null;
 	
 	@Bean
 	public Docket api() {
@@ -54,6 +57,7 @@ public class SwaggerConfig {
 				// pageable custom 처리
 				.alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Pageable.class), typeResolver.resolve(Page.class)))
 				.apiInfo(swaggerInfo())
+				.host(host)
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.moim.meet.controller"))
 				.paths(PathSelectors.any()).build()
@@ -67,7 +71,7 @@ public class SwaggerConfig {
 				.title("Moim API Documentation")
 				.description("Meet Service Document")
 				.license("Andrew")
-				.licenseUrl("cdssw.duckdns.org")
+				.licenseUrl("conerule.duckdns.org")
 				.version("1")
 				.build();
 	}
