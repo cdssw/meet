@@ -63,7 +63,7 @@ public class MeetIntegrationMockTest {
 	
 	@Test
 	public void testNotFoundException() throws Exception {
-		this.mvc.perform(get("/6")
+		this.mvc.perform(get("/100")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(e -> assertEquals((((NotFoundException)e.getResolvedException()).getErrorCode()), ErrorCode.ELEMENT_NOT_FOUND));
 	}
