@@ -8,6 +8,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -24,8 +25,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.moim.meet.component.CommonComponent;
-import com.moim.meet.entity.Meet;
 import com.moim.meet.entity.Address;
+import com.moim.meet.entity.Meet;
+import com.moim.meet.entity.Term;
 import com.moim.meet.entity.User;
 import com.moim.meet.repository.ApplicationMeetRepository;
 import com.moim.meet.repository.MeetRepository;
@@ -67,12 +69,16 @@ public class MeetServiceImplTest {
 		CommonComponent commonComponent = new CommonComponent();
 		meetServiceImpl = new MeetServiceImpl(modelMapper, commonComponent, meetRepository, userRepository, applicationMeetRepository);
 		
+		LocalDateTime today = LocalDateTime.now();
+		today.plusDays(30);
+		
 		user = User.builder().id(1L).userNm("Andrew").build();
 		dto1 = MeetDto.MeetReq.builder()
 				.meetNm("First Meet")
 				.meetDesc("First save meet")
 				.cost(100)
 				.address(Address.builder().address1("address").address2("detail").build())
+				.term(Term.builder().startDt(today).endDt(today.plusDays(30)).detailDay(32).build())
 				.recruitment(3)
 				.application(1)
 				.build();
@@ -81,6 +87,7 @@ public class MeetServiceImplTest {
 				.meetDesc("Second save meet")
 				.cost(200)
 				.address(Address.builder().address1("address2").address2("detail2").build())
+				.term(Term.builder().startDt(today).endDt(today.plusDays(30)).detailDay(32).build())
 				.recruitment(10)
 				.application(3)
 				.build();
@@ -89,6 +96,7 @@ public class MeetServiceImplTest {
 				.meetDesc("First save meet")
 				.cost(10)
 				.address(Address.builder().address1("address").address2("detail").build())
+				.term(Term.builder().startDt(today).endDt(today.plusDays(30)).detailDay(32).build())
 				.recruitment(3)
 				.application(1)
 				.user(user)
@@ -98,6 +106,7 @@ public class MeetServiceImplTest {
 				.meetDesc("Second save meet")
 				.cost(10)
 				.address(Address.builder().address1("address").address2("detail").build())
+				.term(Term.builder().startDt(today).endDt(today.plusDays(30)).detailDay(32).build())
 				.recruitment(3)
 				.application(1)
 				.user(user)

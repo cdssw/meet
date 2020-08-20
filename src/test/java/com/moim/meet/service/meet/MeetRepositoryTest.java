@@ -55,9 +55,6 @@ public class MeetRepositoryTest {
 	// 테스트 하는것은 create/modify time 동작여부 확인
 	@Test
 	public void testBaseTimeEntity() {
-		// given
-		meetRepository.save(Meet.builder().meetNm("FirstMeet").meetDesc("First reg meet").recruitment(3).application(1).cost(10000).build());
-		
 		// when
 		List<Meet> meetList = meetRepository.findAll();
 		

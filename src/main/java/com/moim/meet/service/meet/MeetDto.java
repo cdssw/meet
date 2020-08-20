@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.moim.meet.entity.Address;
 import com.moim.meet.entity.Meet;
+import com.moim.meet.entity.Term;
 import com.moim.meet.entity.User;
 
 import lombok.AccessLevel;
@@ -50,14 +51,18 @@ public class MeetDto {
 		@Valid
 		private Address address;
 		
+		@Valid
+		private Term term;
+		
 		@Builder
-		public MeetReq(String meetNm, String meetDesc, int recruitment, int application, int cost, Address address) {
+		public MeetReq(String meetNm, String meetDesc, int recruitment, int application, int cost, Address address, Term term) {
 			this.meetNm = meetNm;
 			this.meetDesc = meetDesc;
 			this.recruitment = recruitment;
 			this.application = application;
 			this.cost = cost;
 			this.address = address;
+			this.term = term;
 		}
 		
 		public Meet toEntity() {
@@ -68,6 +73,7 @@ public class MeetDto {
 					.application(application)
 					.cost(cost)
 					.address(address)
+					.term(term)
 					.build();
 		}
 	}
@@ -100,6 +106,7 @@ public class MeetDto {
 		private int application;
 		private int cost;
 		private Address address;
+		private Term term;
 		
 		// Time format 처리
 		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

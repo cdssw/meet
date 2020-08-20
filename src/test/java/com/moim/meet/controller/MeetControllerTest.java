@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,6 +34,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moim.meet.entity.Address;
+import com.moim.meet.entity.Term;
 import com.moim.meet.service.meet.MeetDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -74,6 +76,9 @@ public class MeetControllerTest extends BaseControllerTest {
 				.alwaysDo(print()) // 항상 결과 print
 				.build();
 		
+		LocalDateTime today = LocalDateTime.now();
+		today.plusDays(30);
+		
 		dto = MeetDto.MeetReq.builder()
 				.meetNm("meet1")
 				.meetDesc("meet1 desc")
@@ -89,6 +94,7 @@ public class MeetControllerTest extends BaseControllerTest {
 				.application(1)
 				.cost(10000)
 				.address(Address.builder().address1("address1").address2("address2").build())
+				.term(Term.builder().startDt(today).endDt(today.plusDays(30)).detailDay(32).build())
 				.build();
 		res2 = MeetDto.Res.builder()
 				.meetNm("meet2")
@@ -97,6 +103,7 @@ public class MeetControllerTest extends BaseControllerTest {
 				.application(1)
 				.cost(20000)
 				.address(Address.builder().address1("address1").address2("address2").build())
+				.term(Term.builder().startDt(today).endDt(today.plusDays(30)).detailDay(32).build())
 				.build();
 	}
 	

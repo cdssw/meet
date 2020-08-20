@@ -47,18 +47,22 @@ public class Meet extends BaseTimeEntity {
 	@Embedded
 	private Address address;
 	
+	@Embedded
+	private Term term;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_id") // 생성될 join column
 	private User user;
 
 	@Builder
-	public Meet(String meetNm, String meetDesc, int recruitment, int application, int cost, Address address, User user) {
+	public Meet(String meetNm, String meetDesc, int recruitment, int application, int cost, Address address, Term term, User user) {
 		this.meetNm = meetNm;
 		this.meetDesc = meetDesc;
 		this.recruitment = recruitment;
 		this.application = application;
 		this.cost = cost;
 		this.address = address;
+		this.term = term;
 		this.user = user;
 	}
 	
@@ -75,6 +79,7 @@ public class Meet extends BaseTimeEntity {
 		this.recruitment = dto.getRecruitment();
 		this.cost = dto.getCost();
 		this.address = dto.getAddress();
+		this.term = dto.getTerm();
 	}
 	
 	// 지원
