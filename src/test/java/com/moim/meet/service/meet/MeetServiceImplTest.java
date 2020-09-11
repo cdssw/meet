@@ -30,6 +30,7 @@ import com.moim.meet.entity.Meet;
 import com.moim.meet.entity.Term;
 import com.moim.meet.entity.User;
 import com.moim.meet.repository.ApplicationMeetRepository;
+import com.moim.meet.repository.FileRepository;
 import com.moim.meet.repository.MeetRepository;
 import com.moim.meet.repository.UserRepository;
 
@@ -56,6 +57,7 @@ public class MeetServiceImplTest {
 	@Mock private MeetRepository meetRepository;
 	@Mock private UserRepository userRepository;
 	@Mock private ApplicationMeetRepository applicationMeetRepository;
+	@Mock private FileRepository fileRepository;	
 	
 	private User user;
 	private Meet meet1;
@@ -67,7 +69,7 @@ public class MeetServiceImplTest {
 	public void setUp() {
 		ModelMapper modelMapper = new ModelMapper();
 		CommonComponent commonComponent = new CommonComponent();
-		meetServiceImpl = new MeetServiceImpl(modelMapper, commonComponent, meetRepository, userRepository, applicationMeetRepository);
+		meetServiceImpl = new MeetServiceImpl(modelMapper, commonComponent, meetRepository, userRepository, applicationMeetRepository, fileRepository);
 		
 		LocalDateTime today = LocalDateTime.now();
 		today.plusDays(30);
@@ -81,6 +83,7 @@ public class MeetServiceImplTest {
 				.term(Term.builder().startDt(today).endDt(today.plusDays(30)).detailDay(32).build())
 				.recruitment(3)
 				.application(1)
+				.fileList(Arrays.asList(1L, 2L))
 				.build();
 		dto2 = MeetDto.MeetReq.builder()
 				.meetNm("Second Meet")
@@ -90,6 +93,7 @@ public class MeetServiceImplTest {
 				.term(Term.builder().startDt(today).endDt(today.plusDays(30)).detailDay(32).build())
 				.recruitment(10)
 				.application(3)
+				.fileList(Arrays.asList(1L, 2L))
 				.build();
 		meet1 = Meet.builder()
 				.meetNm("First meet")

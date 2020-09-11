@@ -1,6 +1,7 @@
 package com.moim.meet.service.meet;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -54,8 +55,10 @@ public class MeetDto {
 		@Valid
 		private Term term;
 		
+		private List<Long> fileList;
+		
 		@Builder
-		public MeetReq(String meetNm, String meetDesc, int recruitment, int application, int cost, Address address, Term term) {
+		public MeetReq(String meetNm, String meetDesc, int recruitment, int application, int cost, Address address, Term term, List<Long> fileList) {
 			this.meetNm = meetNm;
 			this.meetDesc = meetDesc;
 			this.recruitment = recruitment;
@@ -63,6 +66,7 @@ public class MeetDto {
 			this.cost = cost;
 			this.address = address;
 			this.term = term;
+			this.fileList = fileList;
 		}
 		
 		public Meet toEntity() {

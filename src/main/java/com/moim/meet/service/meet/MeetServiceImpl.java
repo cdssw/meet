@@ -14,11 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.moim.meet.component.CommonComponent;
 import com.moim.meet.entity.ApplicationMeet;
 import com.moim.meet.entity.Approval;
+import com.moim.meet.entity.File;
 import com.moim.meet.entity.Meet;
 import com.moim.meet.entity.User;
 import com.moim.meet.except.ErrorCode;
 import com.moim.meet.except.MeetBusinessException;
 import com.moim.meet.repository.ApplicationMeetRepository;
+import com.moim.meet.repository.FileRepository;
 import com.moim.meet.repository.MeetRepository;
 import com.moim.meet.repository.UserRepository;
 import com.moim.meet.service.meet.MeetDto.Res;
@@ -48,6 +50,7 @@ public class MeetServiceImpl implements MeetService {
 	private MeetRepository meetRepository;
 	private UserRepository userRepository;
 	private ApplicationMeetRepository applicationMeetRepository;
+	private FileRepository fileRepository;
 	
 	@Transactional
 	@Override
@@ -67,6 +70,12 @@ public class MeetServiceImpl implements MeetService {
 				.build();
 		applicationMeetRepository.save(applicationMeet);
 		meet.applicationMeet(); // 지원자 카운트 증가
+		
+		// 파일id 추가
+		for(Long fileId : dto.getFileList()) {
+			File file = File.builder().fileId(fileId).meet(meet).build();
+			fileRepository.save(file);
+		}
 		
 		return id;
 	}
