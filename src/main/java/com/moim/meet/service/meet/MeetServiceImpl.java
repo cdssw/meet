@@ -72,7 +72,7 @@ public class MeetServiceImpl implements MeetService {
 		meet.applicationMeet(); // 지원자 카운트 증가
 		
 		// 파일id 추가
-		for(Long fileId : dto.getFileList()) {
+		for(Long fileId : dto.getImgList()) {
 			File file = File.builder().fileId(fileId).meet(meet).build();
 			fileRepository.save(file);
 		}

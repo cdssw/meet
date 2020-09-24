@@ -8,7 +8,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -71,46 +71,64 @@ public class MeetServiceImplTest {
 		CommonComponent commonComponent = new CommonComponent();
 		meetServiceImpl = new MeetServiceImpl(modelMapper, commonComponent, meetRepository, userRepository, applicationMeetRepository, fileRepository);
 		
-		LocalDateTime today = LocalDateTime.now();
+		LocalDate today = LocalDate.now();
 		today.plusDays(30);
 		
 		user = User.builder().id(1L).userNm("Andrew").build();
 		dto1 = MeetDto.MeetReq.builder()
-				.meetNm("First Meet")
-				.meetDesc("First save meet")
+				.title("First Meet")
+				.content("First save meet")
 				.cost(100)
 				.address(Address.builder().address1("address").address2("detail").build())
-				.term(Term.builder().startDt(today).endDt(today.plusDays(30)).detailDay(32).build())
+				.term(Term.builder()
+						.startDt("2020-09-01")
+						.endDt("2020-09-30")
+						.startTm("10:00")
+						.endTm("16:00")
+						.detailDay(64).build())
 				.recruitment(3)
-				.application(1)
-				.fileList(Arrays.asList(1L, 2L))
+				.imgList(Arrays.asList(1L, 2L))
 				.build();
 		dto2 = MeetDto.MeetReq.builder()
-				.meetNm("Second Meet")
-				.meetDesc("Second save meet")
+				.title("Second Meet")
+				.content("Second save meet")
 				.cost(200)
 				.address(Address.builder().address1("address2").address2("detail2").build())
-				.term(Term.builder().startDt(today).endDt(today.plusDays(30)).detailDay(32).build())
+				.term(Term.builder()
+						.startDt("2020-09-01")
+						.endDt("2020-09-30")
+						.startTm("10:00")
+						.endTm("16:00")
+						.detailDay(64).build())
 				.recruitment(10)
-				.application(3)
-				.fileList(Arrays.asList(1L, 2L))
+				.imgList(Arrays.asList(1L, 2L))
 				.build();
 		meet1 = Meet.builder()
-				.meetNm("First meet")
-				.meetDesc("First save meet")
+				.title("First meet")
+				.content("First save meet")
 				.cost(10)
 				.address(Address.builder().address1("address").address2("detail").build())
-				.term(Term.builder().startDt(today).endDt(today.plusDays(30)).detailDay(32).build())
+				.term(Term.builder()
+						.startDt("2020-09-01")
+						.endDt("2020-09-30")
+						.startTm("10:00")
+						.endTm("16:00")
+						.detailDay(64).build())
 				.recruitment(3)
 				.application(1)
 				.user(user)
 				.build();
 		meet2 = Meet.builder()
-				.meetNm("Meet name 2")
-				.meetDesc("Second save meet")
+				.title("Meet name 2")
+				.content("Second save meet")
 				.cost(10)
 				.address(Address.builder().address1("address").address2("detail").build())
-				.term(Term.builder().startDt(today).endDt(today.plusDays(30)).detailDay(32).build())
+				.term(Term.builder()
+						.startDt("2020-09-01")
+						.endDt("2020-09-30")
+						.startTm("10:00")
+						.endTm("16:00")
+						.detailDay(64).build())
 				.recruitment(3)
 				.application(1)
 				.user(user)
@@ -143,8 +161,8 @@ public class MeetServiceImplTest {
 		List<MeetDto.Res> list = meetServiceImpl.getMeetList();
 		
 		// then
-		assertEquals(list.get(0).getMeetNm(), dto1.getMeetNm());
-		assertEquals(list.get(1).getMeetNm(), dto2.getMeetNm());
+		assertEquals(list.get(0).getTitle(), dto1.getTitle());
+		assertEquals(list.get(1).getTitle(), dto2.getTitle());
 	}
 	
 	@Test
@@ -156,7 +174,7 @@ public class MeetServiceImplTest {
 		MeetDto.Res res = meetServiceImpl.getMeet(1);
 		
 		// then
-		assertEquals(res.getMeetNm(), dto1.getMeetNm());		
+		assertEquals(res.getTitle(), dto1.getTitle());		
 	}
 	
 	@Test
@@ -169,7 +187,7 @@ public class MeetServiceImplTest {
 		MeetDto.Res res = meetServiceImpl.editMeet(1, user.getUsername(), dto1);
 		
 		// then
-		assertEquals(res.getMeetDesc(), dto1.getMeetDesc());
+		assertEquals(res.getContent(), dto1.getContent());
 	}
 	
 	@Test
@@ -206,7 +224,7 @@ public class MeetServiceImplTest {
 		Pageable pageable = PageRequest.of(0, 10);
 		Page<Meet> meetList = new PageImpl<>(Arrays.asList(meet1, meet2), pageable, 2);
 		given(meetRepository.findSearch(any(MeetDto.SearchReq.class), any())).willReturn(meetList);
-		MeetDto.SearchReq dto = MeetDto.SearchReq.builder().meetNm("name").leaderId(1L).build();
+		MeetDto.SearchReq dto = MeetDto.SearchReq.builder().title("name").leaderId(1L).build();
 		
 		// when
 		Page<MeetDto.Res> res = meetServiceImpl.search(dto, pageable);

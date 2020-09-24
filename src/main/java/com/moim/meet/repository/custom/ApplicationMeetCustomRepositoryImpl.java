@@ -55,8 +55,8 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 	@Override
 	public Page<MyPageDto.ApplicationRes> findMyPageApplication(MyPageDto.ApplicationReq dto, Pageable pageable) {
 		BooleanBuilder builder = new BooleanBuilder();
-		builder = dto.getMeetNm() != null ? builder.and(meet.meetNm.likeIgnoreCase("%" + dto.getMeetNm() + "%")) : builder;
-		builder = dto.getMeetDesc() != null ? builder.and(meet.meetDesc.likeIgnoreCase("%" + dto.getMeetDesc() + "%")) : builder;
+		builder = dto.getTitle() != null ? builder.and(meet.title.likeIgnoreCase("%" + dto.getTitle() + "%")) : builder;
+		builder = dto.getContent() != null ? builder.and(meet.content.likeIgnoreCase("%" + dto.getContent() + "%")) : builder;
 		builder = dto.getUserId() != null ? builder.and(applicationMeet.user.id.eq(dto.getUserId())) : builder;
 		builder = dto.getToApproval() != null ? builder.and(applicationMeet.approval.approvalYn.eq(dto.getToApproval())) : builder;
 		
@@ -64,11 +64,13 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 		final JPQLQuery<MyPageDto.ApplicationRes> query = queryFactory
 				.select(Projections.bean(MyPageDto.ApplicationRes.class
 						, meet.id
-						, meet.meetNm
-						, meet.meetDesc
+						, meet.title
+						, meet.content
 						, meet.recruitment
 						, meet.application
 						, meet.cost
+						, meet.costOption
+						, meet.term
 						, meet.address
 						, meet.inputDt
 						, meet.modifyDt

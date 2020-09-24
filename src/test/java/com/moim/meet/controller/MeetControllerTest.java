@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -76,34 +75,40 @@ public class MeetControllerTest extends BaseControllerTest {
 				.alwaysDo(print()) // 항상 결과 print
 				.build();
 		
-		LocalDateTime today = LocalDateTime.now();
-		today.plusDays(30);
-		
 		dto = MeetDto.MeetReq.builder()
-				.meetNm("meet1")
-				.meetDesc("meet1 desc")
+				.title("meet1")
+				.content("meet1 desc")
 				.recruitment(10)
-				.application(1)
 				.cost(10000)
 				.build();
 		
 		res1 = MeetDto.Res.builder()
-				.meetNm("meet1")
-				.meetDesc("meet1 desc")
+				.title("meet1")
+				.content("meet1 desc")
 				.recruitment(10)
 				.application(1)
 				.cost(10000)
 				.address(Address.builder().address1("address1").address2("address2").build())
-				.term(Term.builder().startDt(today).endDt(today.plusDays(30)).detailDay(32).build())
+				.term(Term.builder()
+						.startDt("2020-09-01")
+						.endDt("2020-09-30")
+						.startTm("10:00")
+						.endTm("16:00")
+						.detailDay(64).build())
 				.build();
 		res2 = MeetDto.Res.builder()
-				.meetNm("meet2")
-				.meetDesc("meet2 desc")
+				.title("meet2")
+				.content("meet2 desc")
 				.recruitment(20)
 				.application(1)
 				.cost(20000)
 				.address(Address.builder().address1("address1").address2("address2").build())
-				.term(Term.builder().startDt(today).endDt(today.plusDays(30)).detailDay(32).build())
+				.term(Term.builder()
+						.startDt("2020-09-01")
+						.endDt("2020-09-30")
+						.startTm("10:00")
+						.endTm("16:00")
+						.detailDay(64).build())
 				.build();
 	}
 	
@@ -132,10 +137,9 @@ public class MeetControllerTest extends BaseControllerTest {
 	public void testCreateMeetValidExcept() throws Exception {
 		// given
 		MeetDto.MeetReq dto = MeetDto.MeetReq.builder()
-				.meetNm("meet1")
-				.meetDesc("meet1 desc")
+				.title("meet1")
+				.content("meet1 desc")
 				.recruitment(0)
-				.application(0)
 				.cost(10000)
 				.build();
 		given(meetService.createMeet(any(MeetDto.MeetReq.class), any())).willReturn(1L);
@@ -182,7 +186,7 @@ public class MeetControllerTest extends BaseControllerTest {
 		MeetDto.Res rst = objectMapper.readValue(content, MeetDto.Res.class);
 		
 		// then
-		assertEquals(rst.getMeetDesc(), dto.getMeetDesc());
+		assertEquals(rst.getContent(), dto.getContent());
 	}
 	
 	@Test
@@ -239,7 +243,7 @@ public class MeetControllerTest extends BaseControllerTest {
 		Pageable pageable = PageRequest.of(0, 10);
 		Page<MeetDto.Res> pageList = new PageImpl<>(list, pageable, list.size());
 		given(meetService.search(any(MeetDto.SearchReq.class), any())).willReturn(pageList);
-		MeetDto.SearchReq dto = MeetDto.SearchReq.builder().meetDesc("name").leaderId(1L).build();
+		MeetDto.SearchReq dto = MeetDto.SearchReq.builder().content("name").leaderId(1L).build();
 		
 		// when
 		final MvcResult result = mvc.perform(post("/search")

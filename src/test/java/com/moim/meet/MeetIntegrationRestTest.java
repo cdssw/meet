@@ -2,6 +2,8 @@ package com.moim.meet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.moim.meet.entity.Address;
+import com.moim.meet.entity.Term;
 import com.moim.meet.except.RestExceptionHandler.ExceptRes;
 import com.moim.meet.service.meet.MeetDto;
+import com.moim.meet.service.meet.MeetDto.MeetReq;
 import com.moim.meet.service.mypage.MyPageDto;
 
 /**
@@ -66,7 +71,7 @@ public class MeetIntegrationRestTest {
 	public void testMyPageOpened() {
 		// given
 		MyPageDto.OpenedReq dto = MyPageDto.OpenedReq.builder()
-				.meetNm("신문")
+				.title("신문")
 				.leaderId(1L).
 				toAppBoolean(false)
 				.build();
@@ -83,7 +88,7 @@ public class MeetIntegrationRestTest {
 				, responseType);
 		
 		assertEquals(result.getStatusCode(), HttpStatus.OK);
-		assertEquals(result.getBody().getTotalElements(), 1);
+		assertEquals(result.getBody().getTotalElements(), 0);
 	}
 	
 	@Test
@@ -107,5 +112,36 @@ public class MeetIntegrationRestTest {
 		
 		assertEquals(result.getStatusCode(), HttpStatus.OK);
 		assertEquals(result.getBody().getTotalElements(), 3);
-	}	
+	}
+	
+	@Test
+	public void testCreateMeet() throws Exception {
+		// given
+		MeetDto.MeetReq dto = MeetReq.builder()
+				.title("title")
+				.content("content")
+				.recruitment(1)
+				.cost(1000)
+				.costOption(true)
+				.address(Address.builder().address1("서울시").address2("강남구").build())
+				.term(Term.builder()
+						.startDt("2020-09-01")
+						.endDt("2020-09-30")
+						.startTm("10:00")
+						.endTm("16:00")
+						.detailDay(64).build())
+				.imgList(Arrays.asList(1L, 2L))
+				.build();
+		HttpEntity<MeetDto.MeetReq> entity = new HttpEntity<MeetDto.MeetReq>(dto);
+		
+		// when
+		ResponseEntity<Long> result = testRestTemplate.exchange(
+				"/"
+				, HttpMethod.POST
+				, entity
+				, Long.class);
+		
+		assertEquals(result.getStatusCode(), HttpStatus.CREATED);
+	}
+	
 }

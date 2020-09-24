@@ -71,7 +71,7 @@ public class MeetRepositoryTest {
 		// given
 		Pageable pageable = PageRequest.of(0, 10);
 		MeetDto.SearchReq dto = MeetDto.SearchReq.builder()
-				.meetNm("신문")
+				.title("신문")
 				.leaderId(1L)
 				.build();
 
@@ -79,7 +79,7 @@ public class MeetRepositoryTest {
 		Page<Meet> res = meetRepository.findSearch(dto, pageable);
 		
 		// then
-		assertThat(res.getTotalElements()).isEqualTo(1);
+		assertThat(res.getTotalElements()).isEqualTo(0);
 	}
 	
 	@Test
@@ -87,7 +87,7 @@ public class MeetRepositoryTest {
 		// given
 		Pageable pageable = PageRequest.of(0, 10);
 		MyPageDto.OpenedReq dto = MyPageDto.OpenedReq.builder()
-				.meetNm("신문")
+				.title("신문")
 				.leaderId(1L)
 				.toAppBoolean(false)
 				.build();
@@ -96,6 +96,6 @@ public class MeetRepositoryTest {
 		Page<MyPageDto.OpenedRes> res = meetRepository.findMyPageOpened(dto, pageable);
 		
 		// then
-		assertThat(res.getTotalElements()).isEqualTo(1);
+		assertThat(res.getTotalElements()).isEqualTo(0);
 	}
 }

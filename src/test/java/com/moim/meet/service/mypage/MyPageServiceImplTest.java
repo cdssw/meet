@@ -53,16 +53,16 @@ public class MyPageServiceImplTest {
 		myPageServiceImpl = new MyPageServiceImpl(meetRepository, applicationMeetRepository);
 		
 		open1 = MyPageDto.OpenedRes.builder()
-				.meetNm("Meet name 2")
-				.meetDesc("Second save meet")
+				.title("Meet name 2")
+				.content("Second save meet")
 				.cost(10)
 				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)
 				.application(1)
 				.build();
 		open2 = MyPageDto.OpenedRes.builder()
-				.meetNm("Meet name 2")
-				.meetDesc("Second save meet")
+				.title("Meet name 2")
+				.content("Second save meet")
 				.cost(10)
 				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)
@@ -70,16 +70,16 @@ public class MyPageServiceImplTest {
 				.build();
 		
 		app1 = MyPageDto.ApplicationRes.builder()
-				.meetNm("Meet name 2")
-				.meetDesc("Second save meet")
+				.title("Meet name 2")
+				.content("Second save meet")
 				.cost(10)
 				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)
 				.application(1)
 				.build();
 		app2 = MyPageDto.ApplicationRes.builder()
-				.meetNm("Meet name 2")
-				.meetDesc("Second save meet")
+				.title("Meet name 2")
+				.content("Second save meet")
 				.cost(10)
 				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)
@@ -94,7 +94,7 @@ public class MyPageServiceImplTest {
 		Page<MyPageDto.OpenedRes> list = new PageImpl<>(Arrays.asList(open1, open2), pageable, 2);
 		given(meetRepository.findMyPageOpened(any(), any())).willReturn(list);
 		MyPageDto.OpenedReq dto = MyPageDto.OpenedReq.builder()
-				.meetNm("name")
+				.title("name")
 				.leaderId(1L)
 				.toAppBoolean(false)
 				.build();
@@ -113,7 +113,7 @@ public class MyPageServiceImplTest {
 		Page<MyPageDto.ApplicationRes> list = new PageImpl<>(Arrays.asList(app1, app2), pageable, 2);
 		given(applicationMeetRepository.findMyPageApplication(any(), any())).willReturn(list);
 		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder()
-				.meetNm("name")
+				.title("name")
 				.userId(1L)
 				.toAppBoolean(false)
 				.build();

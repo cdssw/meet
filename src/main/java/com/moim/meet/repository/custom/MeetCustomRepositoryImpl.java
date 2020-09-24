@@ -45,8 +45,8 @@ public class MeetCustomRepositoryImpl extends QuerydslRepositorySupport implemen
 	@Override
 	public Page<Meet> findSearch(MeetDto.SearchReq dto, Pageable pageable) {
 		BooleanBuilder builder = new BooleanBuilder();
-		builder = dto.getMeetNm() != null ? builder.and(meet.meetNm.likeIgnoreCase("%" + dto.getMeetNm() + "%")) : builder;
-		builder = dto.getMeetDesc() != null ? builder.and(meet.meetDesc.likeIgnoreCase("%" + dto.getMeetDesc() + "%")) : builder;
+		builder = dto.getTitle() != null ? builder.and(meet.title.likeIgnoreCase("%" + dto.getTitle() + "%")) : builder;
+		builder = dto.getContent() != null ? builder.and(meet.content.likeIgnoreCase("%" + dto.getContent() + "%")) : builder;
 		builder = dto.getLeaderId() != null ? builder.and(meet.user.id.eq(dto.getLeaderId())) : builder;
 
 		JPAQueryFactory queryFactory = new JPAQueryFactory(getEntityManager());
@@ -62,19 +62,21 @@ public class MeetCustomRepositoryImpl extends QuerydslRepositorySupport implemen
 	@Override
 	public Page<MyPageDto.OpenedRes> findMyPageOpened(MyPageDto.OpenedReq dto, Pageable pageable) {
 		BooleanBuilder builder = new BooleanBuilder();
-		builder = dto.getMeetNm() != null ? builder.and(meet.meetNm.likeIgnoreCase("%" + dto.getMeetNm() + "%")) : builder;
-		builder = dto.getMeetDesc() != null ? builder.and(meet.meetDesc.likeIgnoreCase("%" + dto.getMeetDesc() + "%")) : builder;
+		builder = dto.getTitle() != null ? builder.and(meet.title.likeIgnoreCase("%" + dto.getTitle() + "%")) : builder;
+		builder = dto.getContent() != null ? builder.and(meet.content.likeIgnoreCase("%" + dto.getContent() + "%")) : builder;
 		builder = dto.getLeaderId() != null ? builder.and(meet.user.id.eq(dto.getLeaderId())) : builder;
 		
 		JPAQueryFactory queryFactory = new JPAQueryFactory(getEntityManager());
 		final JPQLQuery<OpenedRes> query = queryFactory
 				.select(Projections.bean(OpenedRes.class
 						, meet.id
-						, meet.meetNm
-						, meet.meetDesc
+						, meet.title
+						, meet.content
 						, meet.recruitment
 						, meet.application
 						, meet.cost
+						, meet.costOption
+						, meet.term
 						, meet.address
 						, meet.inputDt
 						, meet.modifyDt

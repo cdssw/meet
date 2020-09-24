@@ -33,13 +33,13 @@ public class ModelMapperTest {
 	@Test
 	public void testModelMapper() {
 		// given
-		MeetDto.MeetReq req = MeetDto.MeetReq.builder().meetNm("First Meet").meetDesc("First save meet").cost(100).recruitment(3).build();
+		MeetDto.MeetReq req = MeetDto.MeetReq.builder().title("First Meet").content("First save meet").cost(100).recruitment(3).build();
 		Meet entity = req.toEntity();
 		
 		// when
 		MeetDto.Res res = modelMapper.map(entity, MeetDto.Res.class);
 		
 		// then
-		assertEquals(res.getMeetNm(), entity.getMeetNm());
+		assertEquals(res.getTitle(), entity.getTitle());
 	}
 }

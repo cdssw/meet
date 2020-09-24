@@ -62,7 +62,7 @@ public class ApplicationServiceImplTest {
 		applicationServiceImpl = new ApplicationServiceImpl(commonComponent, meetRepository, userRepository, applicationMeetRepository);
 		
 		user = User.builder().id(1L).userNm("Andrew").build();
-		meet1 = Meet.builder().meetNm("First meet").meetDesc("First save meet").cost(10)
+		meet1 = Meet.builder().title("First meet").content("First save meet").cost(10)
 				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)
 				.application(1)
@@ -99,8 +99,8 @@ public class ApplicationServiceImplTest {
 	public void testApplicationFullRecruitmentException() {
 		// given
 		Meet meet = Meet.builder()
-				.meetNm("First meet")
-				.meetDesc("First save meet")
+				.title("First meet")
+				.content("First save meet")
 				.cost(10)
 				.address(Address.builder().address1("address").address2("detail").build())
 				.recruitment(3)

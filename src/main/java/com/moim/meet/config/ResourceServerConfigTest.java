@@ -26,6 +26,7 @@ public class ResourceServerConfigTest extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
+		http.headers().frameOptions().disable(); // X-Frame-Options 차단 해제
 		http.authorizeRequests().anyRequest().permitAll();
 	}
 }

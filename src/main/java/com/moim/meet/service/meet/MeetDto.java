@@ -41,13 +41,13 @@ public class MeetDto {
 	public static class MeetReq {
 		
 		@NotBlank
-		private String meetNm;
-		private String meetDesc;
+		private String title;
+		private String content;
 		
 		@Min(value = 1)
 		private int recruitment;
-		private int application;
 		private int cost;
+		private Boolean costOption;
 
 		@Valid
 		private Address address;
@@ -55,27 +55,27 @@ public class MeetDto {
 		@Valid
 		private Term term;
 		
-		private List<Long> fileList;
+		private List<Long> imgList;
 		
 		@Builder
-		public MeetReq(String meetNm, String meetDesc, int recruitment, int application, int cost, Address address, Term term, List<Long> fileList) {
-			this.meetNm = meetNm;
-			this.meetDesc = meetDesc;
+		public MeetReq(String title, String content, int recruitment, int cost, Boolean costOption, Address address, Term term, List<Long> imgList) {
+			this.title = title;
+			this.content = content;
 			this.recruitment = recruitment;
-			this.application = application;
 			this.cost = cost;
+			this.costOption = costOption;
 			this.address = address;
 			this.term = term;
-			this.fileList = fileList;
+			this.imgList = imgList;
 		}
 		
 		public Meet toEntity() {
 			return Meet.builder()
-					.meetNm(meetNm)
-					.meetDesc(meetDesc)
+					.title(title)
+					.content(content)
 					.recruitment(recruitment)
-					.application(application)
 					.cost(cost)
+					.costOption(costOption)
 					.address(address)
 					.term(term)
 					.build();
@@ -86,14 +86,14 @@ public class MeetDto {
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class SearchReq {
 		
-		private String meetNm;
-		private String meetDesc;
+		private String title;
+		private String content;
 		private Long leaderId;
 		
 		@Builder
-		public SearchReq(String meetNm, String meetDesc, Long leaderId) {
-			this.meetNm = meetNm;
-			this.meetDesc = meetDesc;
+		public SearchReq(String title, String content, Long leaderId) {
+			this.title = title;
+			this.content = content;
 			this.leaderId = leaderId;
 		}
 	}
@@ -104,11 +104,12 @@ public class MeetDto {
 	@SuperBuilder
 	public static abstract class BaseRes {
 		private Long id;
-		private String meetNm;
-		private String meetDesc;
+		private String title;
+		private String content;
 		private int recruitment;
 		private int application;
 		private int cost;
+		private boolean costOption;
 		private Address address;
 		private Term term;
 		

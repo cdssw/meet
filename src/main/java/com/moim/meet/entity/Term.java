@@ -1,7 +1,5 @@
 package com.moim.meet.entity;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
 
@@ -29,10 +27,16 @@ import lombok.NoArgsConstructor;
 public class Term {
 
 	@NotBlank
-	private LocalDateTime startDt;
+	private String startDt;
 	
 	@NotBlank
-	private LocalDateTime endDt;
+	private String endDt;
+	
+	@NotBlank
+	private String startTm;
+	
+	@NotBlank
+	private String endTm;
 	
 	/*
 	 * 0x10000000(128) = 협의
@@ -47,9 +51,11 @@ public class Term {
 	private int detailDay;
 	
 	@Builder
-	public Term(LocalDateTime startDt, LocalDateTime endDt, int detailDay) {
+	public Term(String startDt, String endDt, String startTm, String endTm, int detailDay) {
 		this.startDt = startDt;
 		this.endDt = endDt;
+		this.startTm = startTm;
+		this.endTm = endTm;
 		this.detailDay = detailDay;
 	}
 }

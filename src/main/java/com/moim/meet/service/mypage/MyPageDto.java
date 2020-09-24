@@ -35,8 +35,8 @@ public class MyPageDto {
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class OpenedReq {
 		
-		private String meetNm;
-		private String meetDesc;
+		private String title;
+		private String content;
 		
 		@NotNull
 		private Long leaderId;
@@ -45,9 +45,9 @@ public class MyPageDto {
 		private Boolean toApproval;
 		
 		@Builder
-		public OpenedReq(String meetNm, String meetDesc, Long leaderId, Boolean toAppBoolean) {
-			this.meetNm = meetNm;
-			this.meetDesc = meetDesc;
+		public OpenedReq(String title, String content, Long leaderId, Boolean toAppBoolean) {
+			this.title = title;
+			this.content = content;
 			this.leaderId = leaderId;
 			this.toApproval = toAppBoolean;
 		}
@@ -57,8 +57,8 @@ public class MyPageDto {
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class ApplicationReq {
 		
-		private String meetNm;
-		private String meetDesc;
+		private String title;
+		private String content;
 		
 		@NotNull
 		private Long userId;
@@ -67,9 +67,9 @@ public class MyPageDto {
 		private Boolean toApproval;
 		
 		@Builder
-		public ApplicationReq(String meetNm, String meetDesc, Long userId, Boolean toAppBoolean) {
-			this.meetNm = meetNm;
-			this.meetDesc = meetDesc;
+		public ApplicationReq(String title, String content, Long userId, Boolean toAppBoolean) {
+			this.title = title;
+			this.content = content;
 			this.userId = userId;
 			this.toApproval = toAppBoolean;
 		}
@@ -81,11 +81,12 @@ public class MyPageDto {
 	@SuperBuilder
 	public static abstract class BaseRes {
 		private Long id;
-		private String meetNm;
-		private String meetDesc;
+		private String title;
+		private String content;
 		private int recruitment;
 		private int application;
 		private int cost;
+		private Boolean costOption;
 		private Address address;
 		
 		// Time format 처리

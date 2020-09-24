@@ -38,11 +38,12 @@ public class Meet extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String meetNm;
-	private String meetDesc;
+	private String title;
+	private String content;
 	private int recruitment;
 	private int application;
 	private int cost;
+	private Boolean costOption;
 	
 	@Embedded
 	private Address address;
@@ -55,12 +56,13 @@ public class Meet extends BaseTimeEntity {
 	private User user;
 
 	@Builder
-	public Meet(String meetNm, String meetDesc, int recruitment, int application, int cost, Address address, Term term, User user) {
-		this.meetNm = meetNm;
-		this.meetDesc = meetDesc;
+	public Meet(String title, String content, int recruitment, int application, int cost, Boolean costOption, Address address, Term term, User user) {
+		this.title = title;
+		this.content = content;
 		this.recruitment = recruitment;
 		this.application = application;
 		this.cost = cost;
+		this.costOption = costOption;
 		this.address = address;
 		this.term = term;
 		this.user = user;
@@ -74,10 +76,11 @@ public class Meet extends BaseTimeEntity {
 
 	// Meet 내용 수정
 	public void editMeet(MeetDto.MeetReq dto) {
-		this.meetNm = dto.getMeetNm();
-		this.meetDesc = dto.getMeetDesc();
+		this.title = dto.getTitle();
+		this.content = dto.getContent();
 		this.recruitment = dto.getRecruitment();
 		this.cost = dto.getCost();
+		this.costOption = dto.getCostOption();
 		this.address = dto.getAddress();
 		this.term = dto.getTerm();
 	}
