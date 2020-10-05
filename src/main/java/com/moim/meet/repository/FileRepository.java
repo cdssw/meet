@@ -1,8 +1,11 @@
 package com.moim.meet.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.moim.meet.entity.File;
+import com.moim.meet.entity.Meet;
 
 /**
  * FileRepository.java
@@ -19,4 +22,5 @@ import com.moim.meet.entity.File;
  */
 public interface FileRepository extends JpaRepository<File, Long> {
 
+	List<File> findByMeet(Meet meet);
 }

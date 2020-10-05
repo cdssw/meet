@@ -3,8 +3,6 @@ package com.moim.meet.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,9 +32,9 @@ public class User extends BaseTimeEntity {
 	@Id
 	private Long id;
 
-	@JsonIgnore
 	private String username;
 	private String userNm;
+	private String userNickNm;
 	private String phone;
 
 	// phone 번호 수정

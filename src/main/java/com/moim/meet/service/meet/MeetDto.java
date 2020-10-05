@@ -112,6 +112,7 @@ public class MeetDto {
 		private boolean costOption;
 		private Address address;
 		private Term term;
+		private List<Long> imgList;
 		
 		// Time format 처리
 		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

@@ -24,5 +24,6 @@ public class EventUser {
 	private Long id;
 	private String username;
 	private String userNm;
+	private String userNickNm;
 	private String phone;
 }
