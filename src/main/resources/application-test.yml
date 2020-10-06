@@ -13,6 +13,13 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false # lazy loading으로 인해 json serialize 오류 방지
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: group-user
+    topic:
+      user-created: topic-user-created
+      user-modified: topic-user-modified      
       
 eureka:
   client:
