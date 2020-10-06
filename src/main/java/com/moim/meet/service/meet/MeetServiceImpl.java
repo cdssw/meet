@@ -101,7 +101,7 @@ public class MeetServiceImpl implements MeetService {
 	public Res getMeet(final long id) {
 		final Meet meet = commonComponent.findById(meetRepository, id, Meet.class);
 		MeetDto.Res res = modelMapper.map(meet, MeetDto.Res.class);
-		res.setImgList(fileRepository.findByMeet(meet).stream().map(m -> m.getId()).collect(Collectors.toList()));
+		res.setImgList(fileRepository.findByMeet(meet).stream().map(m -> m.getFileId()).collect(Collectors.toList()));
 		return res;
 	}
 
