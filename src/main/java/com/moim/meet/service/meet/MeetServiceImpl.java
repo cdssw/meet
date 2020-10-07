@@ -123,7 +123,11 @@ public class MeetServiceImpl implements MeetService {
 	@Transactional(readOnly = true) // 성능향상을 위해
 	@Override
 	public Page<Res> getMeetListByPage(Pageable pageable) {
-		return meetRepository.findAll(pageable).map(m -> modelMapper.map(m, MeetDto.Res.class));
+		return meetRepository.findAll(pageable).map(m -> {
+			Res r = modelMapper.map(m, MeetDto.Res.class);
+			r.setImgList(fileRepository.findByMeet(m).stream().map(f -> f.getFileId()).collect(Collectors.toList()));
+			return r;
+		});
 	}
 
 	@Transactional(readOnly = true)
