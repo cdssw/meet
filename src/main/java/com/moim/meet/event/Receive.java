@@ -56,6 +56,7 @@ public class Receive {
 					.id(payload.getId())
 					.username(payload.getUsername())
 					.userNm(payload.getUserNm())
+					.userNickNm(payload.getUserNickNm())
 					.phone(payload.getPhone())
 					.build();
 			userRepository.save(user);
