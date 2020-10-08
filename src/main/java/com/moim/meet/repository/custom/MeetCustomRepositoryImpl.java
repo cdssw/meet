@@ -60,11 +60,11 @@ public class MeetCustomRepositoryImpl extends QuerydslRepositorySupport implemen
 
 	// 사용자가 개설한 Meet
 	@Override
-	public Page<MyPageDto.OpenedRes> findMyPageOpened(MyPageDto.OpenedReq dto, Pageable pageable) {
+	public Page<MyPageDto.OpenedRes> findMyPageOpened(Long userId, MyPageDto.OpenedReq dto, Pageable pageable) {
 		BooleanBuilder builder = new BooleanBuilder();
 		builder = dto.getTitle() != null ? builder.and(meet.title.likeIgnoreCase("%" + dto.getTitle() + "%")) : builder;
 		builder = dto.getContent() != null ? builder.and(meet.content.likeIgnoreCase("%" + dto.getContent() + "%")) : builder;
-		builder = dto.getLeaderId() != null ? builder.and(meet.user.id.eq(dto.getLeaderId())) : builder;
+		builder = builder.and(meet.user.id.eq(userId));
 		
 		JPAQueryFactory queryFactory = new JPAQueryFactory(getEntityManager());
 		final JPQLQuery<OpenedRes> query = queryFactory
@@ -86,7 +86,7 @@ public class MeetCustomRepositoryImpl extends QuerydslRepositorySupport implemen
 				.from(meet)
 				.leftJoin(applicationMeet).on(meet.id.eq(applicationMeet.meet.id), applicationMeet.approval.approvalYn.eq(dto.getToApproval()))
 				.where(builder)
-				.groupBy(meet.id);
+				.groupBy(applicationMeet.meet);
 		
 		final List<OpenedRes> list = getQuerydsl().applyPagination(pageable, query).fetch();
 		return new PageImpl<>(list, pageable, query.fetchCount());

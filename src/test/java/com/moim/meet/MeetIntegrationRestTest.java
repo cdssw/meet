@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,10 +73,12 @@ public class MeetIntegrationRestTest {
 		// given
 		MyPageDto.OpenedReq dto = MyPageDto.OpenedReq.builder()
 				.title("신문")
-				.leaderId(1L).
-				toAppBoolean(false)
+				.toApproval(false)
 				.build();
-		HttpEntity<MyPageDto.OpenedReq> entity = new HttpEntity<MyPageDto.OpenedReq>(dto);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("username", "cdssw@naver.com");
+		HttpEntity<MyPageDto.OpenedReq> entity = new HttpEntity<MyPageDto.OpenedReq>(dto, headers);
 		
 		// when
 		ParameterizedTypeReference<RestPageImpl<MyPageDto.OpenedReq>> responseType = 
@@ -95,10 +98,12 @@ public class MeetIntegrationRestTest {
 	public void testMyPageApplication() {
 		// given
 		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder()
-				.userId(1L)
-				.toAppBoolean(false)
+				.toApproval(false)
 				.build();
-		HttpEntity<MyPageDto.ApplicationReq> entity = new HttpEntity<MyPageDto.ApplicationReq>(dto);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("username", "cdssw@naver.com");
+		HttpEntity<MyPageDto.ApplicationReq> entity = new HttpEntity<MyPageDto.ApplicationReq>(dto, headers);
 		
 		// when
 		ParameterizedTypeReference<RestPageImpl<MyPageDto.ApplicationReq>> responseType = 

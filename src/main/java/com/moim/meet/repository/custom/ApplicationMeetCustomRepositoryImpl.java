@@ -53,11 +53,11 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 
 	// 사용자가 지원한 Meet List
 	@Override
-	public Page<MyPageDto.ApplicationRes> findMyPageApplication(MyPageDto.ApplicationReq dto, Pageable pageable) {
+	public Page<MyPageDto.ApplicationRes> findMyPageApplication(Long userId, MyPageDto.ApplicationReq dto, Pageable pageable) {
 		BooleanBuilder builder = new BooleanBuilder();
 		builder = dto.getTitle() != null ? builder.and(meet.title.likeIgnoreCase("%" + dto.getTitle() + "%")) : builder;
 		builder = dto.getContent() != null ? builder.and(meet.content.likeIgnoreCase("%" + dto.getContent() + "%")) : builder;
-		builder = dto.getUserId() != null ? builder.and(applicationMeet.user.id.eq(dto.getUserId())) : builder;
+		builder = builder.and(applicationMeet.user.id.eq(userId));
 		builder = dto.getToApproval() != null ? builder.and(applicationMeet.approval.approvalYn.eq(dto.getToApproval())) : builder;
 		
 		JPAQueryFactory queryFactory = new JPAQueryFactory(getEntityManager());

@@ -95,10 +95,11 @@ public class MeetIntegrationMockTest {
 	@Test
 	public void testMyPageOpened() throws Exception {
 		//given
-		MyPageDto.OpenedReq dto = MyPageDto.OpenedReq.builder().toAppBoolean(false).leaderId(1L).build();
+		MyPageDto.OpenedReq dto = MyPageDto.OpenedReq.builder().toApproval(false).build();
 		
 		// when
 		final MvcResult result = mvc.perform(post("/mypage/opened?page=0&size=10")
+				.header("username", "cdssw@naver.com")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(dto)))
 				.andExpect(status().isOk())
@@ -111,10 +112,11 @@ public class MeetIntegrationMockTest {
 	@Test
 	public void testMyPageApplication() throws Exception {
 		//given
-		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder().toAppBoolean(false).userId(1L).build();
+		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder().toApproval(false).build();
 		
 		// when
 		final MvcResult result = mvc.perform(post("/mypage/application?page=0&size=10")
+				.header("username", "cdssw@naver.com")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(dto)))
 				.andExpect(status().isOk())

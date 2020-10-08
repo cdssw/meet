@@ -1,6 +1,7 @@
 package com.moim.meet.service.mypage;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -39,17 +40,13 @@ public class MyPageDto {
 		private String content;
 		
 		@NotNull
-		private Long leaderId;
-		
-		@NotNull
 		private Boolean toApproval;
 		
 		@Builder
-		public OpenedReq(String title, String content, Long leaderId, Boolean toAppBoolean) {
+		public OpenedReq(String title, String content, Boolean toApproval) {
 			this.title = title;
 			this.content = content;
-			this.leaderId = leaderId;
-			this.toApproval = toAppBoolean;
+			this.toApproval = toApproval;
 		}
 	}
 
@@ -61,17 +58,13 @@ public class MyPageDto {
 		private String content;
 		
 		@NotNull
-		private Long userId;
-		
-		@NotNull
 		private Boolean toApproval;
 		
 		@Builder
-		public ApplicationReq(String title, String content, Long userId, Boolean toAppBoolean) {
+		public ApplicationReq(String title, String content, Boolean toApproval) {
 			this.title = title;
 			this.content = content;
-			this.userId = userId;
-			this.toApproval = toAppBoolean;
+			this.toApproval = toApproval;
 		}
 	}
 	
@@ -88,7 +81,8 @@ public class MyPageDto {
 		private int cost;
 		private Boolean costOption;
 		private Address address;
-		
+		private List<Long> imgList;
+
 		// Time format 처리
 		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 		private LocalDateTime inputDt;
@@ -102,7 +96,7 @@ public class MyPageDto {
 	@NoArgsConstructor
 	@SuperBuilder
 	public static class OpenedRes extends BaseRes {
-		private Long toApprovalCnt;
+		
 	}
 	
 	@Getter

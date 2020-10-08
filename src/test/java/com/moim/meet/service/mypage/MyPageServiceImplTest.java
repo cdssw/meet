@@ -2,9 +2,12 @@ package com.moim.meet.service.mypage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,9 +19,15 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.moim.meet.component.CommonComponent;
 import com.moim.meet.entity.Address;
+import com.moim.meet.entity.Meet;
+import com.moim.meet.entity.Term;
+import com.moim.meet.entity.User;
 import com.moim.meet.repository.ApplicationMeetRepository;
+import com.moim.meet.repository.FileRepository;
 import com.moim.meet.repository.MeetRepository;
+import com.moim.meet.repository.UserRepository;
 
 /**
  * MyPageServiceImplTest.java
@@ -40,34 +49,20 @@ public class MyPageServiceImplTest {
 
 	// repository를 테스트 하지 않음
 	@Mock private MeetRepository meetRepository;
+	@Mock private UserRepository userRepository;
 	@Mock private ApplicationMeetRepository applicationMeetRepository;
-	
-	private MyPageDto.OpenedRes open1;
-	private MyPageDto.OpenedRes open2;
+	@Mock private FileRepository fileRepository;
 	
 	private MyPageDto.ApplicationRes app1;
 	private MyPageDto.ApplicationRes app2;
 	
+	private User user;
+	private Meet meet1;
+	
 	@Before
 	public void setUp() {
-		myPageServiceImpl = new MyPageServiceImpl(meetRepository, applicationMeetRepository);
-		
-		open1 = MyPageDto.OpenedRes.builder()
-				.title("Meet name 2")
-				.content("Second save meet")
-				.cost(10)
-				.address(Address.builder().address1("address").address2("detail").build())
-				.recruitment(3)
-				.application(1)
-				.build();
-		open2 = MyPageDto.OpenedRes.builder()
-				.title("Meet name 2")
-				.content("Second save meet")
-				.cost(10)
-				.address(Address.builder().address1("address").address2("detail").build())
-				.recruitment(3)
-				.application(1)
-				.build();
+		CommonComponent commonComponent = new CommonComponent();
+		myPageServiceImpl = new MyPageServiceImpl(meetRepository, userRepository, applicationMeetRepository, fileRepository, commonComponent);
 		
 		app1 = MyPageDto.ApplicationRes.builder()
 				.title("Meet name 2")
@@ -85,22 +80,48 @@ public class MyPageServiceImplTest {
 				.recruitment(3)
 				.application(1)
 				.build();
+		
+		user = User.builder().id(1L).userNm("Andrew").build();
+		meet1 = Meet.builder()
+				.title("First meet")
+				.content("First save meet")
+				.cost(10)
+				.address(Address.builder().address1("address").address2("detail").build())
+				.term(Term.builder()
+						.startDt("2020-09-01")
+						.endDt("2020-09-30")
+						.startTm("10:00")
+						.endTm("16:00")
+						.detailDay(64).build())
+				.recruitment(3)
+				.application(1)
+				.user(user)
+				.build();
 	}
 	
 	@Test
 	public void testMyPageOpened() {
 		// given
 		Pageable pageable = PageRequest.of(0, 10);
-		Page<MyPageDto.OpenedRes> list = new PageImpl<>(Arrays.asList(open1, open2), pageable, 2);
-		given(meetRepository.findMyPageOpened(any(), any())).willReturn(list);
+		MyPageDto.OpenedRes o1 = mock(MyPageDto.OpenedRes.class);
+		given(o1.getId()).willReturn(1L);
+		MyPageDto.OpenedRes o2 = mock(MyPageDto.OpenedRes.class);
+		given(o2.getId()).willReturn(1L);
+
+		Page<MyPageDto.OpenedRes> list = new PageImpl<>(Arrays.asList(o1, o2), pageable, 2);
+		given(meetRepository.findMyPageOpened(any(), any(), any())).willReturn(list);
+		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet1));
+		User user = mock(User.class);
+		given(userRepository.findByUsername(any())).willReturn(user);
+		given(user.getId()).willReturn(1L);
+
 		MyPageDto.OpenedReq dto = MyPageDto.OpenedReq.builder()
 				.title("name")
-				.leaderId(1L)
-				.toAppBoolean(false)
+				.toApproval(false)
 				.build();
 		
 		// when
-		Page<MyPageDto.OpenedRes> res = myPageServiceImpl.opened(dto, pageable);
+		Page<MyPageDto.OpenedRes> res = myPageServiceImpl.opened("cdssw@naver.com", dto, pageable);
 		
 		// then
 		assertThat(res.getTotalElements()).isEqualTo(2);
@@ -111,15 +132,18 @@ public class MyPageServiceImplTest {
 		// given
 		Pageable pageable = PageRequest.of(0, 10);
 		Page<MyPageDto.ApplicationRes> list = new PageImpl<>(Arrays.asList(app1, app2), pageable, 2);
-		given(applicationMeetRepository.findMyPageApplication(any(), any())).willReturn(list);
+		given(applicationMeetRepository.findMyPageApplication(any(), any(), any())).willReturn(list);
 		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder()
 				.title("name")
-				.userId(1L)
-				.toAppBoolean(false)
+				.toApproval(false)
 				.build();
 		
+		User user = mock(User.class);
+		given(userRepository.findByUsername(any())).willReturn(user);
+		given(user.getId()).willReturn(1L);
+		
 		// when
-		Page<MyPageDto.ApplicationRes> res = myPageServiceImpl.application(dto, pageable);
+		Page<MyPageDto.ApplicationRes> res = myPageServiceImpl.application("cdssw@naver.com", dto, pageable);
 		
 		// then
 		assertThat(res.getTotalElements()).isEqualTo(2);

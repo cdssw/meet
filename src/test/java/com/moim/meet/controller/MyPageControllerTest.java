@@ -73,8 +73,7 @@ private MockMvc mvc;
 		
 		openDto = MyPageDto.OpenedReq.builder()
 				.title("meet1")
-				.leaderId(1L)
-				.toAppBoolean(false)
+				.toApproval(false)
 				.build();
 		open1 = MyPageDto.OpenedRes.builder()
 				.title("meet1")
@@ -93,8 +92,7 @@ private MockMvc mvc;
 		
 		appDto = MyPageDto.ApplicationReq.builder()
 				.title("meet1")
-				.userId(1L)
-				.toAppBoolean(false)
+				.toApproval(false)
 				.build();
 		app1 = MyPageDto.ApplicationRes.builder()
 				.title("meet1")
@@ -118,7 +116,7 @@ private MockMvc mvc;
 		List<MyPageDto.OpenedRes> list = Arrays.asList(open1, open2);
 		Pageable pageable = PageRequest.of(0, 10);
 		Page<MyPageDto.OpenedRes> pageList = new PageImpl<>(list, pageable, list.size());
-		given(myPageService.opened(any(), any())).willReturn(pageList);
+		given(myPageService.opened(any(), any(), any())).willReturn(pageList);
 		
 		// when
 		final MvcResult result = mvc.perform(post("/mypage/opened")
@@ -137,7 +135,7 @@ private MockMvc mvc;
 		List<MyPageDto.ApplicationRes> list = Arrays.asList(app1, app2);
 		Pageable pageable = PageRequest.of(0, 10);
 		Page<MyPageDto.ApplicationRes> pageList = new PageImpl<>(list, pageable, list.size());
-		given(myPageService.application(any(), any())).willReturn(pageList);
+		given(myPageService.application(any(), any(), any())).willReturn(pageList);
 		
 		// when
 		final MvcResult result = mvc.perform(post("/mypage/application")

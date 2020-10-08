@@ -1,5 +1,6 @@
 package com.moim.meet.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -37,13 +38,15 @@ public class MyPageController {
 	
 	@PostMapping("/opened")
 	@ResponseStatus(value = HttpStatus.OK)
-	public Page<MyPageDto.OpenedRes> opened(@RequestBody @Valid final MyPageDto.OpenedReq dto, Pageable pageable) {
-		return myPageService.opened(dto, pageable);
+	public Page<MyPageDto.OpenedRes> opened(@RequestBody @Valid final MyPageDto.OpenedReq dto, Pageable pageable, HttpServletRequest req) {
+		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
+		return myPageService.opened(username, dto, pageable);
 	}
 
 	@PostMapping("/application")
 	@ResponseStatus(value = HttpStatus.OK)
-	public Page<MyPageDto.ApplicationRes> application(@RequestBody @Valid final MyPageDto.ApplicationReq dto, Pageable pageable) {
-		return myPageService.application(dto, pageable);
+	public Page<MyPageDto.ApplicationRes> application(@RequestBody @Valid final MyPageDto.ApplicationReq dto, Pageable pageable, HttpServletRequest req) {
+		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
+		return myPageService.application(username, dto, pageable);
 	}
 }

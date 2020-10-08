@@ -22,5 +22,5 @@ import com.moim.meet.service.mypage.MyPageDto;
 public interface MeetCustomRepository {
 
 	Page<Meet> findSearch(MeetDto.SearchReq dto, Pageable pageable);
-	Page<MyPageDto.OpenedRes> findMyPageOpened(MyPageDto.OpenedReq dto, Pageable pageable);
+	Page<MyPageDto.OpenedRes> findMyPageOpened(Long userId, MyPageDto.OpenedReq dto, Pageable pageable);
 }

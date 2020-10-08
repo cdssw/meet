@@ -20,5 +20,5 @@ import com.moim.meet.service.mypage.MyPageDto;
 public interface ApplicationMeetCustomRepository {
 
 	long countByMeetAndUserGroupByMeet(long meetId, long userId);
-	Page<MyPageDto.ApplicationRes> findMyPageApplication(MyPageDto.ApplicationReq dto, Pageable pageable);
+	Page<MyPageDto.ApplicationRes> findMyPageApplication(Long userId, MyPageDto.ApplicationReq dto, Pageable pageable);
 }

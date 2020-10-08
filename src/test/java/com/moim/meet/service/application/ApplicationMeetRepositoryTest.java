@@ -85,10 +85,10 @@ public class ApplicationMeetRepositoryTest {
 	public void tesetFindMyPageApplication() {
 		// given
 		Pageable pageable = PageRequest.of(0, 10);
-		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder().userId(1L).toAppBoolean(false).build();
+		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder().toApproval(false).build();
 
 		// when
-		Page<MyPageDto.ApplicationRes> res = applicationMeetRepository.findMyPageApplication(dto, pageable);
+		Page<MyPageDto.ApplicationRes> res = applicationMeetRepository.findMyPageApplication(1L, dto, pageable);
 		
 		// then
 		assertEquals(res.getTotalElements(), 3);

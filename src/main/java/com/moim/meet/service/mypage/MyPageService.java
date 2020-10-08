@@ -17,6 +17,6 @@ import org.springframework.data.domain.Pageable;
  */
 public interface MyPageService {
 
-	Page<MyPageDto.OpenedRes> opened(MyPageDto.OpenedReq dto, Pageable pageable);
-	Page<MyPageDto.ApplicationRes> application(MyPageDto.ApplicationReq dto, Pageable pageable);
+	Page<MyPageDto.OpenedRes> opened(final String username, MyPageDto.OpenedReq dto, Pageable pageable);
+	Page<MyPageDto.ApplicationRes> application(final String username, MyPageDto.ApplicationReq dto, Pageable pageable);
 }
