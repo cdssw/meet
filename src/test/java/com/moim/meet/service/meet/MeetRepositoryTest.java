@@ -87,7 +87,6 @@ public class MeetRepositoryTest {
 		// given
 		Pageable pageable = PageRequest.of(0, 10);
 		MyPageDto.OpenedReq dto = MyPageDto.OpenedReq.builder()
-				.title("신문")
 				.toApproval(false)
 				.build();
 
@@ -95,6 +94,6 @@ public class MeetRepositoryTest {
 		Page<MyPageDto.OpenedRes> res = meetRepository.findMyPageOpened(1L, dto, pageable);
 		
 		// then
-		assertThat(res.getTotalElements()).isEqualTo(0);
+		assertThat(res.getTotalElements()).isEqualTo(3);
 	}
 }

@@ -80,13 +80,12 @@ public class MeetCustomRepositoryImpl extends QuerydslRepositorySupport implemen
 						, meet.address
 						, meet.inputDt
 						, meet.modifyDt
-						, meet.user
-						, applicationMeet.meet.count().as("toApprovalCnt")
+						, applicationMeet.count().as("toApprovalCnt")
 						))
 				.from(meet)
 				.leftJoin(applicationMeet).on(meet.id.eq(applicationMeet.meet.id), applicationMeet.approval.approvalYn.eq(dto.getToApproval()))
 				.where(builder)
-				.groupBy(applicationMeet.meet);
+				.groupBy(meet);
 		
 		final List<OpenedRes> list = getQuerydsl().applyPagination(pageable, query).fetch();
 		return new PageImpl<>(list, pageable, query.fetchCount());
