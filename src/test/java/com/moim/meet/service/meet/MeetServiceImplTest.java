@@ -168,10 +168,11 @@ public class MeetServiceImplTest {
 	@Test
 	public void testGetMeet() {
 		// given
+		given(userRepository.findByUsername(any())).willReturn(user);
 		given(meetRepository.findById(anyLong())).willReturn(Optional.of(dto1.toEntity()));
 		
 		// when
-		MeetDto.Res res = meetServiceImpl.getMeet(1);
+		MeetDto.Res res = meetServiceImpl.getMeet(1, "cdssw@naver.com");
 		
 		// then
 		assertEquals(res.getTitle(), dto1.getTitle());		
@@ -206,10 +207,16 @@ public class MeetServiceImplTest {
 	@Test
 	public void testGetMeetListByPage() {
 		// given
-		List<Meet> list = Arrays.asList(dto1.toEntity(), dto2.toEntity());
+		Meet m1 = mock(Meet.class);
+		given(m1.getId()).willReturn(1L);
+		Meet m2 = mock(Meet.class);
+		given(m2.getId()).willReturn(2L);
+		
+		List<Meet> list = Arrays.asList(m1, m2);
+		
 		Pageable pageable = PageRequest.of(0, 10);
 		Page<Meet> pageList = new PageImpl<>(list, pageable, list.size());
-		given(meetRepository.findAll(pageable)).willReturn(pageList);
+		given(meetRepository.findAllByOrderByIdDesc(pageable)).willReturn(pageList);
 		
 		// when
 		Page<MeetDto.Res> res = meetServiceImpl.getMeetListByPage(pageable);

@@ -1,8 +1,13 @@
 package com.moim.meet.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,21 +38,31 @@ public class ApplicationController {
 
 	private ApplicationService applicationService;
 	
+	// 지원자 목록
+	@GetMapping("/{id}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<ApplicationDto.ApplicationUserRes> getUserApplicationMeet(@PathVariable final long id) {
+		return applicationService.applicationUser(id);
+	}
+	
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.OK)
-	public void application(@RequestBody @Valid ApplicationDto.ApplicationReq dto) {
-		applicationService.applicationMeet(dto);
+	public void application(@RequestBody @Valid ApplicationDto.ApplicationReq dto, HttpServletRequest req) {
+		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
+		applicationService.applicationMeet(dto, username);
 	}
 	
 	@PostMapping(value = "/approval")
 	@ResponseStatus(value = HttpStatus.OK)
-	public void approval(@RequestBody @Valid ApplicationDto.ApprovalReq dto) {
-		applicationService.approval(dto);
+	public void approval(@RequestBody @Valid ApplicationDto.ApprovalReq dto, HttpServletRequest req) {
+		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
+		applicationService.approval(dto, username);
 	}
 	
 	@PostMapping(value = "/cancel")
 	@ResponseStatus(value = HttpStatus.OK)
-	public void cancel(@RequestBody @Valid ApplicationDto.ApprovalReq dto) {
-		applicationService.cancel(dto);
+	public void cancel(@RequestBody @Valid ApplicationDto.ApprovalReq dto, HttpServletRequest req) {
+		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
+		applicationService.cancel(dto, username);
 	}
 }

@@ -92,7 +92,6 @@ private MockMvc mvc;
 		
 		appDto = MyPageDto.ApplicationReq.builder()
 				.title("meet1")
-				.toApproval(false)
 				.build();
 		app1 = MyPageDto.ApplicationRes.builder()
 				.title("meet1")

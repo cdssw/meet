@@ -128,7 +128,8 @@ public class MeetDto {
 	@NoArgsConstructor
 	@SuperBuilder // 부모의 생성자에 대하여 builder를 사용할수 있게 해준다.
 	public static class Res extends BaseRes {
-
+		private boolean approvalYn; // 내가 지원 여부
+		private LocalDateTime approvalDt; // 승인일자 
 	}
 
 }

@@ -112,7 +112,7 @@ public class MeetIntegrationMockTest {
 	@Test
 	public void testMyPageApplication() throws Exception {
 		//given
-		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder().toApproval(false).build();
+		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder().build();
 		
 		// when
 		final MvcResult result = mvc.perform(post("/mypage/application?page=0&size=10")

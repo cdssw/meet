@@ -59,10 +59,11 @@ public class ApplicationControllerTest extends BaseControllerTest {
 				.build();
 		
 		applicationReq = ApplicationReq.builder()
-				.meetId(1L).userId(1L).build();
+				.meetId(1L).build();
 		
 		approvalReq = ApprovalReq.builder()
-				.meetId(1L).userId(1L).leaderId(1L)
+				.meetId(1L)
+				.userId(1L)
 				.build();
 	}
 	
@@ -108,7 +109,7 @@ public class ApplicationControllerTest extends BaseControllerTest {
 	
 	@Test
 	public void testApplicationInvalid() throws Exception {
-		ApprovalReq dto = ApprovalReq.builder().meetId(1L).build();
+		ApprovalReq dto = ApprovalReq.builder().build();
 		
 		// when
 		final MvcResult result = mvc.perform(post("/application/cancel")

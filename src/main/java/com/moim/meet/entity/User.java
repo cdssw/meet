@@ -3,6 +3,8 @@ package com.moim.meet.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.moim.kafka.EventUser;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,9 +38,11 @@ public class User extends BaseTimeEntity {
 	private String userNm;
 	private String userNickNm;
 	private String phone;
+	private String avatarPath;
 
-	// phone 번호 수정
-	public void editPhone(String phone) {
-		this.phone = phone;
+	// 사용자 정보 수정
+	public void editUser(EventUser user) {
+		this.phone = user.getPhone();
+		this.avatarPath = user.getAvatarPath();
 	}
 }

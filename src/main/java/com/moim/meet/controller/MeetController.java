@@ -61,8 +61,9 @@ public class MeetController {
 	
 	@GetMapping("/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
-	public MeetDto.Res getMeet(@PathVariable final long id) {
-		return meetService.getMeet(id);
+	public MeetDto.Res getMeet(@PathVariable final long id, HttpServletRequest req) {
+		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
+		return meetService.getMeet(id, username);
 	}
 	
 	@PostMapping

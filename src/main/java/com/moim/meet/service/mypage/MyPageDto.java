@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.moim.meet.entity.Approval;
+import com.moim.meet.entity.Term;
 import com.moim.meet.entity.Address;
 import com.moim.meet.entity.User;
 
@@ -57,14 +58,10 @@ public class MyPageDto {
 		private String title;
 		private String content;
 		
-		@NotNull
-		private Boolean toApproval;
-		
 		@Builder
-		public ApplicationReq(String title, String content, Boolean toApproval) {
+		public ApplicationReq(String title, String content) {
 			this.title = title;
 			this.content = content;
-			this.toApproval = toApproval;
 		}
 	}
 	
@@ -81,6 +78,7 @@ public class MyPageDto {
 		private int cost;
 		private Boolean costOption;
 		private Address address;
+		private Term term;
 		private List<Long> imgList;
 
 		// Time format 처리
@@ -96,7 +94,7 @@ public class MyPageDto {
 	@NoArgsConstructor
 	@SuperBuilder
 	public static class OpenedRes extends BaseRes {
-		
+		private long toApprovalCnt;
 	}
 	
 	@Getter

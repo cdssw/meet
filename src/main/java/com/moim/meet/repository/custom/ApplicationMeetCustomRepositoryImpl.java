@@ -11,6 +11,7 @@ import com.moim.meet.entity.ApplicationMeet;
 import com.moim.meet.entity.QApplicationMeet;
 import com.moim.meet.entity.QMeet;
 import com.moim.meet.entity.QUser;
+import com.moim.meet.service.application.ApplicationDto;
 import com.moim.meet.service.mypage.MyPageDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
@@ -58,7 +59,6 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 		builder = dto.getTitle() != null ? builder.and(meet.title.likeIgnoreCase("%" + dto.getTitle() + "%")) : builder;
 		builder = dto.getContent() != null ? builder.and(meet.content.likeIgnoreCase("%" + dto.getContent() + "%")) : builder;
 		builder = builder.and(applicationMeet.user.id.eq(userId));
-		builder = dto.getToApproval() != null ? builder.and(applicationMeet.approval.approvalYn.eq(dto.getToApproval())) : builder;
 		
 		JPAQueryFactory queryFactory = new JPAQueryFactory(getEntityManager());
 		final JPQLQuery<MyPageDto.ApplicationRes> query = queryFactory
@@ -83,6 +83,25 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 		
 		final List<MyPageDto.ApplicationRes> list = getQuerydsl().applyPagination(pageable, query).fetch();
 		return new PageImpl<>(list, pageable, query.fetchCount());
+	}
+
+	@Override
+	public List<ApplicationDto.ApplicationUserRes> findUserByApplicationMeet(Long meetId) {
+		BooleanBuilder builder = new BooleanBuilder();
+		builder = builder.and(applicationMeet.meet.id.eq(meetId));
+		
+		JPAQueryFactory queryFactory = new JPAQueryFactory(getEntityManager());
+		return queryFactory
+				.select(Projections.bean(ApplicationDto.ApplicationUserRes.class
+						, applicationMeet.user.id
+						, applicationMeet.user.userNickNm
+						, applicationMeet.user.avatarPath
+						, applicationMeet.approval.approvalYn
+						, applicationMeet.approval.approvalDt
+						))
+				.from(applicationMeet)
+				.where(builder)
+				.fetch();
 	}
 
 }

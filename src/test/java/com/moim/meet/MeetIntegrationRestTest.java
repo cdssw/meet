@@ -97,9 +97,7 @@ public class MeetIntegrationRestTest {
 	@Test
 	public void testMyPageApplication() {
 		// given
-		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder()
-				.toApproval(false)
-				.build();
+		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder().build();
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("username", "cdssw@naver.com");

@@ -50,7 +50,7 @@ public class MyPageServiceImpl implements MyPageService {
 		return meetRepository.findMyPageOpened(user.getId(), dto, pageable).map(m -> {
 			m.setImgList(fileRepository.findByMeet(commonComponent.findById(meetRepository, m.getId(), Meet.class))
 					.stream().map(f -> f.getFileId()).collect(Collectors.toList())
-			);
+					);
 			return m;
 		});
 	}
@@ -59,6 +59,11 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public Page<ApplicationRes> application(String username, ApplicationReq dto, Pageable pageable) {
 		User user = userRepository.findByUsername(username);
-		return applicationMeetRepository.findMyPageApplication(user.getId(), dto, pageable);
+		return applicationMeetRepository.findMyPageApplication(user.getId(), dto, pageable).map(m -> {
+			m.setImgList(fileRepository.findByMeet(commonComponent.findById(meetRepository, m.getId(), Meet.class))
+					.stream().map(f -> f.getFileId()).collect(Collectors.toList())
+					);
+			return m;
+		});
 	}
 }

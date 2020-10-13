@@ -192,7 +192,7 @@ public class MeetControllerTest extends BaseControllerTest {
 	@Test
 	public void testGetMeet() throws Exception {
 		// given
-		given(meetService.getMeet(anyLong())).willReturn(res1);
+		given(meetService.getMeet(anyLong(), any())).willReturn(res1);
 		
 		// when
 		final MvcResult result = mvc.perform(get("/1")

@@ -25,5 +25,6 @@ public class EventUser {
 	private String username;
 	private String userNm;
 	private String userNickNm;
+	private String avatarPath;
 	private String phone;
 }

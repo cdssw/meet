@@ -1,12 +1,18 @@
 package com.moim.meet.service.application;
 
+import java.time.LocalDateTime;
+
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * ApplicationDto.java
@@ -29,9 +35,6 @@ public class ApplicationDto {
 		
 		@NotNull
 		private Long meetId;
-		
-		@NotNull
-		private Long userId;
 	}
 	
 	// 지원 req
@@ -40,8 +43,8 @@ public class ApplicationDto {
 	public static class ApplicationReq extends BaseReq {
 		
 		@Builder
-		public ApplicationReq(Long meetId, Long userId) {
-			super(meetId, userId); // 상위 클래스의 생성자 값을 설정
+		public ApplicationReq(Long meetId) {
+			super(meetId); // 상위 클래스의 생성자 값을 설정
 		}
 	}
 	
@@ -51,12 +54,34 @@ public class ApplicationDto {
 	public static class ApprovalReq extends BaseReq {
 		
 		@NotNull
-		private Long leaderId;
+		private Long userId;
 		
 		@Builder
-		public ApprovalReq(Long meetId, Long userId, Long leaderId) {
-			super(meetId, userId); // 상위 클래스의 생성자 값을 설정
-			this.leaderId = leaderId;
+		public ApprovalReq(Long meetId, Long userId) {
+			super(meetId); // 상위 클래스의 생성자 값을 설정
+			this.userId = userId;
 		}
+	}
+	
+	@Getter
+	@Setter
+	@NoArgsConstructor
+	@SuperBuilder
+	public static abstract class BaseRes {
+	}
+	
+	// 결과 DTO
+	@Getter
+	@Setter
+	@NoArgsConstructor
+	@SuperBuilder // 부모의 생성자에 대하여 builder를 사용할수 있게 해준다.
+	public static class ApplicationUserRes extends BaseRes {
+		private Long id;
+		private String userNickNm;
+		private String avatarPath;
+		private boolean approvalYn;
+		// Time format 처리
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+		private LocalDateTime approvalDt;
 	}
 }

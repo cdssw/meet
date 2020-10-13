@@ -71,13 +71,11 @@ public class ApplicationServiceImplTest {
 		
 		applicationReq = ApplicationReq.builder()
 				.meetId(1L)
-				.userId(1L)
 				.build();
 		
 		approvalReq = ApprovalReq.builder()
 				.meetId(1L)
 				.userId(1L)
-				.leaderId(1L)
 				.build();
 
 	}
@@ -87,11 +85,11 @@ public class ApplicationServiceImplTest {
 	public void testApplicationDuplicationException() {
 		// given
 		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet1));
-		given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
+		given(userRepository.findByUsername(any())).willReturn(user);
 		given(applicationMeetRepository.countByMeetAndUserGroupByMeet(anyLong(), anyLong())).willReturn(1L);
 		
 		// when
-		applicationServiceImpl.applicationMeet(applicationReq);
+		applicationServiceImpl.applicationMeet(applicationReq, "cdssw@naver.com");
 	}
 	
 	// 모집완료 예외 Test
@@ -107,22 +105,22 @@ public class ApplicationServiceImplTest {
 				.application(3)
 				.build();
 		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet));
-		given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
+		given(userRepository.findByUsername(any())).willReturn(user);
 		given(applicationMeetRepository.countByMeetAndUserGroupByMeet(anyLong(), anyLong())).willReturn(0L);
 		
 		// when
-		applicationServiceImpl.applicationMeet(applicationReq);
+		applicationServiceImpl.applicationMeet(applicationReq, "cdssw@naver.com");
 	}
 	
 	@Test
 	public void testApplicationMeet() {
 		// given
 		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet1));
-		given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
+		given(userRepository.findByUsername(any())).willReturn(user);
 		given(applicationMeetRepository.countByMeetAndUserGroupByMeet(anyLong(), anyLong())).willReturn(0L);
 		
 		// when
-		applicationServiceImpl.applicationMeet(applicationReq);
+		applicationServiceImpl.applicationMeet(applicationReq, "cdssw@naver.com");
 		
 		// then
 		verify(applicationMeetRepository).save(any(ApplicationMeet.class));
@@ -137,6 +135,7 @@ public class ApplicationServiceImplTest {
 		Approval approval = mock(Approval.class);
 		
 		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet));
+		given(userRepository.findByUsername(any())).willReturn(user);
 		given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
 		given(meet.getUser()).willReturn(user);
 		given(user.getId()).willReturn(1L);
@@ -145,7 +144,7 @@ public class ApplicationServiceImplTest {
 		
 		
 		// when
-		applicationServiceImpl.approval(approvalReq);
+		applicationServiceImpl.approval(approvalReq, "cdssw@naver.com");
 		
 		// then
 		verify(approval).approval();
@@ -156,14 +155,15 @@ public class ApplicationServiceImplTest {
 		// given
 		Meet meet = mock(Meet.class);
 		User user = mock(User.class);
+		User user2 = mock(User.class);
 		
 		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet));
-		given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
+		given(userRepository.findByUsername(any())).willReturn(user2);
 		given(meet.getUser()).willReturn(user);
-		given(user.getId()).willReturn(2L); // leader가 2
+		given(user2.getId()).willReturn(2L); // leader가 2
 		
 		// when
-		applicationServiceImpl.approval(approvalReq); // 승인처리자가 1이므로 except
+		applicationServiceImpl.approval(approvalReq, "cdssw@naver.com"); // 승인처리자가 1이므로 except
 	}
 	
 	@Test
@@ -175,6 +175,7 @@ public class ApplicationServiceImplTest {
 		Approval approval = mock(Approval.class);
 		
 		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet));
+		given(userRepository.findByUsername(any())).willReturn(user);
 		given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
 		given(meet.getUser()).willReturn(user);
 		given(user.getId()).willReturn(1L);
@@ -182,7 +183,7 @@ public class ApplicationServiceImplTest {
 		given(applicationMeet.getApproval()).willReturn(approval);
 		
 		// when
-		applicationServiceImpl.cancel(approvalReq);
+		applicationServiceImpl.cancel(approvalReq, "cdssw@naver.com");
 		
 		// then
 		verify(approval).cancel();
@@ -193,13 +194,14 @@ public class ApplicationServiceImplTest {
 		// given
 		Meet meet = mock(Meet.class);
 		User user = mock(User.class);
+		User user2 = mock(User.class);
 		
 		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet));
-		given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
+		given(userRepository.findByUsername(any())).willReturn(user2);
 		given(meet.getUser()).willReturn(user);
-		given(user.getId()).willReturn(2L); // leader가 2
+		given(user2.getId()).willReturn(2L);
 		
 		// when
-		applicationServiceImpl.cancel(approvalReq); // 취소처리자가 1이므로 except
+		applicationServiceImpl.cancel(approvalReq, "cdssw@naver.com"); // 취소처리자가 1이므로 except
 	}
 }

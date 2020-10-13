@@ -25,7 +25,7 @@ public interface MeetService {
 	void deleteMeet(final long id, final String username);
 	
 	List<MeetDto.Res> getMeetList();
-	MeetDto.Res getMeet(final long id);
+	MeetDto.Res getMeet(final long id, final String username);
 	Page<MeetDto.Res> getMeetListByPage(Pageable pageable);
 	Page<MeetDto.Res> search(MeetDto.SearchReq dto, Pageable pageable);
 }

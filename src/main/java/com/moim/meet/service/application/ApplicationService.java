@@ -1,5 +1,7 @@
 package com.moim.meet.service.application;
 
+import java.util.List;
+
 /**
  * ApplicationService.java
  * 
@@ -14,7 +16,8 @@ package com.moim.meet.service.application;
  */
 public interface ApplicationService {
 
-	void applicationMeet(ApplicationDto.ApplicationReq dto);
-	void approval(ApplicationDto.ApprovalReq dto);
-	void cancel(ApplicationDto.ApprovalReq dto);
+	List<ApplicationDto.ApplicationUserRes> applicationUser(final long meetId);
+	void applicationMeet(ApplicationDto.ApplicationReq dto, final String username);
+	void approval(ApplicationDto.ApprovalReq dto, final String username);
+	void cancel(ApplicationDto.ApprovalReq dto, final String username);
 }

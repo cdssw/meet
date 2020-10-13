@@ -111,6 +111,7 @@ public class MyPageServiceImplTest {
 		Page<MyPageDto.OpenedRes> list = new PageImpl<>(Arrays.asList(o1, o2), pageable, 2);
 		given(meetRepository.findMyPageOpened(any(), any(), any())).willReturn(list);
 		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet1));
+		
 		User user = mock(User.class);
 		given(userRepository.findByUsername(any())).willReturn(user);
 		given(user.getId()).willReturn(1L);
@@ -131,16 +132,23 @@ public class MyPageServiceImplTest {
 	public void testMyPageApplication() {
 		// given
 		Pageable pageable = PageRequest.of(0, 10);
-		Page<MyPageDto.ApplicationRes> list = new PageImpl<>(Arrays.asList(app1, app2), pageable, 2);
+		MyPageDto.ApplicationRes a1 = mock(MyPageDto.ApplicationRes.class);
+		given(a1.getId()).willReturn(1L);
+		MyPageDto.ApplicationRes a2 = mock(MyPageDto.ApplicationRes.class);
+		given(a2.getId()).willReturn(1L);
+		
+		Page<MyPageDto.ApplicationRes> list = new PageImpl<>(Arrays.asList(a1, a2), pageable, 2);
 		given(applicationMeetRepository.findMyPageApplication(any(), any(), any())).willReturn(list);
-		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder()
-				.title("name")
-				.toApproval(false)
-				.build();
+		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet1));
 		
 		User user = mock(User.class);
 		given(userRepository.findByUsername(any())).willReturn(user);
 		given(user.getId()).willReturn(1L);
+		
+
+		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder()
+				.title("name")
+				.build();
 		
 		// when
 		Page<MyPageDto.ApplicationRes> res = myPageServiceImpl.application("cdssw@naver.com", dto, pageable);

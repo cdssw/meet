@@ -1,5 +1,7 @@
 package com.moim.meet.service.application;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,10 +44,10 @@ public class ApplicationServiceImpl implements ApplicationService {
 	
 	// Meet 참석 지원
 	@Override
-	public void applicationMeet(ApplicationDto.ApplicationReq dto) {
+	public void applicationMeet(ApplicationDto.ApplicationReq dto, String username) {
 		final Meet meet = commonComponent.findById(meetRepository, dto.getMeetId(), Meet.class);
-		final User user = commonComponent.findById(userRepository, dto.getUserId(), User.class, ErrorCode.USER_NOT_FOUND);
-		final long alreadyApp = applicationMeetRepository.countByMeetAndUserGroupByMeet(dto.getMeetId(), dto.getUserId());
+		User user = userRepository.findByUsername(username);
+		final long alreadyApp = applicationMeetRepository.countByMeetAndUserGroupByMeet(dto.getMeetId(), user.getId());
 		if(alreadyApp > 0) {
 			throw new MeetBusinessException(ErrorCode.DUPLICATION_APP_MEET);
 		}
@@ -64,26 +66,36 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	// 승인처리
 	@Override
-	public void approval(ApplicationDto.ApprovalReq dto) {
+	public void approval(ApplicationDto.ApprovalReq dto, String username) {
 		final Meet meet = commonComponent.findById(meetRepository, dto.getMeetId(), Meet.class);
-		final User user = commonComponent.findById(userRepository, dto.getUserId(), User.class, ErrorCode.USER_NOT_FOUND);
-		if(meet.getUser().getId() != dto.getLeaderId()) {
+		User user = userRepository.findByUsername(username);
+		if(meet.getUser().getId() != user.getId()) {
 			throw new MeetBusinessException(ErrorCode.INVALID_LEADER_MEET); // 리더가 아니면 승인처리 할수 없음.
 		}
-		final ApplicationMeet applicationMeet = applicationMeetRepository.findByMeetAndUser(meet, user);
+		
+		User applicator = commonComponent.findById(userRepository, dto.getUserId(), User.class);
+		final ApplicationMeet applicationMeet = applicationMeetRepository.findByMeetAndUser(meet, applicator);
 		applicationMeet.getApproval().approval(); // 승인처리
 	}
 
 	// 승인취소처리
 	@Override
-	public void cancel(ApplicationDto.ApprovalReq dto) {
+	public void cancel(ApplicationDto.ApprovalReq dto, String username) {
 		final Meet meet = commonComponent.findById(meetRepository, dto.getMeetId(), Meet.class);
-		final User user = commonComponent.findById(userRepository, dto.getUserId(), User.class, ErrorCode.USER_NOT_FOUND);
-		if(meet.getUser().getId() != dto.getLeaderId()) {
+		User user = userRepository.findByUsername(username);
+		if(meet.getUser().getId() != user.getId()) {
 			throw new MeetBusinessException(ErrorCode.INVALID_LEADER_MEET); // 리더가 아니면 승인취소처리 할수 없음.
 		}
-		final ApplicationMeet applicationMeet = applicationMeetRepository.findByMeetAndUser(meet, user);
+		
+		User applicator = commonComponent.findById(userRepository, dto.getUserId(), User.class);
+		final ApplicationMeet applicationMeet = applicationMeetRepository.findByMeetAndUser(meet, applicator);
 		applicationMeet.getApproval().cancel(); // 승인취소처리
+	}
+
+	// 지원자 리스트
+	@Override
+	public List<ApplicationDto.ApplicationUserRes> applicationUser(long meetId) {
+		return applicationMeetRepository.findUserByApplicationMeet(meetId);
 	}
 
 }

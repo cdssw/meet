@@ -28,5 +28,7 @@ public interface MeetRepository extends JpaRepository<Meet, Long>, MeetCustomRep
 
 	// Lazy Fetch 타입으로 relation이 있는 경우 N+1 문제없이 한꺼번에 join 할수 있도록 EntityGraph 처리
 	@EntityGraph(attributePaths = "user")
-	Page<Meet> findByIdNotNull(Pageable aPageable);
+	Page<Meet> findByIdNotNull(Pageable pageable);
+	
+	Page<Meet> findAllByOrderByIdDesc(Pageable pageable);
 }

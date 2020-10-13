@@ -2,6 +2,8 @@ package com.moim.meet.service.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,36 +64,45 @@ public class ApplicationMeetRepositoryTest {
 		applicationMeetRepository.deleteAll();
 	}
 	
+//	@Test
+//	public void testCountByMeetAndUserGroupByMeet() {
+//		// given
+//		Meet meet = commonComponent.findById(meetRepository, 1L, Meet.class);
+//		User user = commonComponent.findById(userRepository, 1L, User.class);
+//		
+//		ApplicationMeet applicationMeet = ApplicationMeet.builder()
+//				.meet(meet).user(user)
+//				.approval(Approval.builder().approvalYn(false).build())
+//				.build();
+//		applicationMeetRepository.save(applicationMeet);
+//		
+//		// when
+//		long count = applicationMeetRepository.countByMeetAndUserGroupByMeet(1, 1);
+//		
+//		// then
+//		assertEquals(count, 1);
+//	}
+//
+//	@Test
+//	public void testFindMyPageApplication() {
+//		// given
+//		Pageable pageable = PageRequest.of(0, 10);
+//		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder().build();
+//
+//		// when
+//		Page<MyPageDto.ApplicationRes> res = applicationMeetRepository.findMyPageApplication(1L, dto, pageable);
+//		
+//		// then
+//		assertEquals(res.getTotalElements(), 3);
+//		assertEquals(res.getContent().get(0).getApproval().isApprovalYn(), false);
+//	}
+	
 	@Test
-	public void testCountByMeetAndUserGroupByMeet() {
-		// given
-		Meet meet = commonComponent.findById(meetRepository, 1L, Meet.class);
-		User user = commonComponent.findById(userRepository, 1L, User.class);
-		
-		ApplicationMeet applicationMeet = ApplicationMeet.builder()
-				.meet(meet).user(user)
-				.approval(Approval.builder().approvalYn(false).build())
-				.build();
-		applicationMeetRepository.save(applicationMeet);
-		
+	public void testFindUserByApplicationMeet() {
 		// when
-		long count = applicationMeetRepository.countByMeetAndUserGroupByMeet(1, 1);
+		List<ApplicationDto.ApplicationUserRes> res = applicationMeetRepository.findUserByApplicationMeet(1L);
 		
 		// then
-		assertEquals(count, 1);
-	}
-
-	@Test
-	public void tesetFindMyPageApplication() {
-		// given
-		Pageable pageable = PageRequest.of(0, 10);
-		MyPageDto.ApplicationReq dto = MyPageDto.ApplicationReq.builder().toApproval(false).build();
-
-		// when
-		Page<MyPageDto.ApplicationRes> res = applicationMeetRepository.findMyPageApplication(1L, dto, pageable);
-		
-		// then
-		assertEquals(res.getTotalElements(), 3);
-		assertEquals(res.getContent().get(0).getApproval().isApprovalYn(), false);
+		assertEquals(res.size(), 2);
 	}
 }

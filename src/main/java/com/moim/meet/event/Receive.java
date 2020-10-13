@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
  * 2020. 6. 4.    cdssw            최초 생성
  * </pre>
  */
-@Profile("!test")
+//@Profile("!test")
 @AllArgsConstructor
 @Component
 @Slf4j
@@ -43,7 +43,7 @@ public class Receive {
 	public void userModified(EventUser payload) {
 		log.info(payload.getPhone());
 		final User user = commonComponent.findById(userRepository, payload.getId(), User.class, ErrorCode.USER_NOT_FOUND);
-		user.editPhone(payload.getPhone()); // 테이블의 phone번호를 수정
+		user.editUser(payload);
 	}
 	
 	// user-created가 발생하면 수신
@@ -58,6 +58,7 @@ public class Receive {
 					.userNm(payload.getUserNm())
 					.userNickNm(payload.getUserNickNm())
 					.phone(payload.getPhone())
+					.avatarPath(payload.getAvatarPath())
 					.build();
 			userRepository.save(user);
 		}
