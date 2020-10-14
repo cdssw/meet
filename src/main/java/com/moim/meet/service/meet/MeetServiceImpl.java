@@ -1,6 +1,5 @@
 package com.moim.meet.service.meet;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.moim.meet.component.CommonComponent;
 import com.moim.meet.entity.ApplicationMeet;
-import com.moim.meet.entity.Approval;
 import com.moim.meet.entity.File;
 import com.moim.meet.entity.Meet;
 import com.moim.meet.entity.User;
@@ -61,14 +59,6 @@ public class MeetServiceImpl implements MeetService {
 		
 		// meet 생성
 		Long id = meetRepository.save(meet).getId();
-		
-		// 리더 application, approval 처리
-		ApplicationMeet applicationMeet = ApplicationMeet.builder()
-				.meet(meet)
-				.user(user)
-				.approval(Approval.builder().approvalYn(true).approvalDt(LocalDateTime.now()).build())
-				.build();
-		applicationMeetRepository.save(applicationMeet);
 		
 		// 파일id 추가
 		for(Long fileId : dto.getImgList()) {
