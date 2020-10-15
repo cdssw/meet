@@ -11,7 +11,7 @@ import com.moim.meet.entity.ApplicationMeet;
 import com.moim.meet.entity.QApplicationMeet;
 import com.moim.meet.entity.QMeet;
 import com.moim.meet.entity.QUser;
-import com.moim.meet.service.applicationmeet.ApplicationDto;
+import com.moim.meet.service.application.ApplicationDto;
 import com.moim.meet.service.mypage.MyPageDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;

@@ -1,4 +1,4 @@
-package com.moim.meet.service.applicationmeet;
+package com.moim.meet.service.application;
 
 import java.time.LocalDateTime;
 

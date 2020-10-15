@@ -18,8 +18,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.moim.meet.service.applicationmeet.ApplicationDto.ApplicationReq;
-import com.moim.meet.service.applicationmeet.ApplicationDto.ApprovalReq;
+import com.moim.meet.service.application.ApplicationDto.ApplicationReq;
+import com.moim.meet.service.application.ApplicationDto.ApprovalReq;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @RunWith(SpringRunner.class)
 @WebMvcTest // controller 관련 bean만 로딩
 @Slf4j
-public class ApplicationMeetControllerTest extends BaseControllerTest {
+public class ApplicationControllerTest extends BaseControllerTest {
 	
 	private MockMvc mvc;
 	

@@ -1,4 +1,4 @@
-package com.moim.meet.service.applicationmeet;
+package com.moim.meet.service.application;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -24,9 +24,9 @@ import com.moim.meet.except.MeetBusinessException;
 import com.moim.meet.repository.ApplicationMeetRepository;
 import com.moim.meet.repository.MeetRepository;
 import com.moim.meet.repository.UserRepository;
-import com.moim.meet.service.applicationmeet.ApplicationServiceImpl;
-import com.moim.meet.service.applicationmeet.ApplicationDto.ApplicationReq;
-import com.moim.meet.service.applicationmeet.ApplicationDto.ApprovalReq;
+import com.moim.meet.service.application.ApplicationServiceImpl;
+import com.moim.meet.service.application.ApplicationDto.ApplicationReq;
+import com.moim.meet.service.application.ApplicationDto.ApprovalReq;
 
 /**
  * ApplicationServiceImplTest.java
