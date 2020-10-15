@@ -15,16 +15,15 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.moim.meet.component.CommonComponent;
+import com.moim.meet.entity.Address;
 import com.moim.meet.entity.ApplicationMeet;
 import com.moim.meet.entity.Approval;
 import com.moim.meet.entity.Meet;
-import com.moim.meet.entity.Address;
 import com.moim.meet.entity.User;
 import com.moim.meet.except.MeetBusinessException;
 import com.moim.meet.repository.ApplicationMeetRepository;
 import com.moim.meet.repository.MeetRepository;
 import com.moim.meet.repository.UserRepository;
-import com.moim.meet.service.application.ApplicationServiceImpl;
 import com.moim.meet.service.application.ApplicationDto.ApplicationReq;
 import com.moim.meet.service.application.ApplicationDto.ApprovalReq;
 
