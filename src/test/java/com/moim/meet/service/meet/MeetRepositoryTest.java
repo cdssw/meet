@@ -71,15 +71,15 @@ public class MeetRepositoryTest {
 		// given
 		Pageable pageable = PageRequest.of(0, 10);
 		MeetDto.SearchReq dto = MeetDto.SearchReq.builder()
-				.title("신문")
-				.leaderId(1L)
+				.sido("경기도")
+				.sgg("용인시 처인구")
 				.build();
 
 		// when
 		Page<Meet> res = meetRepository.findSearch(dto, pageable);
 		
 		// then
-		assertThat(res.getTotalElements()).isEqualTo(0);
+		assertThat(res.getTotalElements()).isEqualTo(17L);
 	}
 	
 	@Test

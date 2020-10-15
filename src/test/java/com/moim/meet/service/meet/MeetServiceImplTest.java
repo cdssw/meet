@@ -201,6 +201,7 @@ public class MeetServiceImplTest {
 		meetServiceImpl.deleteMeet(1, user.getUsername());
 		
 		// then
+		verify(applicationMeetRepository).deleteByMeet(any());
 		verify(meetRepository).deleteById(any());
 	}
 	

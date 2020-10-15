@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -129,10 +128,12 @@ public class MeetServiceImpl implements MeetService {
 	@Transactional(readOnly = true)
 	@Override
 	public Page<Res> search(MeetDto.SearchReq dto, Pageable pageable) {
-		Page<Meet> meetList = meetRepository.findSearch(dto, pageable);
-		return new PageImpl<>(
-				meetList.getContent().stream().map(m -> modelMapper.map(m, MeetDto.Res.class)).collect(Collectors.toList()),
-				pageable,
-				meetList.getTotalElements());
+		Page<Res> res = meetRepository.findSearch(dto, pageable).map(m -> {
+			Res r = modelMapper.map(m, MeetDto.Res.class);
+			r.setImgList(fileRepository.findByMeet(m).stream().map(f -> f.getFileId()).collect(Collectors.toList()));
+			return r;
+		});
+		
+		return res;
 	}
 }

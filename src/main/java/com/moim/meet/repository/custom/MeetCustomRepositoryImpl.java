@@ -47,6 +47,8 @@ public class MeetCustomRepositoryImpl extends QuerydslRepositorySupport implemen
 		BooleanBuilder builder = new BooleanBuilder();
 		builder = dto.getTitle() != null ? builder.and(meet.title.likeIgnoreCase("%" + dto.getTitle() + "%")) : builder;
 		builder = dto.getContent() != null ? builder.and(meet.content.likeIgnoreCase("%" + dto.getContent() + "%")) : builder;
+		builder = dto.getSido() != null ? builder.and(meet.address.sido.eq(dto.getSido())) : builder;
+		builder = dto.getSgg() != null ? builder.and(meet.address.sgg.eq(dto.getSgg())) : builder;
 		builder = dto.getLeaderId() != null ? builder.and(meet.user.id.eq(dto.getLeaderId())) : builder;
 
 		JPAQueryFactory queryFactory = new JPAQueryFactory(getEntityManager());

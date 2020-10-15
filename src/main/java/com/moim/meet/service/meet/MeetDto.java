@@ -88,12 +88,16 @@ public class MeetDto {
 		
 		private String title;
 		private String content;
+		private String sido;
+		private String sgg;
 		private Long leaderId;
 		
 		@Builder
-		public SearchReq(String title, String content, Long leaderId) {
+		public SearchReq(String title, String content, String sido, String sgg, Long leaderId) {
 			this.title = title;
 			this.content = content;
+			this.sido = sido;
+			this.sgg = sgg;
 			this.leaderId = leaderId;
 		}
 	}
