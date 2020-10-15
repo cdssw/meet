@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.moim.meet.service.application.ApplicationDto;
+import com.moim.meet.service.applicationmeet.ApplicationDto;
 import com.moim.meet.service.mypage.MyPageDto;
 
 /**

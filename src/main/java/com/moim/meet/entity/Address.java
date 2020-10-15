@@ -31,12 +31,15 @@ public class Address {
 	@NotBlank
 	private String address2;
 	
+	private String sido;
+	
 	private String sgg;
 	
 	@Builder
-	public Address(String address1, String address2, String sgg) {
+	public Address(String address1, String address2, String sido, String sgg) {
 		this.address1 = address1;
 		this.address2 = address2;
+		this.sido = sgg;
 		this.sgg = sgg;
 	}
 }

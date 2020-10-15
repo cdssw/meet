@@ -1,4 +1,4 @@
-package com.moim.meet.service.application;
+package com.moim.meet.service.applicationmeet;
 
 import java.util.List;
 

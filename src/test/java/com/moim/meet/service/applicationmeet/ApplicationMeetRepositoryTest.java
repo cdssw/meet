@@ -1,4 +1,4 @@
-package com.moim.meet.service.application;
+package com.moim.meet.service.applicationmeet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,6 +27,7 @@ import com.moim.meet.entity.User;
 import com.moim.meet.repository.ApplicationMeetRepository;
 import com.moim.meet.repository.MeetRepository;
 import com.moim.meet.repository.UserRepository;
+import com.moim.meet.service.applicationmeet.ApplicationDto;
 import com.moim.meet.service.mypage.MyPageDto;
 
 /**

@@ -2,7 +2,7 @@ package com.moim.meet.controller;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import com.moim.meet.service.application.ApplicationService;
+import com.moim.meet.service.applicationmeet.ApplicationService;
 import com.moim.meet.service.meet.MeetService;
 import com.moim.meet.service.mypage.MyPageService;
 
