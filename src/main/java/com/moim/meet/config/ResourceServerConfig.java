@@ -43,6 +43,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers(WHITE_LIST).permitAll()
 			.antMatchers(HttpMethod.GET, "/").permitAll() // 조회허용
+			.antMatchers(HttpMethod.GET, "/**").permitAll() // 내용조회 허용
 			.antMatchers(HttpMethod.POST, "/search").permitAll() // 검색허용
 			.anyRequest().authenticated(); // 모든 요청 호출시 인증되어야 함
 	}

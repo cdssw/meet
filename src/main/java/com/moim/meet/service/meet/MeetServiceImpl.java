@@ -87,14 +87,18 @@ public class MeetServiceImpl implements MeetService {
 
 	@Override
 	public Res getMeet(final long id, final String username) {
-		final User user = userRepository.findByUsername(username);
 		final Meet meet = commonComponent.findById(meetRepository, id, Meet.class);
 		MeetDto.Res res = modelMapper.map(meet, MeetDto.Res.class);
 		res.setImgList(fileRepository.findByMeet(meet).stream().map(m -> m.getFileId()).collect(Collectors.toList()));
-		ApplicationMeet applicationMeet = applicationMeetRepository.findByMeetAndUser(meet, user);
-		if(applicationMeet != null) {
-			res.setApprovalYn(true);
-			res.setApprovalDt(applicationMeet.getApproval().getApprovalDt());
+
+		// 로그인한 사용자이면 지원여부 정보 추가
+		if(!"".equals(username)) {
+			final User user = userRepository.findByUsername(username);
+			ApplicationMeet applicationMeet = applicationMeetRepository.findByMeetAndUser(meet, user);
+			if(applicationMeet != null) {
+				res.setApprovalYn(true);
+				res.setApprovalDt(applicationMeet.getApproval().getApprovalDt());
+			}
 		}
 
 		return res;
