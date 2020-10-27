@@ -77,6 +77,7 @@ public class ApplicationDto {
 	@SuperBuilder // 부모의 생성자에 대하여 builder를 사용할수 있게 해준다.
 	public static class ApplicationUserRes extends BaseRes {
 		private Long id;
+		private String username;
 		private String userNickNm;
 		private String avatarPath;
 		private boolean approvalYn;

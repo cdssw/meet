@@ -54,7 +54,8 @@ public class MeetCustomRepositoryImpl extends QuerydslRepositorySupport implemen
 		JPAQueryFactory queryFactory = new JPAQueryFactory(getEntityManager());
 		final JPQLQuery<Meet> query = queryFactory
 				.selectFrom(meet)
-				.where(builder);
+				.where(builder)
+				.orderBy(meet.id.desc());
 		
 		final List<Meet> meetList = getQuerydsl().applyPagination(pageable, query).fetch();
 		return new PageImpl<>(meetList, pageable, query.fetchCount());

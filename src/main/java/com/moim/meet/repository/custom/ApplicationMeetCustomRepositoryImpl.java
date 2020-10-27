@@ -94,6 +94,7 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 		return queryFactory
 				.select(Projections.bean(ApplicationDto.ApplicationUserRes.class
 						, applicationMeet.user.id
+						, applicationMeet.user.username
 						, applicationMeet.user.userNickNm
 						, applicationMeet.user.avatarPath
 						, applicationMeet.approval.approvalYn
