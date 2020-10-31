@@ -6,8 +6,8 @@ insert into user(id, username, user_nm, user_nick_nm, phone, input_dt, modify_dt
 
 -- meet
 insert into meet(title, content, recruitment, application, cost, cost_option, address1, address2, sido, sgg, start_dt, end_dt, start_tm, end_tm, detail_day, user_id, input_dt, modify_dt) values
-  ('무너진 계층 사다리', '아이를 등원시켜 주실분 구합니다.', 4, 2, 50000, 0, '기흥구 중동', '663-4', '경기도', '용인시 처인구', '2020-09-01', '2020-09-30', '10:00', '16:00', 40, 2, now(), now())
-, ('육군훈련소, 훈련병', '아이를 등원시켜 주실분 구합니다.', 4, 1, 50000, 0, '기흥구 중동', '663-4', '경기도', '용인시 처인구', '2020-09-01', '2020-09-30', '10:00', '16:00', 40, 1, now(), now())
+  ('무너진 계층 사다리', '아이를 등원시켜 주실분 구합니다.', 4, 2, 50000, 0, '기흥구 중동', '663-4', '경기도', '용인시 처인구', '2020-09-01', '2020-09-30', '10:00', '16:00', 40, 1, now(), now())
+, ('육군훈련소, 훈련병', '아이를 등원시켜 주실분 구합니다.', 4, 1, 50000, 0, '기흥구 중동', '663-4', '경기도', '용인시 처인구', '2020-09-01', '2020-09-30', '10:00', '16:00', 40, 2, now(), now())
 , ('신속이 생명인데', '아이를 등원시켜 주실분 구합니다.', 4, 2, 50000, 0, '기흥구 중동', '663-4', '경기도', '용인시 처인구', '2020-09-01', '2020-09-30', '10:00', '16:00', 40, 2, now(), now())
 , ('검찰, 모뉴엘 전 대표', '아이를 등원시켜 주실분 구합니다.', 4, 0, 50000, 0, '기흥구 중동', '663-4', '경기도', '용인시 처인구', '2020-09-01', '2020-09-30', '10:00', '16:00', 40, 1, now(), now())
 , ('기재차관 국가채무 증가', '아이를 등원시켜 주실분 구합니다.', 4, 0, 50000, 0, '기흥구 중동', '663-4', '경기도', '용인시 처인구', '2020-09-01', '2020-09-30', '10:00', '16:00', 40, 2, now(), now())
@@ -27,8 +27,7 @@ insert into meet(title, content, recruitment, application, cost, cost_option, ad
 
 -- applicationMeet
 insert into application_meet(meet_id, user_id, approval_yn, approval_dt, input_dt, modify_dt) values
-(1, 1, false, null, now(), now())
-, (1, 2, false, null, now(), now())
+(1, 2, false, null, now(), now())
 , (2, 1, false, null, now(), now())
 , (3, 1, false, null, now(), now())
 , (3, 3, false, null, now(), now());
