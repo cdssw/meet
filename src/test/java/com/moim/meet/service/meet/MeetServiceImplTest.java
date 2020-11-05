@@ -170,14 +170,19 @@ public class MeetServiceImplTest {
 	@Test
 	public void testGetMeet() {
 		// given
+		Meet m = mock(Meet.class);
+		User u = mock(User.class);
 		given(userRepository.findByUsername(any())).willReturn(user);
-		given(meetRepository.findById(anyLong())).willReturn(Optional.of(dto1.toEntity()));
+		given(meetRepository.findById(anyLong())).willReturn(Optional.of(m));
+		given(chatRepository.countByMeetIdAndSenderNot(anyLong(), any())).willReturn(10L);
+		given(m.getUser()).willReturn(u);
+		given(u.getUsername()).willReturn("cdssw@naver.com");
 		
 		// when
 		MeetDto.Res res = meetServiceImpl.getMeet(1, "cdssw@naver.com");
 		
 		// then
-		assertEquals(res.getTitle(), dto1.getTitle());		
+		assertEquals(res.getChatCnt(), 10L);		
 	}
 	
 	@Test
