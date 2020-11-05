@@ -236,9 +236,13 @@ public class MeetServiceImplTest {
 	@Test
 	public void testSearch() {
 		// given
+		MeetDto.Res res1 = mock(MeetDto.Res.class);
+		MeetDto.Res res2 = mock(MeetDto.Res.class);
+		Meet meet = mock(Meet.class);
 		Pageable pageable = PageRequest.of(0, 10);
-		Page<Meet> meetList = new PageImpl<>(Arrays.asList(meet1, meet2), pageable, 2);
+		Page<MeetDto.Res> meetList = new PageImpl<>(Arrays.asList(res1, res2), pageable, 2);
 		given(meetRepository.findSearch(any(MeetDto.SearchReq.class), any())).willReturn(meetList);
+		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet));
 		MeetDto.SearchReq dto = MeetDto.SearchReq.builder().title("name").leaderId(1L).build();
 		
 		// when

@@ -76,7 +76,7 @@ public class MeetRepositoryTest {
 				.build();
 
 		// when
-		Page<Meet> res = meetRepository.findSearch(dto, pageable);
+		Page<MeetDto.Res> res = meetRepository.findSearch(dto, pageable);
 		
 		// then
 		assertThat(res.getTotalElements()).isEqualTo(17L);

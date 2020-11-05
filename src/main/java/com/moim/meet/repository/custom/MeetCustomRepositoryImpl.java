@@ -13,6 +13,7 @@ import com.moim.meet.entity.QApplicationMeet;
 import com.moim.meet.entity.QChat;
 import com.moim.meet.entity.QMeet;
 import com.moim.meet.service.meet.MeetDto;
+import com.moim.meet.service.meet.MeetDto.Res;
 import com.moim.meet.service.mypage.MyPageDto;
 import com.moim.meet.service.mypage.MyPageDto.OpenedRes;
 import com.querydsl.core.BooleanBuilder;
@@ -45,7 +46,7 @@ public class MeetCustomRepositoryImpl extends QuerydslRepositorySupport implemen
 	
 	// 전체 Meet 검색
 	@Override
-	public Page<Meet> findSearch(MeetDto.SearchReq dto, Pageable pageable) {
+	public Page<Res> findSearch(MeetDto.SearchReq dto, Pageable pageable) {
 		BooleanBuilder builder = new BooleanBuilder();
 		builder = dto.getTitle() != null ? builder.and(meet.title.likeIgnoreCase("%" + dto.getTitle() + "%")) : builder;
 		builder = dto.getContent() != null ? builder.and(meet.content.likeIgnoreCase("%" + dto.getContent() + "%")) : builder;
@@ -54,11 +55,27 @@ public class MeetCustomRepositoryImpl extends QuerydslRepositorySupport implemen
 		builder = dto.getLeaderId() != null ? builder.and(meet.user.id.eq(dto.getLeaderId())) : builder;
 
 		JPAQueryFactory queryFactory = new JPAQueryFactory(getEntityManager());
-		final JPQLQuery<Meet> query = queryFactory
-				.selectFrom(meet)
-				.where(builder);
+		final JPQLQuery<Res> query = queryFactory
+				.select(Projections.bean(Res.class
+						, meet.id
+						, meet.title
+						, meet.content
+						, meet.recruitment
+						, meet.application
+						, meet.cost
+						, meet.costOption
+						, meet.term
+						, meet.address
+						, meet.inputDt
+						, meet.modifyDt
+						, chat.count().as("chatCnt")
+						))
+				.from(meet)
+				.leftJoin(chat).on(meet.id.eq(chat.meetId).and(meet.user.username.ne(chat.sender)))
+				.where(builder)
+				.groupBy(meet);
 		
-		final List<Meet> meetList = getQuerydsl().applyPagination(pageable, query).fetch();
+		final List<Res> meetList = getQuerydsl().applyPagination(pageable, query).fetch();
 		return new PageImpl<>(meetList, pageable, query.fetchCount());
 	}
 

@@ -139,8 +139,8 @@ public class MeetServiceImpl implements MeetService {
 	@Transactional(readOnly = true)
 	@Override
 	public Page<Res> search(MeetDto.SearchReq dto, Pageable pageable) {
-		Page<Res> res = meetRepository.findSearch(dto, pageable).map(m -> {
-			Res r = modelMapper.map(m, MeetDto.Res.class);
+		Page<Res> res = meetRepository.findSearch(dto, pageable).map(r -> {
+			Meet m = commonComponent.findById(meetRepository, r.getId(), Meet.class);
 			r.setImgList(fileRepository.findByMeet(m).stream().map(f -> f.getFileId()).collect(Collectors.toList()));
 			return r;
 		});
