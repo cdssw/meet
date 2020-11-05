@@ -19,7 +19,8 @@ spring:
       group-id: group-user
     topic:
       user-created: topic-user-created
-      user-modified: topic-user-modified      
+      user-modified: topic-user-modified
+      chat-created: topic-chat-created      
       
 eureka:
   client:

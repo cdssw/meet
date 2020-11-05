@@ -95,6 +95,7 @@ public class MyPageDto {
 	@SuperBuilder
 	public static class OpenedRes extends BaseRes {
 		private long toApprovalCnt;
+		private long chatCnt;
 	}
 	
 	@Getter
@@ -103,5 +104,6 @@ public class MyPageDto {
 	@SuperBuilder
 	public static class ApplicationRes extends BaseRes {
 		private Approval approval;
+		private long chatCnt;
 	}	
 }

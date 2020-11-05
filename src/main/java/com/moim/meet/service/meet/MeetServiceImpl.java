@@ -17,6 +17,7 @@ import com.moim.meet.entity.User;
 import com.moim.meet.except.ErrorCode;
 import com.moim.meet.except.MeetBusinessException;
 import com.moim.meet.repository.ApplicationMeetRepository;
+import com.moim.meet.repository.ChatRepository;
 import com.moim.meet.repository.FileRepository;
 import com.moim.meet.repository.MeetRepository;
 import com.moim.meet.repository.UserRepository;
@@ -48,6 +49,7 @@ public class MeetServiceImpl implements MeetService {
 	private UserRepository userRepository;
 	private ApplicationMeetRepository applicationMeetRepository;
 	private FileRepository fileRepository;
+	private ChatRepository chatRepository;
 	
 	@Transactional
 	@Override
@@ -91,14 +93,19 @@ public class MeetServiceImpl implements MeetService {
 		MeetDto.Res res = modelMapper.map(meet, MeetDto.Res.class);
 		res.setImgList(fileRepository.findByMeet(meet).stream().map(m -> m.getFileId()).collect(Collectors.toList()));
 
-		// 로그인한 사용자이면 지원여부 정보 추가
+		// 로그인한 사용자
 		if(!"".equals(username)) {
+			// 지원여부 정보 추가
 			final User user = userRepository.findByUsername(username);
 			ApplicationMeet applicationMeet = applicationMeetRepository.findByMeetAndUser(meet, user);
 			if(applicationMeet != null) {
 				res.setApprovalYn(true);
 				res.setApprovalDt(applicationMeet.getApproval().getApprovalDt());
 			}
+			
+			// 채팅문의 카운트 정보 추가
+			final Long chatCnt = chatRepository.countByMeetIdAndSenderNot(meet.getId(), meet.getUser().getUsername());
+			res.setChatCnt(chatCnt);
 		}
 
 		return res;

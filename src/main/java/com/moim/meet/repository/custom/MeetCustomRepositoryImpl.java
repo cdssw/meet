@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.moim.meet.entity.Meet;
 import com.moim.meet.entity.QApplicationMeet;
+import com.moim.meet.entity.QChat;
 import com.moim.meet.entity.QMeet;
 import com.moim.meet.service.meet.MeetDto;
 import com.moim.meet.service.mypage.MyPageDto;
@@ -36,6 +37,7 @@ public class MeetCustomRepositoryImpl extends QuerydslRepositorySupport implemen
 	
 	final QMeet meet = QMeet.meet;
 	final QApplicationMeet applicationMeet = QApplicationMeet.applicationMeet;
+	final QChat chat = QChat.chat;
 	
 	public MeetCustomRepositoryImpl() {
 		super(Meet.class);
@@ -83,9 +85,11 @@ public class MeetCustomRepositoryImpl extends QuerydslRepositorySupport implemen
 						, meet.inputDt
 						, meet.modifyDt
 						, applicationMeet.count().as("toApprovalCnt")
+						, chat.count().as("chatCnt")
 						))
 				.from(meet)
 				.leftJoin(applicationMeet).on(meet.id.eq(applicationMeet.meet.id), applicationMeet.approval.approvalYn.eq(dto.getToApproval()))
+				.leftJoin(chat).on(meet.id.eq(chat.meetId).and(meet.user.username.ne(chat.sender)))
 				.where(builder)
 				.groupBy(meet);
 		

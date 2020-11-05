@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 import com.moim.meet.entity.ApplicationMeet;
 import com.moim.meet.entity.QApplicationMeet;
+import com.moim.meet.entity.QChat;
 import com.moim.meet.entity.QMeet;
 import com.moim.meet.entity.QUser;
 import com.moim.meet.service.application.ApplicationDto;
@@ -36,6 +37,7 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 	final QMeet meet = QMeet.meet;
 	final QUser user = QUser.user;
 	final QApplicationMeet applicationMeet = QApplicationMeet.applicationMeet;
+	final QChat chat = QChat.chat;
 	
 	public ApplicationMeetCustomRepositoryImpl() {
 		super(ApplicationMeet.class);
@@ -76,10 +78,13 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 						, meet.modifyDt
 						, meet.user
 						, applicationMeet.approval
+						, chat.count().as("chatCnt")
 						))
 				.from(applicationMeet)
 				.leftJoin(meet).on(applicationMeet.meet.id.eq(meet.id))
-				.where(builder);
+				.leftJoin(chat).on(meet.id.eq(chat.meetId).and(meet.user.username.ne(chat.sender)))
+				.where(builder)
+				.groupBy(meet);
 		
 		final List<MyPageDto.ApplicationRes> list = getQuerydsl().applyPagination(pageable, query).fetch();
 		return new PageImpl<>(list, pageable, query.fetchCount());

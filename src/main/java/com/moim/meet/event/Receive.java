@@ -5,10 +5,13 @@ import javax.transaction.Transactional;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import com.moim.kafka.EventChat;
 import com.moim.kafka.EventUser;
 import com.moim.meet.component.CommonComponent;
+import com.moim.meet.entity.Chat;
 import com.moim.meet.entity.User;
 import com.moim.meet.except.ErrorCode;
+import com.moim.meet.repository.ChatRepository;
 import com.moim.meet.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
@@ -34,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Receive {
 
 	private UserRepository userRepository;
+	private ChatRepository chatRepository;
 	private CommonComponent commonComponent;
 	
 	// user-modified가 발생하면 수신
@@ -60,6 +64,19 @@ public class Receive {
 					.avatarPath(payload.getAvatarPath())
 					.build();
 			userRepository.save(user);
+		}
+	}
+	
+	@Transactional
+	@KafkaListener(topics = "${spring.kafka.topic.chat-created}", groupId = "${spring.kafka.consumer.group-id}")
+	public void chatCreated(EventChat payload) {
+		Chat chat = chatRepository.findByMeetIdAndSender(payload.getMeetId(), payload.getSender());
+		if(chat == null) {
+			chat = Chat.builder()
+					.meetId(payload.getMeetId())
+					.sender(payload.getSender())
+					.build();
+			chatRepository.save(chat);
 		}
 	}
 }

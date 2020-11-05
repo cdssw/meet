@@ -29,7 +29,7 @@ import com.moim.kafka.EventUser;
  * 2020. 6. 4.    cdssw            최초 생성
  * </pre>
  */
-@Profile("!test")
+//@Profile("!test")
 @Configuration
 @EnableKafka
 public class KafkaConsumerConfig {

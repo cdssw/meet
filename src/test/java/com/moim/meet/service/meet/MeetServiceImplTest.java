@@ -30,6 +30,7 @@ import com.moim.meet.entity.Meet;
 import com.moim.meet.entity.Term;
 import com.moim.meet.entity.User;
 import com.moim.meet.repository.ApplicationMeetRepository;
+import com.moim.meet.repository.ChatRepository;
 import com.moim.meet.repository.FileRepository;
 import com.moim.meet.repository.MeetRepository;
 import com.moim.meet.repository.UserRepository;
@@ -58,6 +59,7 @@ public class MeetServiceImplTest {
 	@Mock private UserRepository userRepository;
 	@Mock private ApplicationMeetRepository applicationMeetRepository;
 	@Mock private FileRepository fileRepository;	
+	@Mock private ChatRepository chatRepository;
 	
 	private User user;
 	private Meet meet1;
@@ -69,7 +71,7 @@ public class MeetServiceImplTest {
 	public void setUp() {
 		ModelMapper modelMapper = new ModelMapper();
 		CommonComponent commonComponent = new CommonComponent();
-		meetServiceImpl = new MeetServiceImpl(modelMapper, commonComponent, meetRepository, userRepository, applicationMeetRepository, fileRepository);
+		meetServiceImpl = new MeetServiceImpl(modelMapper, commonComponent, meetRepository, userRepository, applicationMeetRepository, fileRepository, chatRepository);
 		
 		LocalDate today = LocalDate.now();
 		today.plusDays(30);
