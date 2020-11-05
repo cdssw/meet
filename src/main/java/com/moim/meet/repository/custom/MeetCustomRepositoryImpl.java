@@ -17,7 +17,9 @@ import com.moim.meet.service.meet.MeetDto.Res;
 import com.moim.meet.service.mypage.MyPageDto;
 import com.moim.meet.service.mypage.MyPageDto.OpenedRes;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -101,11 +103,14 @@ public class MeetCustomRepositoryImpl extends QuerydslRepositorySupport implemen
 						, meet.address
 						, meet.inputDt
 						, meet.modifyDt
-						, applicationMeet.count().as("toApprovalCnt")
+						, ExpressionUtils.as(
+								JPAExpressions.select(applicationMeet.id)
+									.from(applicationMeet)
+									.where(meet.id.eq(applicationMeet.meet.id), applicationMeet.approval.approvalYn.eq(dto.getToApproval())),
+								"toApprovalCnt")
 						, chat.count().as("chatCnt")
 						))
 				.from(meet)
-				.leftJoin(applicationMeet).on(meet.id.eq(applicationMeet.meet.id), applicationMeet.approval.approvalYn.eq(dto.getToApproval()))
 				.leftJoin(chat).on(meet.id.eq(chat.meetId).and(meet.user.username.ne(chat.sender)))
 				.where(builder)
 				.groupBy(meet);
