@@ -47,6 +47,6 @@ public class MyPageController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public Page<MyPageDto.ApplicationRes> application(@RequestBody @Valid final MyPageDto.ApplicationReq dto, Pageable pageable, HttpServletRequest req) {
 		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
-		return myPageService.application(username, dto, pageable);
+		return myPageService.chatAndApplication(username, dto, pageable);
 	}
 }
