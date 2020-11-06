@@ -62,7 +62,7 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public Page<ApplicationRes> chatAndApplication(String username, ApplicationReq dto, Pageable pageable) {
 		User user = userRepository.findByUsername(username);
-		List<Long> chatList = chatRepository.findBySender(username).stream().map(m -> m.getId()).collect(Collectors.toList());
+		List<Long> chatList = chatRepository.findBySender(username).stream().map(m -> m.getMeetId()).collect(Collectors.toList());
 		return applicationMeetRepository.findMyPageChatAndApplication(user, chatList, dto, pageable).map(m -> {
 			m.setImgList(fileRepository.findByMeet(commonComponent.findById(meetRepository, m.getId(), Meet.class))
 					.stream().map(f -> f.getFileId()).collect(Collectors.toList())
