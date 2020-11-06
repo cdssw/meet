@@ -19,4 +19,5 @@ public interface MyPageService {
 
 	Page<MyPageDto.OpenedRes> opened(final String username, MyPageDto.OpenedReq dto, Pageable pageable);
 	Page<MyPageDto.ApplicationRes> application(final String username, MyPageDto.ApplicationReq dto, Pageable pageable);
+	Page<MyPageDto.ApplicationRes> chatAndApplication(final String username, MyPageDto.ApplicationReq dto, Pageable pageable);
 }

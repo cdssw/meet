@@ -12,10 +12,14 @@ import com.moim.meet.entity.QApplicationMeet;
 import com.moim.meet.entity.QChat;
 import com.moim.meet.entity.QMeet;
 import com.moim.meet.entity.QUser;
+import com.moim.meet.entity.User;
 import com.moim.meet.service.application.ApplicationDto;
 import com.moim.meet.service.mypage.MyPageDto;
+import com.moim.meet.service.mypage.MyPageDto.ApplicationReq;
+import com.moim.meet.service.mypage.MyPageDto.ApplicationRes;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -108,6 +112,42 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 				.from(applicationMeet)
 				.where(builder)
 				.fetch();
+	}
+
+	// 사용자가 지원하거나 채팅한 Meet List
+	@Override
+	public Page<ApplicationRes> findMyPageChatAndApplication(User user, List<Long> chatList, ApplicationReq dto, Pageable pageable) {
+		BooleanBuilder builder = new BooleanBuilder();
+		builder = builder.and((applicationMeet.id.isNotNull().or(chat.id.isNotNull())));
+		builder = dto.getTitle() != null ? builder.and(meet.title.likeIgnoreCase("%" + dto.getTitle() + "%")) : builder;
+		builder = dto.getContent() != null ? builder.and(meet.content.likeIgnoreCase("%" + dto.getContent() + "%")) : builder;
+		
+		JPAQueryFactory queryFactory = new JPAQueryFactory(getEntityManager());
+		final JPQLQuery<MyPageDto.ApplicationRes> query = queryFactory
+				.select(Projections.bean(MyPageDto.ApplicationRes.class
+						, meet.id
+						, meet.title
+						, meet.content
+						, meet.recruitment
+						, meet.application
+						, meet.cost
+						, meet.costOption
+						, meet.term
+						, meet.address
+						, meet.inputDt
+						, meet.modifyDt
+						, meet.user
+						, applicationMeet.approval
+						, chat.count().as("chatCnt")
+						))
+				.from(meet)
+				.leftJoin(applicationMeet).on(meet.id.eq(applicationMeet.id).and(applicationMeet.user.id.eq(user.getId())))
+				.leftJoin(chat).on(meet.id.in(chatList))
+				.where(builder)
+				.groupBy(meet);
+		
+		final List<MyPageDto.ApplicationRes> list = getQuerydsl().applyPagination(pageable, query).fetch();
+		return new PageImpl<>(list, pageable, query.fetchCount());
 	}
 
 }

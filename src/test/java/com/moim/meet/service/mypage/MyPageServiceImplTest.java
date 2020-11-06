@@ -25,6 +25,7 @@ import com.moim.meet.entity.Meet;
 import com.moim.meet.entity.Term;
 import com.moim.meet.entity.User;
 import com.moim.meet.repository.ApplicationMeetRepository;
+import com.moim.meet.repository.ChatRepository;
 import com.moim.meet.repository.FileRepository;
 import com.moim.meet.repository.MeetRepository;
 import com.moim.meet.repository.UserRepository;
@@ -52,6 +53,7 @@ public class MyPageServiceImplTest {
 	@Mock private UserRepository userRepository;
 	@Mock private ApplicationMeetRepository applicationMeetRepository;
 	@Mock private FileRepository fileRepository;
+	@Mock private ChatRepository chatRepository;
 	
 	private MyPageDto.ApplicationRes app1;
 	private MyPageDto.ApplicationRes app2;
@@ -62,7 +64,7 @@ public class MyPageServiceImplTest {
 	@Before
 	public void setUp() {
 		CommonComponent commonComponent = new CommonComponent();
-		myPageServiceImpl = new MyPageServiceImpl(meetRepository, userRepository, applicationMeetRepository, fileRepository, commonComponent);
+		myPageServiceImpl = new MyPageServiceImpl(meetRepository, userRepository, applicationMeetRepository, fileRepository, chatRepository, commonComponent);
 		
 		app1 = MyPageDto.ApplicationRes.builder()
 				.title("Meet name 2")

@@ -1,5 +1,6 @@
 package com.moim.meet.service.mypage;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import com.moim.meet.component.CommonComponent;
 import com.moim.meet.entity.Meet;
 import com.moim.meet.entity.User;
 import com.moim.meet.repository.ApplicationMeetRepository;
+import com.moim.meet.repository.ChatRepository;
 import com.moim.meet.repository.FileRepository;
 import com.moim.meet.repository.MeetRepository;
 import com.moim.meet.repository.UserRepository;
@@ -41,6 +43,7 @@ public class MyPageServiceImpl implements MyPageService {
 	private UserRepository userRepository;
 	private ApplicationMeetRepository applicationMeetRepository;
 	private FileRepository fileRepository;
+	private ChatRepository chatRepository;
 	private CommonComponent commonComponent;
 	
 	@Transactional(readOnly = true)
@@ -57,6 +60,19 @@ public class MyPageServiceImpl implements MyPageService {
 
 	@Transactional(readOnly = true)
 	@Override
+	public Page<ApplicationRes> chatAndApplication(String username, ApplicationReq dto, Pageable pageable) {
+		User user = userRepository.findByUsername(username);
+		List<Long> chatList = chatRepository.findBySender(username).stream().map(m -> m.getId()).collect(Collectors.toList());
+		return applicationMeetRepository.findMyPageChatAndApplication(user, chatList, dto, pageable).map(m -> {
+			m.setImgList(fileRepository.findByMeet(commonComponent.findById(meetRepository, m.getId(), Meet.class))
+					.stream().map(f -> f.getFileId()).collect(Collectors.toList())
+					);
+			return m;
+		});
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
 	public Page<ApplicationRes> application(String username, ApplicationReq dto, Pageable pageable) {
 		User user = userRepository.findByUsername(username);
 		return applicationMeetRepository.findMyPageApplication(user.getId(), dto, pageable).map(m -> {
@@ -65,5 +81,5 @@ public class MyPageServiceImpl implements MyPageService {
 					);
 			return m;
 		});
-	}
+	}	
 }

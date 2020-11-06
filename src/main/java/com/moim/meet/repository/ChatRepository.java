@@ -1,5 +1,7 @@
 package com.moim.meet.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.moim.meet.entity.Chat;
@@ -21,4 +23,5 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
 
 	Chat findByMeetIdAndSender(Long meetId, String sender);
 	long countByMeetIdAndSenderNot(Long meetId, String sender);
+	List<Chat> findBySender(String sender);	
 }

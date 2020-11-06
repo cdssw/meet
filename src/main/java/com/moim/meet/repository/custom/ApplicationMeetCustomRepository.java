@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.moim.meet.entity.User;
 import com.moim.meet.service.application.ApplicationDto;
 import com.moim.meet.service.mypage.MyPageDto;
 
@@ -24,5 +25,6 @@ public interface ApplicationMeetCustomRepository {
 
 	long countByMeetAndUserGroupByMeet(long meetId, long userId);
 	Page<MyPageDto.ApplicationRes> findMyPageApplication(Long userId, MyPageDto.ApplicationReq dto, Pageable pageable);
+	Page<MyPageDto.ApplicationRes> findMyPageChatAndApplication(User user, List<Long> chatList, MyPageDto.ApplicationReq dto, Pageable pageable);
 	List<ApplicationDto.ApplicationUserRes> findUserByApplicationMeet(Long meetId);
 }
