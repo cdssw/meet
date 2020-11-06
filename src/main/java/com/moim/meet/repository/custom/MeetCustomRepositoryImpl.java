@@ -104,7 +104,7 @@ public class MeetCustomRepositoryImpl extends QuerydslRepositorySupport implemen
 						, meet.inputDt
 						, meet.modifyDt
 						, ExpressionUtils.as(
-								JPAExpressions.select(applicationMeet.id)
+								JPAExpressions.select(applicationMeet.id.count())
 									.from(applicationMeet)
 									.where(meet.id.eq(applicationMeet.meet.id), applicationMeet.approval.approvalYn.eq(dto.getToApproval())),
 								"toApprovalCnt")

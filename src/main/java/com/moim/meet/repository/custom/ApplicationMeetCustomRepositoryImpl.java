@@ -19,7 +19,6 @@ import com.moim.meet.service.mypage.MyPageDto.ApplicationReq;
 import com.moim.meet.service.mypage.MyPageDto.ApplicationRes;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -118,6 +117,7 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 	@Override
 	public Page<ApplicationRes> findMyPageChatAndApplication(User user, List<Long> chatList, ApplicationReq dto, Pageable pageable) {
 		BooleanBuilder builder = new BooleanBuilder();
+		builder = builder.and(meet.user.id.ne(user.getId()));
 		builder = builder.and((applicationMeet.id.isNotNull().or(chat.id.isNotNull())));
 		builder = dto.getTitle() != null ? builder.and(meet.title.likeIgnoreCase("%" + dto.getTitle() + "%")) : builder;
 		builder = dto.getContent() != null ? builder.and(meet.content.likeIgnoreCase("%" + dto.getContent() + "%")) : builder;
@@ -138,11 +138,11 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 						, meet.modifyDt
 						, meet.user
 						, applicationMeet.approval
-						, chat.count().as("chatCnt")
+						, meet.count().as("chatCnt")
 						))
 				.from(meet)
-				.leftJoin(applicationMeet).on(meet.id.eq(applicationMeet.id).and(applicationMeet.user.id.eq(user.getId())))
-				.leftJoin(chat).on(meet.id.in(chatList))
+				.leftJoin(applicationMeet).on(meet.id.eq(applicationMeet.meet.id).and(applicationMeet.user.id.eq(user.getId())))
+				.leftJoin(chat).on(meet.id.eq(chat.meetId).and(chat.sender.ne(meet.user.username)).and(meet.id.in(chatList)))
 				.where(builder)
 				.groupBy(meet);
 		
