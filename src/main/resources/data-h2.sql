@@ -2,7 +2,8 @@
 insert into user(id, username, user_nm, user_nick_nm, phone, input_dt, modify_dt) values
 (1, 'cdssw@naver.com', 'Andrew', 'Blue', '010-1111-1111', now(), now())
 , (2, 'loh002@naver.com', 'Monica', 'Red','010-1111-1111', now(), now())
-, (3, 'michael@naver.com', 'Michael', 'Green','010-1111-1111', now(), now());
+, (3, 'kimkh093@nate.com', '김규현', 'Developer','010-1111-1111', now(), now())
+, (4, 'michael@naver.com', 'Michael', 'Green','010-1111-1111', now(), now());
 
 -- meet
 insert into meet(title, content, recruitment, application, cost, cost_option, address1, address2, sido, sgg, start_dt, end_dt, start_tm, end_tm, detail_day, user_id, input_dt, modify_dt) values
