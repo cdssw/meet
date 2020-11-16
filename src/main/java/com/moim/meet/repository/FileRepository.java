@@ -23,4 +23,5 @@ import com.moim.meet.entity.Meet;
 public interface FileRepository extends JpaRepository<File, Long> {
 
 	List<File> findByMeet(Meet meet);
+	File findByFileId(Long fileId);
 }
