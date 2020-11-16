@@ -86,7 +86,7 @@ public class MeetServiceImpl implements MeetService {
 		
 		List<File> fileList = fileRepository.findByMeet(meet);
 		List<Long> fileIdList = fileList.stream().map(m -> m.getFileId()).collect(Collectors.toList());
-		if(!dto.getImgList().containsAll(fileIdList)) {
+		if(!fileIdList.containsAll(dto.getImgList()) || !dto.getImgList().containsAll(fileIdList)) {
 			// 기존의 파일중 삭제된 것은 테이블에서 제거
 			List<Long> notContain = fileIdList.stream().filter(f -> !dto.getImgList().contains(f)).collect(Collectors.toList());
 			notContain.stream().forEach(m -> {
