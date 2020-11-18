@@ -15,6 +15,8 @@ import com.moim.meet.except.MeetBusinessException;
 import com.moim.meet.repository.ApplicationMeetRepository;
 import com.moim.meet.repository.MeetRepository;
 import com.moim.meet.repository.UserRepository;
+import com.moim.meet.service.application.ApplicationDto.ApplicationInfoRes;
+import com.moim.meet.service.application.ApplicationDto.EstimateReq;
 
 import lombok.AllArgsConstructor;
 
@@ -98,4 +100,40 @@ public class ApplicationServiceImpl implements ApplicationService {
 		return applicationMeetRepository.findUserByApplicationMeet(meetId);
 	}
 
+	@Override
+	public ApplicationInfoRes getApplicatorInfo(Long meetId, String applicator, String username) {
+		User user = userRepository.findByUsername(username);
+		final Meet meet = commonComponent.findById(meetRepository, meetId, Meet.class);
+		User app = userRepository.findByUsername(applicator);
+		if(meet.getUser().getId() != user.getId()) {
+			throw new MeetBusinessException(ErrorCode.INVALID_LEADER_MEET); // 리더가 아니면 승인취소처리 할수 없음.
+		}
+		if(app == null) {
+			throw new MeetBusinessException(ErrorCode.USER_NOT_FOUND);
+		}
+		Integer meetCnt = applicationMeetRepository.countByUser(app);
+		Integer estimateAvg = applicationMeetRepository.avgEstimate(app.getId());
+		ApplicationInfoRes res = ApplicationInfoRes.builder()
+				.meetCnt(meetCnt)
+				.estimateAvg(estimateAvg)
+				.build();
+		
+		return res;
+	}
+
+	@Override
+	public void estimate(EstimateReq dto, String username) {
+		User user = userRepository.findByUsername(username);
+		final Meet meet = commonComponent.findById(meetRepository, dto.getMeetId(), Meet.class);
+		User app = userRepository.findByUsername(dto.getUsername());
+		if(meet.getUser().getId() != user.getId()) {
+			throw new MeetBusinessException(ErrorCode.INVALID_LEADER_MEET); // 리더가 아니면 승인취소처리 할수 없음.
+		}
+		if(app == null) {
+			throw new MeetBusinessException(ErrorCode.USER_NOT_FOUND);
+		}
+		
+		ApplicationMeet applicationMeet = applicationMeetRepository.findByMeetAndUser(meet, app);
+		applicationMeet.estimate(dto);
+	}
 }

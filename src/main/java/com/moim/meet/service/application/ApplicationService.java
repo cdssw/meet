@@ -20,4 +20,6 @@ public interface ApplicationService {
 	void applicationMeet(ApplicationDto.ApplicationReq dto, final String username);
 	void approval(ApplicationDto.ApprovalReq dto, final String username);
 	void cancel(ApplicationDto.ApprovalReq dto, final String username);
+	ApplicationDto.ApplicationInfoRes getApplicatorInfo(final Long meetId, final String applicator, final String username);
+	void estimate(ApplicationDto.EstimateReq dto, final String username);
 }

@@ -23,4 +23,5 @@ public interface ApplicationMeetRepository extends JpaRepository<ApplicationMeet
 
 	ApplicationMeet findByMeetAndUser(Meet meet, User user);
 	void deleteByMeet(Meet meet); // meet에 연관된 applicationMeet 제거
+	int countByUser(User user);
 }

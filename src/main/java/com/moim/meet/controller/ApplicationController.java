@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -65,4 +66,20 @@ public class ApplicationController {
 		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
 		applicationService.cancel(dto, username);
 	}
+	
+	// 지원자 모집참여 건수 및 평점 정보
+	@GetMapping("/info/{meet}/{applicator}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public ApplicationDto.ApplicationInfoRes getApplicatorInfo(@PathVariable("meet") final Long meetId, @PathVariable("applicator") final String applicator, HttpServletRequest req) {
+		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
+		return applicationService.getApplicatorInfo(meetId, applicator, username);
+	}
+	
+	// 평점주기
+	@PutMapping("/estimate")
+	@ResponseStatus(value = HttpStatus.OK)
+	public void postApplicatorEstimate(@RequestBody @Valid ApplicationDto.EstimateReq dto, HttpServletRequest req) {
+		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
+		applicationService.estimate(dto, username);
+	}	
 }

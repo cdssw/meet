@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.moim.meet.service.application.ApplicationDto;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,10 +48,17 @@ public class ApplicationMeet extends BaseTimeEntity {
 	@Embedded
 	private Approval approval;
 	
+	private Integer estimate;
+	
 	@Builder
-	public ApplicationMeet(Meet meet, User user, Approval approval) {
+	public ApplicationMeet(Meet meet, User user, Approval approval, Integer estimate) {
 		this.meet = meet;
 		this.user = user;
 		this.approval = approval;
+		this.estimate = estimate;
+	}
+	
+	public void estimate(ApplicationDto.EstimateReq dto) {
+		this.estimate = dto.getEstimate();
 	}
 }

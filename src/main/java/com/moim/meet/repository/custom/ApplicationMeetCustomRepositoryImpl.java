@@ -107,6 +107,7 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 						, applicationMeet.user.avatarPath
 						, applicationMeet.approval.approvalYn
 						, applicationMeet.approval.approvalDt
+						, applicationMeet.estimate
 						))
 				.from(applicationMeet)
 				.where(builder)
@@ -148,6 +149,24 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 		
 		final List<MyPageDto.ApplicationRes> list = getQuerydsl().applyPagination(pageable, query).fetch();
 		return new PageImpl<>(list, pageable, query.fetchCount());
+	}
+
+	@Override
+	public Integer avgEstimate(Long userId) {
+		BooleanBuilder builder = new BooleanBuilder();
+		builder = builder.and((applicationMeet.estimate.ne(0)));
+		builder = builder.and((applicationMeet.user.id.eq(userId)));
+		
+		JPAQueryFactory queryFactory = new JPAQueryFactory(getEntityManager());
+		final JPQLQuery<Double> query = queryFactory
+				.select(applicationMeet.estimate.avg().round().as("estimateAvg"))
+				.from(applicationMeet)
+				.where(builder);
+		
+		Double rst = query.fetchOne();
+		if(rst == null) return null;
+		String avg = String.valueOf(Math.round(rst));
+		return Integer.parseInt(avg);
 	}
 
 }

@@ -27,4 +27,5 @@ public interface ApplicationMeetCustomRepository {
 	Page<MyPageDto.ApplicationRes> findMyPageApplication(Long userId, MyPageDto.ApplicationReq dto, Pageable pageable);
 	Page<MyPageDto.ApplicationRes> findMyPageChatAndApplication(User user, List<Long> chatList, MyPageDto.ApplicationReq dto, Pageable pageable);
 	List<ApplicationDto.ApplicationUserRes> findUserByApplicationMeet(Long meetId);
+	Integer avgEstimate(Long userId);
 }

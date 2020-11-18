@@ -2,6 +2,7 @@ package com.moim.meet.service.application;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -63,6 +64,25 @@ public class ApplicationDto {
 		}
 	}
 	
+	// 평점주기
+	@Getter
+	@NoArgsConstructor(access = AccessLevel.PROTECTED)
+	public static class EstimateReq extends BaseReq {
+		
+		@NotBlank
+		private String username;
+		
+		@NotNull
+		private Integer estimate;
+		
+		@Builder
+		public EstimateReq(Long meetId, String username, Integer estimate) {
+			super(meetId); // 상위 클래스의 생성자 값을 설정
+			this.username = username;
+			this.estimate = estimate;
+		}
+	}	
+	
 	@Getter
 	@Setter
 	@NoArgsConstructor
@@ -81,8 +101,19 @@ public class ApplicationDto {
 		private String userNickNm;
 		private String avatarPath;
 		private boolean approvalYn;
+		private Integer estimate;
 		// Time format 처리
 		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 		private LocalDateTime approvalDt;
 	}
+	
+	@Getter
+	@Setter
+	@NoArgsConstructor
+	@SuperBuilder
+	public static class ApplicationInfoRes extends BaseRes {
+		private String username;
+		private Integer meetCnt;
+		private Integer estimateAvg;
+	}	
 }

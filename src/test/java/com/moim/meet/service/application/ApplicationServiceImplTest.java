@@ -204,4 +204,30 @@ public class ApplicationServiceImplTest {
 		// when
 		applicationServiceImpl.cancel(approvalReq, "cdssw@naver.com"); // 취소처리자가 1이므로 except
 	}
+	
+	@Test
+	public void testEstimate() {
+		// given
+		Meet meet = mock(Meet.class);
+		User user = mock(User.class);
+		ApplicationMeet applicationMeet = mock(ApplicationMeet.class);
+		
+		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet));
+		given(userRepository.findByUsername(any())).willReturn(user);
+		given(meet.getUser()).willReturn(user);
+		given(user.getId()).willReturn(1L);
+		given(applicationMeetRepository.findByMeetAndUser(any(Meet.class), any(User.class))).willReturn(applicationMeet);
+		
+		ApplicationDto.EstimateReq dto = ApplicationDto.EstimateReq.builder()
+				.meetId(1L)
+				.username("loh002@naver.com")
+				.estimate(1)
+				.build();
+		
+		// when
+		applicationServiceImpl.estimate(dto, "cdssw@naver.com");
+		
+		// then
+		verify(applicationMeet).estimate(dto);
+	}	
 }

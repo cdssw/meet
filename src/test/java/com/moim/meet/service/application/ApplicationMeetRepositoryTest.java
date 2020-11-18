@@ -93,7 +93,7 @@ public class ApplicationMeetRepositoryTest {
 		Page<MyPageDto.ApplicationRes> res = applicationMeetRepository.findMyPageApplication(1L, dto, pageable);
 		
 		// then
-		assertEquals(res.getTotalElements(), 0);
+		assertEquals(res.getTotalElements(), 4);
 //		assertEquals(res.getContent().get(0).getApproval().isApprovalYn(), false);
 	}
 	
@@ -103,6 +103,15 @@ public class ApplicationMeetRepositoryTest {
 		List<ApplicationDto.ApplicationUserRes> res = applicationMeetRepository.findUserByApplicationMeet(1L);
 		
 		// then
-		assertEquals(res.size(), 0);
+		assertEquals(res.size(), 1);
 	}
+	
+	@Test
+	public void testAvgEstimate() {
+		// when
+		Integer count = applicationMeetRepository.avgEstimate(1L);
+		
+		// then
+		assertEquals(count, 2);
+	}	
 }

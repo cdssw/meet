@@ -25,3 +25,11 @@ insert into meet(title, content, recruitment, application, cost, cost_option, ad
 , ('온라인 의약품 불법 유통 신고', '아이를 등원시켜 주실분 구합니다.', 4, 0, 50000, 0, '기흥구 중동', '663-4', '경기도', '용인시 처인구', '2020-09-01', '2020-09-30', '10:00', '16:00', 40, 2, now(), now())
 , ('아이 등원 요청', '아이를 등원시켜 주실분 구합니다.', 4, 0, 50000, 0, '기흥구 중동', '663-4', '경기도', '용인시 처인구', '2020-09-01', '2020-09-30', '10:00', '16:00', 40, 2, now(), now())
 ;
+
+-- application_meet
+insert into application_meet(id, meet_id, user_id, approval_dt, approval_yn, estimate, input_dt, modify_dt) values
+(1, 1, 2, null, false, 0, now(), now())
+, (2, 2, 1, null, false, 0, now(), now())
+, (3, 3, 1, null, false, 1, now(), now())
+, (4, 4, 1, null, false, 2, now(), now())
+, (5, 5, 1, null, false, 3, now(), now())
