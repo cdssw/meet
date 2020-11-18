@@ -31,5 +31,5 @@ insert into application_meet(id, meet_id, user_id, approval_dt, approval_yn, est
 (1, 1, 2, null, false, 0, now(), now())
 , (2, 2, 1, null, false, 0, now(), now())
 , (3, 3, 1, null, false, 1, now(), now())
-, (4, 4, 1, null, false, 2, now(), now())
 , (5, 5, 1, null, false, 3, now(), now())
+, (6, 6, 1, null, false, 2, now(), now())

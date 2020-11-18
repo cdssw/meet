@@ -114,7 +114,7 @@ public class MeetIntegrationRestTest {
 				, responseType);
 		
 		assertEquals(result.getStatusCode(), HttpStatus.OK);
-		assertEquals(result.getBody().getTotalElements(), 0);
+		assertEquals(result.getBody().getTotalElements(), 3);
 	}
 	
 	@Test
