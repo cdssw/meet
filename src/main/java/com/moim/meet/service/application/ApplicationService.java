@@ -22,4 +22,5 @@ public interface ApplicationService {
 	void cancel(ApplicationDto.ApprovalReq dto, final String username);
 	ApplicationDto.ApplicationInfoRes getApplicatorInfo(final Long meetId, final String applicator, final String username);
 	void estimate(ApplicationDto.EstimateReq dto, final String username);
+	Boolean isJoin(final Long meetId, String username);
 }

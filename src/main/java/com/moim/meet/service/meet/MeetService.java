@@ -23,6 +23,7 @@ public interface MeetService {
 	Long createMeet(MeetDto.MeetReq dto, final String username);
 	MeetDto.Res editMeet(final long id, final String username, MeetDto.MeetReq dto);
 	void deleteMeet(final long id, final String username);
+	void endMeet(final long id, final String username);
 	
 	List<MeetDto.Res> getMeetList();
 	MeetDto.Res getMeet(final long id, final String username);

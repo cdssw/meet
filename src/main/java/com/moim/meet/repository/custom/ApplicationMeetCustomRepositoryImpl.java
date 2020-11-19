@@ -118,6 +118,7 @@ public class ApplicationMeetCustomRepositoryImpl extends QuerydslRepositorySuppo
 	@Override
 	public Page<ApplicationRes> findMyPageChatAndApplication(User user, List<Long> chatList, ApplicationReq dto, Pageable pageable) {
 		BooleanBuilder builder = new BooleanBuilder();
+		builder = builder.and(meet.end.eq(false)); // 종료된 건은 제외
 		builder = builder.and(meet.user.id.ne(user.getId()));
 		builder = builder.and((applicationMeet.id.isNotNull().or(chat.id.isNotNull())));
 		builder = dto.getTitle() != null ? builder.and(meet.title.likeIgnoreCase("%" + dto.getTitle() + "%")) : builder;

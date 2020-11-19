@@ -168,4 +168,20 @@ public class MeetServiceImpl implements MeetService {
 		
 		return res;
 	}
+
+	@Transactional
+	@Override
+	public void endMeet(long id, String username) {
+		final User user = userRepository.findByUsername(username);
+		final Meet meet = commonComponent.findById(meetRepository, id, Meet.class);
+		if(meet == null) {
+			throw new MeetBusinessException(ErrorCode.ELEMENT_NOT_FOUND);
+		}
+		if(user.getId() != meet.getUser().getId()) {
+			throw new MeetBusinessException(ErrorCode.INVALID_LEADER_MEET);
+		}
+		
+		// 종료처리
+		meet.endMeet();
+	}
 }

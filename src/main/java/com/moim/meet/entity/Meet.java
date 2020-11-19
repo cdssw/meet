@@ -54,9 +54,11 @@ public class Meet extends BaseTimeEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_id") // 생성될 join column
 	private User user;
+	
+	private Boolean end;
 
 	@Builder
-	public Meet(String title, String content, int recruitment, int application, int cost, Boolean costOption, Address address, Term term, User user) {
+	public Meet(String title, String content, int recruitment, int application, int cost, Boolean costOption, Address address, Term term, User user, Boolean end) {
 		this.title = title;
 		this.content = content;
 		this.recruitment = recruitment;
@@ -66,6 +68,7 @@ public class Meet extends BaseTimeEntity {
 		this.address = address;
 		this.term = term;
 		this.user = user;
+		this.end = end;
 	}
 	
 	// @Setter 처리하지 않고 목적에 맞는 method를 생성하여 처리
@@ -83,6 +86,10 @@ public class Meet extends BaseTimeEntity {
 		this.costOption = dto.getCostOption();
 		this.address = dto.getAddress();
 		this.term = dto.getTerm();
+	}
+	
+	public void endMeet() {
+		this.end = true;
 	}
 	
 	// 지원

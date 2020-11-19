@@ -1,5 +1,6 @@
 package com.moim.meet.service.application;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -229,5 +230,21 @@ public class ApplicationServiceImplTest {
 		
 		// then
 		verify(applicationMeet).estimate(dto);
-	}	
+	}
+	
+	@Test
+	public void testIsJoin() {
+		// given
+		Meet meet = mock(Meet.class);
+		User user = mock(User.class);
+		given(meetRepository.findById(anyLong())).willReturn(Optional.of(meet));
+		given(userRepository.findByUsername(any())).willReturn(user);
+		given(applicationMeetRepository.countByMeetAndUser(any(Meet.class), any(User.class))).willReturn(1);
+		
+		// when
+		Boolean count = applicationServiceImpl.isJoin(1L, "cdssw@naver.com");
+		
+		// then
+		assertEquals(count, true);		
+	}
 }

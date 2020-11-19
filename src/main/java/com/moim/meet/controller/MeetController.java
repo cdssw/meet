@@ -86,4 +86,11 @@ public class MeetController {
 		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
 		meetService.deleteMeet(id, username);
 	}
+	
+	@PutMapping("/end/{id}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public void endMeet(@PathVariable final long id, HttpServletRequest req) {
+		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
+		meetService.endMeet(id, username);
+	}	
 }

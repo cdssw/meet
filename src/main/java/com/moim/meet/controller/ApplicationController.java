@@ -53,14 +53,14 @@ public class ApplicationController {
 		applicationService.applicationMeet(dto, username);
 	}
 	
-	@PostMapping(value = "/approval")
+	@PostMapping("/approval")
 	@ResponseStatus(value = HttpStatus.OK)
 	public void approval(@RequestBody @Valid ApplicationDto.ApprovalReq dto, HttpServletRequest req) {
 		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
 		applicationService.approval(dto, username);
 	}
 	
-	@PostMapping(value = "/cancel")
+	@PostMapping("/cancel")
 	@ResponseStatus(value = HttpStatus.OK)
 	public void cancel(@RequestBody @Valid ApplicationDto.ApprovalReq dto, HttpServletRequest req) {
 		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
@@ -82,4 +82,11 @@ public class ApplicationController {
 		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
 		applicationService.estimate(dto, username);
 	}	
+	
+	@GetMapping("join/{id}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public Boolean getIsJoin(@PathVariable Long id, HttpServletRequest req) {
+		String username = req.getHeader("username"); // gateway에서 보내준 username header를 추출
+		return applicationService.isJoin(id, username);
+	}
 }

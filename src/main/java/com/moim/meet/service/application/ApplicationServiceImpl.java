@@ -136,4 +136,12 @@ public class ApplicationServiceImpl implements ApplicationService {
 		ApplicationMeet applicationMeet = applicationMeetRepository.findByMeetAndUser(meet, app);
 		applicationMeet.estimate(dto);
 	}
+
+	@Override
+	public Boolean isJoin(Long meetId, String username) {
+		User user = userRepository.findByUsername(username);
+		final Meet meet = commonComponent.findById(meetRepository, meetId, Meet.class);		
+		int count = applicationMeetRepository.countByMeetAndUser(meet, user);
+		return count > 0 ? true : false;
+	}
 }
