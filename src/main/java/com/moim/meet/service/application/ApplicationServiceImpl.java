@@ -63,7 +63,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 				.approval(Approval.builder().approvalYn(false).build())
 				.build();
 		applicationMeetRepository.save(applicationMeet);
-		meet.applicationMeet(); // 참석 지원자 카운트 증가
 	}
 
 	// 승인처리
@@ -78,6 +77,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 		User applicator = commonComponent.findById(userRepository, dto.getUserId(), User.class);
 		final ApplicationMeet applicationMeet = applicationMeetRepository.findByMeetAndUser(meet, applicator);
 		applicationMeet.getApproval().approval(); // 승인처리
+		meet.applicationMeet(); // 참석 지원자 카운트 증가
 	}
 
 	// 승인취소처리
