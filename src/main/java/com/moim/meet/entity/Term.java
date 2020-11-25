@@ -26,11 +26,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Term {
 
-	@NotBlank
+	private Boolean dtOption;
+	
 	private String startDt;
 	
-	@NotBlank
 	private String endDt;
+	
+	private Boolean tmOption;
 	
 	@NotBlank
 	private String startTm;
@@ -51,9 +53,11 @@ public class Term {
 	private int detailDay;
 	
 	@Builder
-	public Term(String startDt, String endDt, String startTm, String endTm, int detailDay) {
+	public Term(Boolean dtOption, String startDt, String endDt, Boolean tmOption, String startTm, String endTm, int detailDay) {
+		this.dtOption = dtOption;
 		this.startDt = startDt;
 		this.endDt = endDt;
+		this.tmOption = tmOption;
 		this.startTm = startTm;
 		this.endTm = endTm;
 		this.detailDay = detailDay;
