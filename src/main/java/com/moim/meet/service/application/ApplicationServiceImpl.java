@@ -61,6 +61,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 		final ApplicationMeet applicationMeet = ApplicationMeet.builder()
 				.meet(meet).user(user)
 				.approval(Approval.builder().approvalYn(false).build())
+				.estimate(0)
 				.build();
 		applicationMeetRepository.save(applicationMeet);
 	}
