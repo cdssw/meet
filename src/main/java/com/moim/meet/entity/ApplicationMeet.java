@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import com.moim.meet.service.application.ApplicationDto;
 
 import lombok.AccessLevel;
@@ -48,6 +50,7 @@ public class ApplicationMeet extends BaseTimeEntity {
 	@Embedded
 	private Approval approval;
 	
+	@ColumnDefault("0")
 	private Integer estimate;
 	
 	@Builder
