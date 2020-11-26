@@ -27,9 +27,9 @@ insert into meet(title, content, recruitment, application, cost, cost_option, ad
 ;
 
 -- application_meet
-insert into application_meet(id, meet_id, user_id, approval_dt, approval_yn, estimate, input_dt, modify_dt) values
-(1, 1, 2, null, false, 0, now(), now())
-, (2, 2, 1, null, false, 0, now(), now())
-, (3, 3, 1, null, false, 1, now(), now())
-, (5, 5, 1, null, false, 3, now(), now())
-, (7, 7, 1, null, false, 2, now(), now())
+insert into application_meet(id, meet_id, user_id, approval_dt, approval_yn, input_dt, modify_dt) values
+(1, 1, 2, null, false, now(), now())
+, (2, 2, 1, null, false, now(), now())
+, (3, 3, 1, null, false, now(), now())
+, (5, 5, 1, null, false, now(), now())
+, (7, 7, 1, null, false, now(), now())

@@ -1,5 +1,6 @@
 package com.moim.meet.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -50,7 +51,7 @@ public class ApplicationMeet extends BaseTimeEntity {
 	@Embedded
 	private Approval approval;
 	
-	@ColumnDefault("0")
+	@Column(columnDefinition = "integer default 0")
 	private Integer estimate;
 	
 	@Builder
