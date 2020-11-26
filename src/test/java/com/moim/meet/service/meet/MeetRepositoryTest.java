@@ -67,7 +67,7 @@ public class MeetRepositoryTest {
 	
 	// 1개만 조회되는지 확인
 	@Test
-	public void tesetFindSearch() {
+	public void testFindSearch() {
 		// given
 		Pageable pageable = PageRequest.of(0, 10);
 		MeetDto.SearchReq dto = MeetDto.SearchReq.builder()
@@ -79,7 +79,7 @@ public class MeetRepositoryTest {
 		Page<MeetDto.Res> res = meetRepository.findSearch(dto, pageable);
 		
 		// then
-		assertThat(res.getTotalElements()).isEqualTo(17L);
+		assertThat(res.getTotalElements()).isEqualTo(2L);
 	}
 	
 	@Test
