@@ -78,6 +78,7 @@ public class MeetDto {
 					.costOption(costOption)
 					.address(address)
 					.term(term)
+					.end(false)
 					.build();
 		}
 	}
