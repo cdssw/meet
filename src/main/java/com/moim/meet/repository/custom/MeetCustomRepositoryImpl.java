@@ -51,6 +51,7 @@ public class MeetCustomRepositoryImpl extends QuerydslRepositorySupport implemen
 	public Page<Res> findSearch(MeetDto.SearchReq dto, Pageable pageable) {
 		BooleanBuilder builder = new BooleanBuilder();
 		builder = builder.and(meet.application.lt(meet.recruitment)); // 모집 종료된건은 제외
+		builder = builder.and(meet.end.ne(true)); // 종료된 건 제외
 		builder = dto.getTitle() != null ? builder.and(meet.title.likeIgnoreCase("%" + dto.getTitle() + "%")) : builder;
 		builder = dto.getContent() != null ? builder.and(meet.content.likeIgnoreCase("%" + dto.getContent() + "%")) : builder;
 		builder = dto.getSido() != null ? builder.and(meet.address.sido.eq(dto.getSido())) : builder;
