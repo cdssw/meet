@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ENC(wJ3QYYBygzuBtda/peF/jz5ZBnxs0a1kBPjohvomOq7DQfJqqvqaVO2YTtp86zLbFusRfLLrZNE=)
-    username: ENC(yykXibnn5pDeoL+bA2rJyQ==)
-    password: ENC(HPWIFnyQzM88kMM8G17DbjY2wskiOq2E)
+    url: ENC(/HALSGzeqbBNyeMx0ZxBJgrGtZJCU+NC1rv0AiPbOGGlgidx1Veo/UoMjXSQOClzhk1n+ww4N3M=)
+    username: ENC(8sP1Y0lzoIp6C8N+XZQJTg==)
+    password: ENC(puBjBRvMSC1A3h8lLJsOoFmBHpAPLJ8y)
     driver-class-name: org.mariadb.jdbc.Driver
     data: classpath:data-h2.sql # server 기동시 자동으로 실행될 sql 구문
     initialization-mode: always    
