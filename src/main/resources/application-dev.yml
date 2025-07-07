@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ENC(/c0YisPbWIzqW0vMyB9gC9MDxsKfHmeHFkcCEHFlV8kJUZaqjCg+zXdNB1BVqBJJaGZd9GWw3Z8=)
-    username: ENC(SkPz2EXJpyuYM/tAQWhJbg==)
-    password: ENC(XpRNx2Bpdd4HlvTKpNxkx7qBbMWMBS92)
+    url: ENC(oboQo+jxZZ1gugXYHIXL7n+9Luo3Tb8y22DNolpXKbGcRzhWGR8wtVWyOYrg7eLGgLUDSKCv3Eg=)
+    username: ENC(RgVnSIQgQ/v3wyxQmoR5QQ==)
+    password: ENC(Gue0CMdzO5WSlIW+GNoqf3deF5sYVCx+)
     driver-class-name: org.mariadb.jdbc.Driver
     data: classpath:data-h2.sql # server 기동시 자동으로 실행될 sql 구문
     initialization-mode: always    
@@ -18,7 +18,7 @@ spring:
     serialization:
       fail-on-empty-beans: false # lazy loading으로 인해 json serialize 오류 방지
   kafka:
-    bootstrap-servers: 192.168.219.109:9092
+    bootstrap-servers: 192.168.219.119:9092
     consumer:
       group-id: group-user
     topic:
