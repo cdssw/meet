@@ -23,16 +23,16 @@ public class EncryptorTest {
 
 	@Test
 	public void encryptor() {
-//		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-//		encryptor.setAlgorithm("PBEWithMD5AndDES");
-//		encryptor.setPassword("{SecretKey}");
-//		
-//		String url = "jdbc:mariadb://{url}/{db}";
-//		String username = "{id}";
-//		String password = "{password}";
-//		
-//		log.info(encryptor.encrypt(url));
-//		log.info(encryptor.encrypt(username));
-//		log.info(encryptor.encrypt(password));
+		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+		encryptor.setAlgorithm("PBEWithMD5AndDES");
+		encryptor.setPassword("PasswordSaltSecret");
+		
+		String url = "jdbc:mariadb://172.17.0.1:3307/hbuser";
+		String username = "{id}";
+		String password = "{password}";
+		
+		log.info(encryptor.encrypt(url));
+		log.info(encryptor.encrypt(username));
+		log.info(encryptor.encrypt(password));
 	}
 }
